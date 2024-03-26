@@ -1,11 +1,9 @@
 import "./App.css";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
+import EconoCalendar from "./components/EconoCalendar";
 function App() {
   return (
     <>
-      {" "}
-      <FullCalendar plugins={[dayGridPlugin]} initialView="dayGridMonth" />
+      <EconoCalendar />
     </>
   );
 }
