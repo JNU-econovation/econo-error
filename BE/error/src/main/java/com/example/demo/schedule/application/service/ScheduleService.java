@@ -29,7 +29,7 @@ public class ScheduleService implements CreateScheduleUsecase {
     @Override
     @Transactional
     public CreateScheduleResponse create(final CreateScheduleRequest request){
-        // dto 변환 converter 필요
+
         ScheduleModel model = requestConverter.from(request);
         Long saveId = createSchedule(model);
 
@@ -37,7 +37,6 @@ public class ScheduleService implements CreateScheduleUsecase {
     }
 
     private Long createSchedule(ScheduleModel model) {
-        //추후 여기서 행사 일정 공개 범위 설정
         ScheduleEntity entity = entityConverter.toEntity(model);
         ScheduleEntity save = scheduleRepository.save(entity);
 
