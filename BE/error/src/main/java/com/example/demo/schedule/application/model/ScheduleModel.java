@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 public class ScheduleModel implements AbstractModel {
 
-    private Long id;
+    private Long eventId;
     private String eventName;
     private LocalDateTime eventStartDate;
     private LocalDateTime eventEndDate;
