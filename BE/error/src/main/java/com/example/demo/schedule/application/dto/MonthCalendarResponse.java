@@ -15,5 +15,4 @@ public class MonthCalendarResponse {
     private Long eventId;
     private String eventName;
     private LocalDateTime eventStartDate;
-
 }
