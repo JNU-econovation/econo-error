@@ -9,4 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class CreateScheduleResponse { private Long eventId;}
+public class CreateScheduleResponse {
+    private Long eventId;
+}
+
