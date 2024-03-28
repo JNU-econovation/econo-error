@@ -5,10 +5,13 @@ import com.example.demo.common.presentation.response.ApiResponseBody.SuccessBody
 import com.example.demo.common.presentation.response.ApiResponseGenerator;
 import com.example.demo.common.presentation.response.MessageCode;
 import com.example.demo.schedule.application.dto.CreateScheduleRequest;
+import com.example.demo.schedule.application.dto.CreateScheduleResponse;
 import com.example.demo.schedule.application.dto.UpdateScheduleRequest;
 import com.example.demo.schedule.application.dto.YearCalendarResponse;
+import com.example.demo.schedule.application.usecase.CreateScheduleUsecase;
 import com.sun.net.httpserver.Authenticator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,40 +20,42 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class ScheduleController {
 
+    private final CreateScheduleUsecase createScheduleUsecase;
+
     @PostMapping("/calendar")
-    public ApiResponse<SuccessBody<Void>> create(
-            @RequestBody CreateScheduleRequest createScheduleRequest) {
-        // 일정 생성하는 service logic
-        return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.CREATE);
+    public ApiResponse<SuccessBody<CreateScheduleResponse>> create(
+            @RequestBody CreateScheduleRequest request) {
+        CreateScheduleResponse response = createScheduleUsecase.create(request);
+        return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.CREATE);
     }
 
-    @GetMapping("/calendar/{eventId}")
-    public ApiResponse<SuccessBody<YearCalendarResponse>> getSpecificCalendar (
-            @PathVariable("eventId") Long eventId) {
-        // specific response 담아서 리턴 logic
-        return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
-    }
-
-    @GetMapping("/calendar")
-    public ApiResponse<SuccessBody<YearCalendarResponse>> getTypeCalendar (
-            @RequestParam("period") String type) {
-        // type 별 response 담아서 리턴 logic
-        return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
-    }
-
-    @PutMapping("/calendar/{eventId}")
-    public ApiResponse<SuccessBody<Void>> update(
-            @RequestBody UpdateScheduleRequest updateScheduleRequest,
-            @PathVariable("eventId") Long eventId) {
-        // 수정하는 logic
-        return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.UPDATE);
-    }
-
-    @DeleteMapping("/calendar/{eventId}")
-    public ApiResponse<SuccessBody<Void>> delete(
-            @PathVariable("eventId") Long eventId) {
-        // 일정 삭제하는 logic
-        return return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.DELETE);
-    }
+//    @GetMapping("/calendar/{eventId}")
+//    public ApiResponse<SuccessBody<YearCalendarResponse>> getSpecificCalendar (
+//            @PathVariable("eventId") Long eventId) {
+//        // specific response 담아서 리턴 logic
+//        return null; //ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
+//    }
+//
+//    @GetMapping("/calendar")
+//    public ApiResponse<SuccessBody<YearCalendarResponse>> getTypeCalendar (
+//            @RequestParam("period") String type) {
+//        // type 별 response 담아서 리턴 logic
+//        return null; //ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
+//    }
+//
+//    @PutMapping("/calendar/{eventId}")
+//    public ApiResponse<SuccessBody<Void>> update(
+//            @RequestBody UpdateScheduleRequest updateScheduleRequest,
+//            @PathVariable("eventId") Long eventId) {
+//        // 수정하는 logic
+//        return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.UPDATE);
+//    }
+//
+//    @DeleteMapping("/calendar/{eventId}")
+//    public ApiResponse<SuccessBody<Void>> delete(
+//            @PathVariable("eventId") Long eventId) {
+//        // 일정 삭제하는 logic
+//        return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.DELETE);
+//    }
 
 }
