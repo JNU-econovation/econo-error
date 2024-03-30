@@ -16,6 +16,7 @@
     "@fullcalendar/react": "^6.1.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-modal": "^3.16.1",
     "styled-components": "^6.1.8"
   },
   "devDependencies": {
