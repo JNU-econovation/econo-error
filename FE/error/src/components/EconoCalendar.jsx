@@ -88,10 +88,7 @@ const CalendarContainer = styled.div`
     color: #595959;
     border: 1px solid #cbcbcb;
   }
-  .fc-day-sun a {
-    color: red;
-    text-decoration: none;
-  }
+
   .fc-daygrid-day-top {
     width: 2rem;
     margin-left: 0.3rem;
@@ -105,6 +102,10 @@ const CalendarContainer = styled.div`
     color: #fff;
     margin-left: 0.5rem;
     width: 1.7rem;
+  }
+  .fc-day-sun {
+    color: red;
+    text-decoration: none;
   }
   .fc-day-today .fc-daygrid-day-frame {
     margin-top: 0.2rem;
