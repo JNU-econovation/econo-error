@@ -1,5 +1,6 @@
 package com.example.demo.schedule.application.dto;
 
+import com.example.demo.common.support.dto.AbstractDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,8 +12,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class CreateScheduleRequest {
+public class CreateScheduleRequest implements AbstractDto {
 
+    private Long eventId;
     private String eventName;
     private LocalDateTime eventStartDate;
     private LocalDateTime eventEndDate;
