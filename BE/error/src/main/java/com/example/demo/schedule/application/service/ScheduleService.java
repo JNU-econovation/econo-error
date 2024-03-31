@@ -2,6 +2,7 @@ package com.example.demo.schedule.application.service;
 
 import com.example.demo.schedule.application.dto.CreateScheduleRequest;
 import com.example.demo.schedule.application.dto.CreateScheduleResponse;
+import com.example.demo.schedule.application.dto.YearCalendarResponse;
 import com.example.demo.schedule.application.model.ScheduleModel;
 import com.example.demo.schedule.application.model.converter.ScheduleEntityConverter;
 import com.example.demo.schedule.application.model.converter.ScheduleRequestConverter;
@@ -10,9 +11,11 @@ import com.example.demo.schedule.application.usecase.CreateScheduleUsecase;
 import com.example.demo.schedule.persistence.ScheduleEntity;
 import com.example.demo.schedule.persistence.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor // -> 이걸 사용하니까 requestConverter 에러가 발생하지 않음.
@@ -41,6 +44,20 @@ public class ScheduleService implements CreateScheduleUsecase {
         ScheduleEntity save = scheduleRepository.save(entity);
 
         return save.getEventId();
+    }
+
+    public YearCalendarResponse getYearSchedule(YearCalendarResponse response) {
+        //
+
+        return null;
+    }
+
+    private ScheduleModel findSchedule(final Long eventId) {
+        return scheduleRepository
+                .findById(eventId)
+                .map(entityConverter::from) //여기서 왜 Optional로 감싸야 하는지
+                .orElseThrow(() -> new NoSuchElementException("no found eventId" + eventId));
+
     }
 }
 
