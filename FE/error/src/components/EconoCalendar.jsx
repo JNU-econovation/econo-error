@@ -1,13 +1,23 @@
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
 import styled from "styled-components";
+import React, { useEffect } from "react";
 import { Calendar } from "@fullcalendar/core";
+import CreateModal from "./CreateModal";
+import { useState } from "react";
+
 const EconoCalendar = () => {
+  const [modalIsOpen, setModalIsOpen] = useState(false); // 모달 상태 관리
+
+  const handleDateClick = () => {
+    setModalIsOpen(true); // 날짜 클릭 시 모달 열기
+  };
   return (
     <>
       <CalendarContainer>
         <FullCalendar
-          plugins={[dayGridPlugin]}
+          plugins={[dayGridPlugin, interactionPlugin]}
           locale={"ko"}
           height={"98vh"}
           headerToolbar={{
@@ -15,6 +25,7 @@ const EconoCalendar = () => {
             center: "",
             right: "",
           }}
+          events="https://fullcalendar.io/api/demo-feeds/events.json"
           dayCellContent={function (info) {
             var number = document.createElement("a");
             number.classList.add("fc-daygrid-day-number");
@@ -37,8 +48,13 @@ const EconoCalendar = () => {
           buttonText={{
             today: "오늘",
           }}
+          dateClick={handleDateClick}
         />
       </CalendarContainer>
+      <CreateModal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+      />
     </>
   );
 };
