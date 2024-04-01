@@ -4,41 +4,45 @@ import com.example.demo.common.presentation.response.ApiResponse;
 import com.example.demo.common.presentation.response.ApiResponseBody.SuccessBody;
 import com.example.demo.common.presentation.response.ApiResponseGenerator;
 import com.example.demo.common.presentation.response.MessageCode;
-import com.example.demo.schedule.application.dto.CreateScheduleRequest;
-import com.example.demo.schedule.application.dto.CreateScheduleResponse;
-import com.example.demo.schedule.application.dto.UpdateScheduleRequest;
-import com.example.demo.schedule.application.dto.YearCalendarResponse;
+import com.example.demo.schedule.application.dto.*;
 import com.example.demo.schedule.application.usecase.CreateScheduleUsecase;
-import com.sun.net.httpserver.Authenticator;
+import com.example.demo.schedule.application.usecase.GetSpecificScheduleUsecase;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/calendar")
 public class ScheduleController {
 
     private final CreateScheduleUsecase createScheduleUsecase;
+    private final GetSpecificScheduleUsecase getSpecificScheduleUsecase;
 
-    @PostMapping("/calendar")
+    @PostMapping
     public ApiResponse<SuccessBody<CreateScheduleResponse>> create(
             @RequestBody CreateScheduleRequest request) {
         CreateScheduleResponse response = createScheduleUsecase.create(request);
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.CREATE);
     }
 
-//    @GetMapping("/calendar/{eventId}")
-//    public ApiResponse<SuccessBody<YearCalendarResponse>> getSpecificCalendar (
-//            @PathVariable("eventId") Long eventId) {
-//        // specific response 담아서 리턴 logic
-//        return null; //ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
-//    }
+    @GetMapping("/{eventId}")
+    public ApiResponse<SuccessBody<SpecificScheduleResopnse>> getSpecificCalendar (
+            @PathVariable("eventId") Long eventId) {
+
+        SpecificScheduleResopnse response = getSpecificScheduleUsecase.getSpecificSchedule(eventId);
+        return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
+    }
 //
-//    @GetMapping("/calendar")
-//    public ApiResponse<SuccessBody<YearCalendarResponse>> getTypeCalendar (
-//            @RequestParam("period") String type) {
+//    @GetMapping("year/{year}/{month}/{day}")
+//    public ApiResponse<SuccessBody<YearCalendarResponse>> getYearCalendar (
+//            //@RequestParam("period") String type,
+//            @PathVariable("year") int year)
+//            //@PathVariable("month") int month,
+//            //@PathVariable("day") int day) { // 이거 path variable 하나로 못 담으려나??
+//    {
+//        //YearCalendarResponse response = GetYearScheduleUsecase.getYearSchedule(year);
+//
 //        // type 별 response 담아서 리턴 logic
 //        return null; //ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
 //    }
@@ -46,8 +50,9 @@ public class ScheduleController {
 //    @PutMapping("/calendar/{eventId}")
 //    public ApiResponse<SuccessBody<Void>> update(
 //            @RequestBody UpdateScheduleRequest updateScheduleRequest,
-//            @PathVariable("eventId") Long eventId) {
-//        // 수정하는 logic
+//            @PathVariable("eventId") Long eventId) {// 수정하는 logic
+//
+//
 //        return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.UPDATE);
 //    }
 //
