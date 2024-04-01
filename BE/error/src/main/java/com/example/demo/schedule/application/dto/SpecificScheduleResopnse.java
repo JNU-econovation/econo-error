@@ -15,6 +15,7 @@ public class SpecificScheduleResopnse {
     private Long eventId;
     private String eventName;
     private String eventInfo;
-    private LocalDateTime eventStartDate;
-    private LocalDateTime eventEndDate;
+    private String eventStartDate;
+    private String eventEndDate;
+    private String eventPlace;
 }
