@@ -5,10 +5,7 @@ import com.example.demo.common.presentation.response.ApiResponseBody.SuccessBody
 import com.example.demo.common.presentation.response.ApiResponseGenerator;
 import com.example.demo.common.presentation.response.MessageCode;
 import com.example.demo.schedule.application.dto.*;
-import com.example.demo.schedule.application.usecase.CreateScheduleUsecase;
-import com.example.demo.schedule.application.usecase.GetMonthScheduleUsecase;
-import com.example.demo.schedule.application.usecase.GetSpecificScheduleUsecase;
-import com.example.demo.schedule.application.usecase.GetYearScheduleUsecase;
+import com.example.demo.schedule.application.usecase.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +21,8 @@ public class ScheduleController {
     private final GetSpecificScheduleUsecase getSpecificScheduleUsecase;
     private final GetYearScheduleUsecase getYearScheduleUsecase;
     private final GetMonthScheduleUsecase getMonthScheduleUsecase;
+    private final UpdateScheduleUsecase updateScheduleUsecase;
+    private final DeleteScheduleUsecase deleteScheduleUsecase;
 
     @PostMapping
     public ApiResponse<SuccessBody<CreateScheduleResponse>> create(
@@ -58,20 +57,14 @@ public class ScheduleController {
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GETMONTH);
     }
 
-    @PutMapping("/calendar/{eventId}")
-    public ApiResponse<SuccessBody<Void>> update(
+    @PutMapping("/{eventId}")
+    public ApiResponse<SuccessBody<UpdateScheduleResponse>> update(
             @RequestBody UpdateScheduleRequest updateScheduleRequest,
             @PathVariable("eventId") Long eventId) {// 수정하는 logic
 
 
-        return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.UPDATE);
+        UpdateScheduleResponse response = updateScheduleUsecase.update(eventId, updateScheduleRequest);
+        return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.UPDATE);
     }
-
-//    @DeleteMapping("/calendar/{eventId}")
-//    public ApiResponse<SuccessBody<Void>> delete(
-//            @PathVariable("eventId") Long eventId) {
-//        // 일정 삭제하는 logic
-//        return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.DELETE);
-//    }
 
 }
