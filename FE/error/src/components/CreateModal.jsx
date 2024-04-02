@@ -11,6 +11,11 @@ const CreateModal = ({ isOpen, onRequestClose }) => {
       overlayClassName="overlay"
     >
       <input placeholder="제목" />
+
+      <input type="date" id="date" />
+      <input type="date" id="date" />
+      <input type="time" />
+      <input type="time" />
       <p>모달 내용</p>
       <button onClick={onRequestClose}>저장</button>
     </Modal>

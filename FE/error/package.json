@@ -14,7 +14,9 @@
     "@fullcalendar/daygrid": "^6.1.11",
     "@fullcalendar/interaction": "^6.1.11",
     "@fullcalendar/react": "^6.1.11",
+    "date-fns": "^3.6.0",
     "react": "^18.2.0",
+    "react-day-picker": "^8.10.0",
     "react-dom": "^18.2.0",
     "react-modal": "^3.16.1",
     "styled-components": "^6.1.8"
