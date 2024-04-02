@@ -20,6 +20,5 @@ public class UpdateScheduleRequest {
     private LocalDateTime eventEndDate;
     private String eventInfo;
     private String eventPlace;
-    private ScheduleType eventType;
 }
 
