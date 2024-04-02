@@ -5,9 +5,7 @@ import com.example.demo.common.presentation.response.ApiResponseBody.SuccessBody
 import com.example.demo.common.presentation.response.ApiResponseGenerator;
 import com.example.demo.common.presentation.response.MessageCode;
 import com.example.demo.schedule.application.dto.*;
-import com.example.demo.schedule.application.usecase.CreateScheduleUsecase;
-import com.example.demo.schedule.application.usecase.GetSpecificScheduleUsecase;
-import com.example.demo.schedule.application.usecase.GetYearScheduleUsecase;
+import com.example.demo.schedule.application.usecase.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +20,9 @@ public class ScheduleController {
     private final CreateScheduleUsecase createScheduleUsecase;
     private final GetSpecificScheduleUsecase getSpecificScheduleUsecase;
     private final GetYearScheduleUsecase getYearScheduleUsecase;
+    private final GetMonthScheduleUsecase getMonthScheduleUsecase;
+    private final UpdateScheduleUsecase updateScheduleUsecase;
+    private final DeleteScheduleUsecase deleteScheduleUsecase;
 
 
     @PostMapping
@@ -34,8 +35,8 @@ public class ScheduleController {
 
     @GetMapping("/{eventId}")
     public ApiResponse<SuccessBody<SpecificScheduleResopnse>> getSpecificCalendar (
-            @PathVariable("eventId") Long eventId) {
-
+            @PathVariable("eventId") Long eventId
+    ) {
         SpecificScheduleResopnse response = getSpecificScheduleUsecase.getSpecificSchedule(eventId);
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
     }
@@ -43,26 +44,36 @@ public class ScheduleController {
 
     @GetMapping("year/{year}-{month}-{day}")
     public ApiResponse<SuccessBody<List<YearCalendarResponse>>> getYearCalendar (
-            @PathVariable("year") int year) {
-
+            @PathVariable("year") int year
+    ) {
         List<YearCalendarResponse> response = getYearScheduleUsecase.getYearSchedule(year);
-        return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
+        return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GETYEAR);
     }
-//
-//    @PutMapping("/calendar/{eventId}")
-//    public ApiResponse<SuccessBody<Void>> update(
-//            @RequestBody UpdateScheduleRequest updateScheduleRequest,
-//            @PathVariable("eventId") Long eventId) {// 수정하는 logic
-//
-//
-//        return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.UPDATE);
-//    }
-//
-//    @DeleteMapping("/calendar/{eventId}")
-//    public ApiResponse<SuccessBody<Void>> delete(
-//            @PathVariable("eventId") Long eventId) {
-//        // 일정 삭제하는 logic
-//        return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.DELETE);
-//    }
+
+    @GetMapping("month/{year}-{month}-{day}")
+    public ApiResponse<SuccessBody<List<MonthCalendarResponse>>> getMonthCalendar(
+            @PathVariable("year") int year,
+            @PathVariable("month") int month
+    ) {
+        List<MonthCalendarResponse> response = getMonthScheduleUsecase.getMonthSchedule(year, month);
+        return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GETMONTH);
+    }
+
+    @PutMapping("/{eventId}")
+    public ApiResponse<SuccessBody<UpdateScheduleResponse>> update(
+            @RequestBody UpdateScheduleRequest updateScheduleRequest,
+            @PathVariable("eventId") Long eventId) {// 수정하는 logic
+
+
+        UpdateScheduleResponse response = updateScheduleUsecase.update(eventId, updateScheduleRequest);
+        return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.UPDATE);
+    }
+    
+    @DeleteMapping("/{eventId}")
+    public ApiResponse<SuccessBody<Void>> delete(
+            @PathVariable("eventId") Long eventId) {
+        deleteScheduleUsecase.delete(eventId);
+        return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.DELETE);
+    }
 
 }

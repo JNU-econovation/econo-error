@@ -7,13 +7,11 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class MonthCalendarResponse {
+public class UpdateScheduleResponse {
     private Long eventId;
-    private String eventName;
-    private String eventStartDate;
-    private String eventEndDate;
 }

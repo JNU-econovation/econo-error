@@ -2,7 +2,9 @@ package com.example.demo.common.presentation.response;
 
 public enum MessageCode {
     CREATE("201", "생성 성공"), //201 멀까
-    GET("200", "조회 성공"),
+    GET("200", "일정 조회 성공"),
+    GETYEAR("200", "년별 조회 성공"),
+    GETMONTH("200", "월별 조회 성공"),
     UPDATE("200", "수정 성공"),
     DELETE("200", "삭제 성공");
     private final String code;
