@@ -29,6 +29,7 @@ public class ScheduleService implements CreateScheduleUsecase,
                                         GetSpecificScheduleUsecase,
                                         GetYearScheduleUsecase {
 
+
     private final ScheduleRequestConverter requestConverter; //TODO 여기서 왜 private final로 선언하는지 고민해 보자.
     private final ScheduleEntityConverter entityConverter;
     private final ScheduleRepository scheduleRepository;
@@ -53,11 +54,15 @@ public class ScheduleService implements CreateScheduleUsecase,
 
 
 
+
+
     @Override
     public SpecificScheduleResopnse getSpecificSchedule(final Long eventId) {
         ScheduleModel model = findSchedule(eventId);
         return responseConverter.from(model);
+
     }
+
 
     private ScheduleModel findSchedule(final Long eventId) {
         return scheduleRepository
@@ -65,6 +70,7 @@ public class ScheduleService implements CreateScheduleUsecase,
                 .map(entityConverter::from) //여기서 왜 Optional로 감싸야 하는지 그런데 또 왜 orElseThrow를 던지면 optional로 안감싸도 되는건지?
                 .orElseThrow(() -> new NoSuchElementException("no found eventId :" + eventId));
     }
+
 
 
 

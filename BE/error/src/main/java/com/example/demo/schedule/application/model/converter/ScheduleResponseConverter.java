@@ -21,6 +21,8 @@ public class ScheduleResponseConverter {
     }
 
 
+
+
     public SpecificScheduleResopnse from(ScheduleModel model) {
         return SpecificScheduleResopnse.builder()
                 .eventId(model.getEventId())
