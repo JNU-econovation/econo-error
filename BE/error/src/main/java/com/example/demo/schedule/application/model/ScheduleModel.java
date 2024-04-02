@@ -21,4 +21,14 @@ public class ScheduleModel implements AbstractModel {
     private String eventInfo;
     private String eventPlace;
 
+    public ScheduleModel update(ScheduleModel requestModel) {
+
+        eventName = requestModel.getEventName();
+        eventStartDate = requestModel.getEventStartDate();
+        eventEndDate = requestModel.getEventEndDate();
+        eventInfo = requestModel.getEventInfo();
+        eventPlace = requestModel.getEventPlace();
+
+        return this;
+    }
 }
