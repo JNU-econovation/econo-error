@@ -1,9 +1,6 @@
 package com.example.demo.schedule.application.model.converter;
 
-import com.example.demo.schedule.application.dto.CreateScheduleResponse;
-import com.example.demo.schedule.application.dto.MonthCalendarResponse;
-import com.example.demo.schedule.application.dto.SpecificScheduleResopnse;
-import com.example.demo.schedule.application.dto.YearCalendarResponse;
+import com.example.demo.schedule.application.dto.*;
 import com.example.demo.schedule.application.model.ScheduleModel;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +18,9 @@ public class ScheduleResponseConverter {
         return CreateScheduleResponse.builder().eventId(eventId).build();
     }
 
+    public UpdateScheduleResponse fromUpdate(Long eventId) {
+        return UpdateScheduleResponse.builder().eventId(eventId).build();
+    }
 
     public SpecificScheduleResopnse from(ScheduleModel model) {
         return SpecificScheduleResopnse.builder()
