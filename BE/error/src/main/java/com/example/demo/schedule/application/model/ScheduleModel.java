@@ -19,10 +19,6 @@ public class ScheduleModel implements AbstractModel {
     private LocalDateTime eventStartDate;
     private LocalDateTime eventEndDate;
     private String eventInfo;
-    //private ScheduleType scheduleType;
     private String eventPlace;
 
-//    private Long createSchedule(){
-//
-//    }
 }
