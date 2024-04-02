@@ -66,5 +66,12 @@ public class ScheduleController {
         UpdateScheduleResponse response = updateScheduleUsecase.update(eventId, updateScheduleRequest);
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.UPDATE);
     }
+    
+    @DeleteMapping("/{eventId}")
+    public ApiResponse<SuccessBody<Void>> delete(
+            @PathVariable("eventId") Long eventId) {
+        deleteScheduleUsecase.delete(eventId);
+        return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.DELETE);
+    }
 
 }
