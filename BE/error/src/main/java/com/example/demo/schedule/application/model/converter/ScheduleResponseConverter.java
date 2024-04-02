@@ -22,6 +22,8 @@ public class ScheduleResponseConverter {
         return UpdateScheduleResponse.builder().eventId(eventId).build();
     }
 
+
+
     public SpecificScheduleResopnse from(ScheduleModel model) {
         return SpecificScheduleResopnse.builder()
                 .eventId(model.getEventId())
