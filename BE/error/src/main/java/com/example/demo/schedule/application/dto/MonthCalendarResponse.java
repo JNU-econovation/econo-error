@@ -14,5 +14,6 @@ import java.time.LocalDateTime;
 public class MonthCalendarResponse {
     private Long eventId;
     private String eventName;
-    private LocalDateTime eventStartDate;
+    private String eventStartDate;
+    private String eventEndDate;
 }
