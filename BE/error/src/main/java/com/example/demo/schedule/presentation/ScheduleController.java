@@ -25,6 +25,7 @@ public class ScheduleController {
     private final DeleteScheduleUsecase deleteScheduleUsecase;
     private final GetWeekScheduleUsecase getWeekScheduleUsecase;
 
+
     @PostMapping
     public ApiResponse<SuccessBody<CreateScheduleResponse>> create(
             @RequestBody CreateScheduleRequest request) {
@@ -40,6 +41,7 @@ public class ScheduleController {
         SpecificScheduleResopnse response = getSpecificScheduleUsecase.getSpecificSchedule(eventId);
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
     }
+
 
     @GetMapping("year/{year}-{month}-{day}")
     public ApiResponse<SuccessBody<List<YearCalendarResponse>>> getYearCalendar (
