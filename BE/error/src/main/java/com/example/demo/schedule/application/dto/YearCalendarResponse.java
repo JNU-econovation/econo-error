@@ -13,5 +13,6 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 public class YearCalendarResponse {
     private Long eventId;
-    private LocalDateTime eventStartDate;
+    private String eventStartDate;
+    private String eventEndDate;
 }
