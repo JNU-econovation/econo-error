@@ -7,9 +7,12 @@ import com.example.demo.common.presentation.response.MessageCode;
 import com.example.demo.schedule.application.dto.*;
 import com.example.demo.schedule.application.usecase.CreateScheduleUsecase;
 import com.example.demo.schedule.application.usecase.GetSpecificScheduleUsecase;
+import com.example.demo.schedule.application.usecase.GetYearScheduleUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,10 +21,12 @@ public class ScheduleController {
 
     private final CreateScheduleUsecase createScheduleUsecase;
     private final GetSpecificScheduleUsecase getSpecificScheduleUsecase;
+    private final GetYearScheduleUsecase getYearScheduleUsecase;
 
     @PostMapping
     public ApiResponse<SuccessBody<CreateScheduleResponse>> create(
             @RequestBody CreateScheduleRequest request) {
+
         CreateScheduleResponse response = createScheduleUsecase.create(request);
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.CREATE);
     }
@@ -33,19 +38,14 @@ public class ScheduleController {
         SpecificScheduleResopnse response = getSpecificScheduleUsecase.getSpecificSchedule(eventId);
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
     }
-//
-//    @GetMapping("year/{year}/{month}/{day}")
-//    public ApiResponse<SuccessBody<YearCalendarResponse>> getYearCalendar (
-//            //@RequestParam("period") String type,
-//            @PathVariable("year") int year)
-//            //@PathVariable("month") int month,
-//            //@PathVariable("day") int day) { // 이거 path variable 하나로 못 담으려나??
-//    {
-//        //YearCalendarResponse response = GetYearScheduleUsecase.getYearSchedule(year);
-//
-//        // type 별 response 담아서 리턴 logic
-//        return null; //ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
-//    }
+
+    @GetMapping("year/{year}-{month}-{day}")
+    public ApiResponse<SuccessBody<List<YearCalendarResponse>>> getYearCalendar (
+            @PathVariable("year") int year) {
+
+        List<YearCalendarResponse> response = getYearScheduleUsecase.getYearSchedule(year);
+        return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
+    }
 //
 //    @PutMapping("/calendar/{eventId}")
 //    public ApiResponse<SuccessBody<Void>> update(
