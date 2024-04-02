@@ -1,14 +1,12 @@
 package com.example.demo.schedule.application.service;
 
-import com.example.demo.schedule.application.dto.CreateScheduleRequest;
-import com.example.demo.schedule.application.dto.CreateScheduleResponse;
-import com.example.demo.schedule.application.dto.SpecificScheduleResopnse;
-import com.example.demo.schedule.application.dto.YearCalendarResponse;
+import com.example.demo.schedule.application.dto.*;
 import com.example.demo.schedule.application.model.ScheduleModel;
 import com.example.demo.schedule.application.model.converter.ScheduleEntityConverter;
 import com.example.demo.schedule.application.model.converter.ScheduleRequestConverter;
 import com.example.demo.schedule.application.model.converter.ScheduleResponseConverter;
 import com.example.demo.schedule.application.usecase.CreateScheduleUsecase;
+import com.example.demo.schedule.application.usecase.GetMonthScheduleUsecase;
 import com.example.demo.schedule.application.usecase.GetSpecificScheduleUsecase;
 import com.example.demo.schedule.application.usecase.GetYearScheduleUsecase;
 import com.example.demo.schedule.persistence.ScheduleEntity;
@@ -16,6 +14,7 @@ import com.example.demo.schedule.persistence.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -27,9 +26,10 @@ import java.util.stream.Stream;
 @Transactional(readOnly = true)
 public class ScheduleService implements CreateScheduleUsecase,
                                         GetSpecificScheduleUsecase,
-                                        GetYearScheduleUsecase {
+                                        GetYearScheduleUsecase,
+                                        GetMonthScheduleUsecase {
 
-    private final ScheduleRequestConverter requestConverter; //TODO 여기서 왜 private final로 선언하는지 고민해 보자.
+    private final ScheduleRequestConverter requestConverter;
     private final ScheduleEntityConverter entityConverter;
     private final ScheduleRepository scheduleRepository;
     private final ScheduleResponseConverter responseConverter;
@@ -70,10 +70,9 @@ public class ScheduleService implements CreateScheduleUsecase,
 
     @Override
     public List<YearCalendarResponse> getYearSchedule(final int year) {
-        //YearCalendarResponse response = entityConverter.from();
         List<ScheduleModel> model = filterEntitiesByYear(year);
 
-        return responseConverter.toModel(model);
+        return responseConverter.toYearModel(model);
     }
 
     private List<ScheduleModel> filterEntitiesByYear(final int year) {
@@ -83,5 +82,24 @@ public class ScheduleService implements CreateScheduleUsecase,
                 .map(entityConverter::from)
                 .collect(Collectors.toList());
     }
+
+
+
+    @Override
+    public List<MonthCalendarResponse> getMonthSchedule(final int year, final int month) {
+        List<ScheduleModel> model = filterEntitiesByMonth(year, month);
+        return responseConverter.toMonthModel(model);
+    }
+
+    private List<ScheduleModel> filterEntitiesByMonth(final int year, final int month) {
+        Stream<ScheduleEntity> entities = scheduleRepository.streamAll();
+        return entities
+                .filter(entity -> (entity.getEventStartDate().getYear() == year) && (entity.getEventStartDate().getMonthValue() == month))
+                .map(entityConverter::from)
+                .collect(Collectors.toList());
+    }
+
+
+
 }
 
