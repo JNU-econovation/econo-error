@@ -23,6 +23,7 @@ public class ScheduleController {
     private final GetMonthScheduleUsecase getMonthScheduleUsecase;
     private final UpdateScheduleUsecase updateScheduleUsecase;
     private final DeleteScheduleUsecase deleteScheduleUsecase;
+    private final GetWeekScheduleUsecase getWeekScheduleUsecase;
 
     @PostMapping
     public ApiResponse<SuccessBody<CreateScheduleResponse>> create(
@@ -57,6 +58,15 @@ public class ScheduleController {
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GETMONTH);
     }
 
+    @GetMapping("week/{year}-{month}-{day}")
+    public ApiResponse<SuccessBody<List<WeekCalendarResponse>>> getWeekCalendar(
+            @PathVariable("year") int year,
+            @PathVariable("month") int month,
+            @PathVariable("day") int day) {
+        List<WeekCalendarResponse> response = getWeekScheduleUsecase.getWeekSchedule(year, month, day);
+        return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GETWEEK);
+    }
+
     @PutMapping("/{eventId}")
     public ApiResponse<SuccessBody<UpdateScheduleResponse>> update(
             @RequestBody UpdateScheduleRequest updateScheduleRequest,
@@ -66,7 +76,7 @@ public class ScheduleController {
         UpdateScheduleResponse response = updateScheduleUsecase.update(eventId, updateScheduleRequest);
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.UPDATE);
     }
-    
+
     @DeleteMapping("/{eventId}")
     public ApiResponse<SuccessBody<Void>> delete(
             @PathVariable("eventId") Long eventId) {
