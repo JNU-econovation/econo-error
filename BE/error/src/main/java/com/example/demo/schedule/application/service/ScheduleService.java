@@ -5,16 +5,12 @@ import com.example.demo.schedule.application.model.ScheduleModel;
 import com.example.demo.schedule.application.model.converter.ScheduleEntityConverter;
 import com.example.demo.schedule.application.model.converter.ScheduleRequestConverter;
 import com.example.demo.schedule.application.model.converter.ScheduleResponseConverter;
-import com.example.demo.schedule.application.usecase.CreateScheduleUsecase;
-import com.example.demo.schedule.application.usecase.GetMonthScheduleUsecase;
-import com.example.demo.schedule.application.usecase.GetSpecificScheduleUsecase;
-import com.example.demo.schedule.application.usecase.GetYearScheduleUsecase;
+import com.example.demo.schedule.application.usecase.*;
 import com.example.demo.schedule.persistence.ScheduleEntity;
 import com.example.demo.schedule.persistence.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -27,7 +23,9 @@ import java.util.stream.Stream;
 public class ScheduleService implements CreateScheduleUsecase,
                                         GetSpecificScheduleUsecase,
                                         GetYearScheduleUsecase,
-                                        GetMonthScheduleUsecase {
+                                        GetMonthScheduleUsecase,
+                                        UpdateScheduleUsecase,
+                                        DeleteScheduleUsecase {
 
     private final ScheduleRequestConverter requestConverter;
     private final ScheduleEntityConverter entityConverter;
@@ -51,6 +49,24 @@ public class ScheduleService implements CreateScheduleUsecase,
         return save.getEventId();
     }
 
+    @Override
+    @Transactional
+    public UpdateScheduleResponse update(
+            final Long eventId, final UpdateScheduleRequest request) {
+
+        ScheduleModel model = findSchedule(eventId);
+        ScheduleModel requestModel = requestConverter.from(eventId, request);
+        updateSchedule(model, requestModel);
+
+        return responseConverter.fromUpdate(model.getEventId());
+    }
+    
+
+    private void updateSchedule(ScheduleModel model, ScheduleModel requestModel) {
+        ScheduleModel update = model.update(requestModel);
+        ScheduleEntity entity = entityConverter.toEntity(update);
+        scheduleRepository.save(entity);
+    }
 
 
     @Override
