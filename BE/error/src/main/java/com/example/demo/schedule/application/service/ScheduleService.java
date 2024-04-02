@@ -60,7 +60,14 @@ public class ScheduleService implements CreateScheduleUsecase,
 
         return responseConverter.fromUpdate(model.getEventId());
     }
-    
+
+    @Override
+    @Transactional
+    public void delete(final Long eventId) {
+        ScheduleModel schedule = findSchedule(eventId);
+        scheduleRepository.deleteById(schedule.getEventId());
+    }
+
 
     private void updateSchedule(ScheduleModel model, ScheduleModel requestModel) {
         ScheduleModel update = model.update(requestModel);
