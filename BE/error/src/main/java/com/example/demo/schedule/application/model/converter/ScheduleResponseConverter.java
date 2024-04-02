@@ -62,7 +62,17 @@ public class ScheduleResponseConverter {
         return response;
     }
 
-
-
-
+    public List<WeekCalendarResponse> toWeekModel(List<ScheduleModel> models) {
+        List<WeekCalendarResponse> response = new ArrayList<>();
+        for (ScheduleModel model : models) {
+            WeekCalendarResponse schedule = WeekCalendarResponse.builder()
+                    .eventId(model.getEventId())
+                    .eventName(model.getEventName())
+                    .eventStartDate(String.valueOf(LocalDateTime.parse(model.getEventStartDate().toString(), formatter)))
+                    .eventEndDate(String.valueOf(LocalDateTime.parse(model.getEventEndDate().toString(), formatter)))
+                    .build();
+            response.add(schedule);
+        }
+        return response;
+    }
 }
