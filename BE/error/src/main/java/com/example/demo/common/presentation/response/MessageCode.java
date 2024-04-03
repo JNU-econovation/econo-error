@@ -5,6 +5,7 @@ public enum MessageCode {
     GET("200", "일정 조회 성공"),
     GETYEAR("200", "년별 조회 성공"),
     GETMONTH("200", "월별 조회 성공"),
+    GETWEEK("200", "주별 조회 성공"),
     UPDATE("200", "수정 성공"),
     DELETE("200", "삭제 성공");
     private final String code;

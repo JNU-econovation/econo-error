@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class WeekDayCalendarResponse {
+public class WeekCalendarResponse {
     private Long eventId;
     private String eventName;
-    private LocalDateTime eventStartDate;
-    private LocalDateTime eventEndDate;
+    private String eventStartDate;
+    private String eventEndDate;
 }
