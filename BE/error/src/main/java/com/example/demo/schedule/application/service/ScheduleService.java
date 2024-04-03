@@ -12,6 +12,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.WeekFields;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -25,7 +29,8 @@ public class ScheduleService implements CreateScheduleUsecase,
                                         GetYearScheduleUsecase,
                                         GetMonthScheduleUsecase,
                                         UpdateScheduleUsecase,
-                                        DeleteScheduleUsecase {
+                                        DeleteScheduleUsecase,
+                                        GetWeekScheduleUsecase {
 
 
     private final ScheduleRequestConverter requestConverter;
@@ -113,7 +118,6 @@ public class ScheduleService implements CreateScheduleUsecase,
     }
 
 
-
     @Override
     public List<MonthCalendarResponse> getMonthSchedule(final int year, final int month) {
         List<ScheduleModel> model = filterEntitiesByMonth(year, month);
@@ -127,6 +131,25 @@ public class ScheduleService implements CreateScheduleUsecase,
                 .map(entityConverter::from)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<WeekCalendarResponse> getWeekSchedule(final int year, final int month, final int day) {
+        LocalDate wantFindWeek = LocalDate.of(year, month, day);
+        List<ScheduleModel> model = filterEntitiesByWeek(wantFindWeek);
+
+        return responseConverter.toWeekModel(model);
+    }
+
+    private List<ScheduleModel> filterEntitiesByWeek(final LocalDate wantFindWeek) {
+
+        Stream<ScheduleEntity> entities = scheduleRepository.streamAll();
+        final int weekOfYear = wantFindWeek.get(WeekFields.ISO.weekOfWeekBasedYear());
+        return entities
+                .filter(entity -> entity.getEventStartDate().toLocalDate().get(WeekFields.ISO.weekOfWeekBasedYear()) == weekOfYear)
+                .map(entityConverter::from)
+                .collect(Collectors.toList());
+    }
+
 
 
 
