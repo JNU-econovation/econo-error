@@ -22,15 +22,14 @@ const EconoCalendar = () => {
     const instance = axios.create({
       baseURL: `${import.meta.env.VITE_ERROR_API}`,
     });
-
     instance
       .get("/api/calendar/all/2024-04-05")
       .then((res) => {
         const fetchedEvents = res.data.data.map((event) => ({
           title: event.eventName,
-          start: event.eventStartDate,
-          end: event.eventEndDate,
-          color: "#b1aafb",
+          start: event.eventStartDate.split("T")[0],
+          end: event.eventEndDate.split("T")[0],
+          color: "#beb9ff",
         }));
         setEvents(fetchedEvents);
       })
