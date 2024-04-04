@@ -10,9 +10,15 @@ import axios from "axios";
 import CheckCalendar from "./CheckCalendar";
 
 const EconoCalendar = () => {
-  const [events, setEvents] = useState([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false); // 모달 상태 관리
+  const handleDateClick = (info) => {
+    setModalIsOpen(true); // 날짜 클릭 시 모달 열기
+    console.log(info.dateStr);
+  };
 
+  const [events, setEvents] = useState([]);
   useEffect(() => {
+    // 컴포넌트가 마운트 될 때 이벤트 데이터 로드
     const instance = axios.create({
       baseURL: `${import.meta.env.VITE_ERROR_API}`,
     });
@@ -69,11 +75,16 @@ const EconoCalendar = () => {
           buttonText={{
             today: "오늘",
           }}
+          eventClick={handleDateClick}
           dateClick={function (info) {
             console.log(info.dateStr);
           }}
         />
       </CalendarContainer>
+      <CheckCalendar
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+      />
     </>
   );
 };
