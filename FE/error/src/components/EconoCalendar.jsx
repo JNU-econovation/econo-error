@@ -1,13 +1,43 @@
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
 import styled from "styled-components";
+import React, { useEffect } from "react";
 import { Calendar } from "@fullcalendar/core";
+import CreateModal from "./CheckCalendar";
+import { useState } from "react";
+import axios from "axios";
+import CheckCalendar from "./CheckCalendar";
+
 const EconoCalendar = () => {
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    const instance = axios.create({
+      baseURL: `${import.meta.env.VITE_ERROR_API}`,
+    });
+
+    instance
+      .get("/api/calendar/all/2024-04-05")
+      .then((res) => {
+        const fetchedEvents = res.data.data.map((event) => ({
+          title: event.eventName,
+          start: event.eventStartDate,
+          end: event.eventEndDate,
+          color: "#b1aafb",
+        }));
+        setEvents(fetchedEvents);
+      })
+      .catch((error) => {
+        console.error("Error fetching events:", error);
+      });
+  }, []);
+
   return (
     <>
       <CalendarContainer>
         <FullCalendar
-          plugins={[dayGridPlugin]}
+          plugins={[dayGridPlugin, interactionPlugin]}
           locale={"ko"}
           height={"98vh"}
           headerToolbar={{
@@ -15,6 +45,8 @@ const EconoCalendar = () => {
             center: "",
             right: "",
           }}
+          events={events}
+          eventDisplay={"block"}
           dayCellContent={function (info) {
             var number = document.createElement("a");
             number.classList.add("fc-daygrid-day-number");
@@ -36,6 +68,9 @@ const EconoCalendar = () => {
           }}
           buttonText={{
             today: "오늘",
+          }}
+          dateClick={function (info) {
+            console.log(info.dateStr);
           }}
         />
       </CalendarContainer>
@@ -88,7 +123,10 @@ const CalendarContainer = styled.div`
     color: #595959;
     border: 1px solid #cbcbcb;
   }
-
+  .fc-day-sun a {
+    color: red;
+    text-decoration: none;
+  }
   .fc-daygrid-day-top {
     width: 2rem;
     margin-left: 0.3rem;
@@ -102,10 +140,6 @@ const CalendarContainer = styled.div`
     color: #fff;
     margin-left: 0.5rem;
     width: 1.7rem;
-  }
-  .fc-day-sun {
-    color: red;
-    text-decoration: none;
   }
   .fc-day-today .fc-daygrid-day-frame {
     margin-top: 0.2rem;
