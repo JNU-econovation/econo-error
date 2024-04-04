@@ -5,25 +5,54 @@ import styled from "styled-components";
 import TimeSelect from "./TimeSelect";
 
 const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
-  // startDate와 endDate 상태 초기화
+  const [title, setTitle] = useState(""); // 제목 상태 추가
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  console.log(selectedDate);
+
   useEffect(() => {
-    // 모달이 열릴 때마다 selectedDate로 날짜를 초기화합니다.
     if (isOpen && selectedDate) {
       setStartDate(selectedDate);
       setEndDate(selectedDate);
     }
   }, [isOpen, selectedDate]);
 
-  // 날짜 선택 시 상태를 업데이트하는 함수
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+  };
+
   const handleStartDateChange = (event) => {
     setStartDate(event.target.value);
   };
 
   const handleEndDateChange = (event) => {
     setEndDate(event.target.value);
+  };
+
+  // 백엔드에 데이터를 전송하는 함수
+  const saveData = () => {
+    // 백엔드 엔드포인트 URL, 여기서는 예시로 작성
+    const url = `${import.meta.env.VITE_ERROR_API}/api/calendar`;
+    const data = {
+      title,
+      startDate,
+      endDate,
+    };
+
+    fetch(url, {
+      method: "POST", // HTTP 메소드
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data), // JSON 문자열로 변환
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        onRequestClose(); // 모달 닫기
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   return (
@@ -33,26 +62,21 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
       className="modal"
       overlayClassName="overlay"
     >
-      <TitleInput placeholder="제목" />
+      <TitleInput
+        placeholder="제목"
+        value={title}
+        onChange={handleTitleChange} // 제목 입력 시 상태 업데이트
+      />
       <div style={{ display: "flex" }}>
-        <input
-          type="date"
-          value={startDate}
-          onChange={handleStartDateChange} // 사용자가 날짜를 선택하면 startDate 상태 업데이트
-        />
-
-        <input
-          type="date"
-          value={endDate}
-          onChange={handleEndDateChange} // 사용자가 날짜를 선택하면 endDate 상태 업데이트
-        />
+        <input type="date" value={startDate} onChange={handleStartDateChange} />
+        <input type="date" value={endDate} onChange={handleEndDateChange} />
       </div>
       <div style={{ display: "flex" }}>
         <TimeSelect />
         <TimeSelect />
       </div>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <SaveButton onClick={onRequestClose}>저장</SaveButton>
+        <SaveButton onClick={saveData}>저장</SaveButton> {/* 저장 함수 호출 */}
       </div>
     </Modal>
   );
