@@ -6,13 +6,37 @@ import React, { useEffect } from "react";
 import { Calendar } from "@fullcalendar/core";
 import CreateModal from "./CreateModal";
 import { useState } from "react";
+import axios from "axios";
 
 const EconoCalendar = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false); // 모달 상태 관리
+  const [selectedDate, setSelectedDate] = useState("");
 
-  const handleDateClick = () => {
+  const instance = axios.create({
+    baseURL: `${import.meta.env.VITE_ERROR_API}`,
+  });
+
+  instance.get("/api/calendar/month/2025-05-05").then((res) => {
+    console.log(res.data);
+  });
+
+  const handleDateClick = (arg) => {
+    setSelectedDate(arg.dateStr);
+
     setModalIsOpen(true); // 날짜 클릭 시 모달 열기
   };
+
+  // useEffect(() => {
+  //   console.log(import.meta.env.VITE_ERROR_API);
+  //   axios
+  //     .get(`${import.meta.env.VITE_ERROR_API}/api/calendar/month/2025-05-05`)
+  //     .then((res) => {
+  //       console.log(res.data); // 전체 응답 출력
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching data:", error);
+  //     });
+  // }, []);
   return (
     <>
       <CalendarContainer>
@@ -25,7 +49,7 @@ const EconoCalendar = () => {
             center: "",
             right: "",
           }}
-          events="https://fullcalendar.io/api/demo-feeds/events.json"
+          events={[]}
           dayCellContent={function (info) {
             var number = document.createElement("a");
             number.classList.add("fc-daygrid-day-number");
@@ -54,6 +78,7 @@ const EconoCalendar = () => {
       <CreateModal
         isOpen={modalIsOpen}
         onRequestClose={() => setModalIsOpen(false)}
+        selectedDate={selectedDate} // 클릭한 날짜를 CreateModal에 전달
       />
     </>
   );
