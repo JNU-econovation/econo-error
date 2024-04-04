@@ -98,6 +98,7 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
         <TimeSelect onTimeSelect={handleStartTimeSelect} />
         <TimeSelect onTimeSelect={handleEndTimeSelect} />
       </div>
+
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <SaveButton onClick={saveData}>저장</SaveButton> {/* 저장 함수 호출 */}
       </div>
