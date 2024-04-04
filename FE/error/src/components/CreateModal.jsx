@@ -5,39 +5,54 @@ import styled from "styled-components";
 import TimeSelect from "./TimeSelect";
 
 const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
-  const [title, setTitle] = useState(""); // 제목 상태 추가
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [eventName, setEventName] = useState(""); // 제목 상태 추가
+  const [eventStartDate, setEventStartDate] = useState("");
+  const [eventEndDate, setEventEndDate] = useState("");
+  const [eventInfo, setEventInfo] = useState("안녕");
+  const [eventPlace, setEventPlace] = useState("하세요");
+  const [timeValue, setTimeValue] = useState("");
 
   useEffect(() => {
     if (isOpen && selectedDate) {
-      setStartDate(selectedDate);
-      setEndDate(selectedDate);
+      setEventName("");
+      setEventStartDate(selectedDate);
+      setEventEndDate(selectedDate);
+      setEventInfo("안녕");
+      setEventPlace("하세요");
     }
   }, [isOpen, selectedDate]);
 
   const handleTitleChange = (event) => {
-    setTitle(event.target.value);
+    setEventName(event.target.value);
   };
 
   const handleStartDateChange = (event) => {
-    setStartDate(event.target.value);
+    setEventStartDate(event.target.value);
   };
 
   const handleEndDateChange = (event) => {
-    setEndDate(event.target.value);
+    setEventEndDate(event.target.value);
   };
 
+  const handleStartTimeSelect = (time) => {
+    setEventStartDate((prev) => `${prev.split("T")[0]}T${time}`);
+  };
+
+  const handleEndTimeSelect = (time) => {
+    setEventEndDate((prev) => `${prev.split("T")[0]}T${time}`);
+  };
   // 백엔드에 데이터를 전송하는 함수
   const saveData = () => {
     // 백엔드 엔드포인트 URL, 여기서는 예시로 작성
     const url = `${import.meta.env.VITE_ERROR_API}/api/calendar`;
     const data = {
-      title,
-      startDate,
-      endDate,
+      eventName,
+      eventStartDate,
+      eventEndDate,
+      eventInfo,
+      eventPlace,
     };
-
+    console.log(JSON.stringify(data));
     fetch(url, {
       method: "POST", // HTTP 메소드
       headers: {
@@ -64,16 +79,24 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
     >
       <TitleInput
         placeholder="제목"
-        value={title}
+        value={eventName}
         onChange={handleTitleChange} // 제목 입력 시 상태 업데이트
       />
       <div style={{ display: "flex" }}>
-        <input type="date" value={startDate} onChange={handleStartDateChange} />
-        <input type="date" value={endDate} onChange={handleEndDateChange} />
+        <input
+          type="date"
+          value={eventStartDate}
+          onChange={handleStartDateChange}
+        />
+        <input
+          type="date"
+          value={eventEndDate}
+          onChange={handleEndDateChange}
+        />
       </div>
       <div style={{ display: "flex" }}>
-        <TimeSelect />
-        <TimeSelect />
+        <TimeSelect onTimeSelect={handleStartTimeSelect} />
+        <TimeSelect onTimeSelect={handleEndTimeSelect} />
       </div>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <SaveButton onClick={saveData}>저장</SaveButton> {/* 저장 함수 호출 */}
