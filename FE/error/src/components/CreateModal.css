@@ -5,7 +5,7 @@
   transform: translate(-50%, -50%);
   background-color: white;
   z-index: 1000;
-  padding: 210px 278px;
+  padding: 170px 95px;
   border-radius: 4px;
   box-shadow: 6px 6px 6px 6px rgba(0, 0, 0, 0.1);
   outline-style: none;
@@ -19,6 +19,10 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0);
   z-index: 1000;
+}
+
+.ReactModal__Content {
+  width: 30%;
 }
 
 input[type="date"] {

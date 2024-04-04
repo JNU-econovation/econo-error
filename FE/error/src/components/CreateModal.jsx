@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import "./CreateModal.css";
+import styled from "styled-components";
 
 const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
   // startDate와 endDate 상태 초기화
@@ -31,25 +32,49 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
       className="modal"
       overlayClassName="overlay"
     >
-      <input placeholder="제목" />
+      <TitleInput placeholder="제목" />
       <div style={{ display: "flex" }}>
         <input
           type="date"
           value={startDate}
           onChange={handleStartDateChange} // 사용자가 날짜를 선택하면 startDate 상태 업데이트
         />
+
         <input
           type="date"
           value={endDate}
           onChange={handleEndDateChange} // 사용자가 날짜를 선택하면 endDate 상태 업데이트
         />
       </div>
-      <input type="time" />
-      <input type="time" />
-      <p>모달 내용</p>
-      <button onClick={onRequestClose}>저장</button>
+      <div style={{ display: "flex" }}>
+        <input type="time" />
+        <input type="time" />
+      </div>
+      <SaveButton onClick={onRequestClose}>저장</SaveButton>
     </Modal>
   );
 };
 
 export default CreateModal;
+
+const TitleInput = styled.input`
+  width: 100%;
+  height: 2rem;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+  border: none;
+  border-bottom: 1px solid #495057;
+  outline: none;
+`;
+
+const SaveButton = styled.button`
+  width: 4rem;
+  height: 2rem;
+  border-radius: 0.25rem;
+  margin-top: 1rem;
+  border: 1px solid #007bff;
+  color: #3e3e3e;
+  border: none;
+  outline: none;
+  cursor: pointer;
+`;
