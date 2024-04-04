@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import "./CreateModal.css";
 import styled from "styled-components";
+import TimeSelect from "./TimeSelect";
 
 const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
   // startDate와 endDate 상태 초기화
@@ -47,10 +48,12 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
         />
       </div>
       <div style={{ display: "flex" }}>
-        <input type="time" />
-        <input type="time" />
+        <TimeSelect />
+        <TimeSelect />
       </div>
-      <SaveButton onClick={onRequestClose}>저장</SaveButton>
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        <SaveButton onClick={onRequestClose}>저장</SaveButton>
+      </div>
     </Modal>
   );
 };
@@ -71,10 +74,10 @@ const SaveButton = styled.button`
   width: 4rem;
   height: 2rem;
   border-radius: 0.25rem;
-  margin-top: 1rem;
-  border: 1px solid #007bff;
+  margin-top: 3rem;
+  border: 0.5px solid #858585;
   color: #3e3e3e;
-  border: none;
   outline: none;
   cursor: pointer;
+  right: 0;
 `;
