@@ -30,7 +30,7 @@ jobs:
         distribution: 'temurin'
 
     - name: Grant execute permission for gradlew
-      working-director: ./BE/error
+      working-directory: ./BE/error
       run: chmod +x ./gradlew
       shell: bash
 
