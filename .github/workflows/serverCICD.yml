@@ -58,6 +58,7 @@ jobs:
       working-directory: ./BE/error
       if: contains(github.ref, 'main')
       run: | 
+        sudo usermod -a -G docker $USER
         docker login -u ${{ secrets.DOCKER_ID }} -p ${{ secrets.DOCKER_PASSWORD }}
         docker build -t ${{ secrets.DOCKER_REPO }}/econo-error .
         docker push ${{ secrets.DOCKER_REPO }}/econo-error
