@@ -3,22 +3,24 @@ import Modal from "react-modal";
 import "./CreateModal.css";
 import styled from "styled-components";
 import TimeSelect from "./TimeSelect";
+import ReactQuill from "react-quill";
 
 const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
   const [eventName, setEventName] = useState(""); // 제목 상태 추가
   const [eventStartDate, setEventStartDate] = useState("");
   const [eventEndDate, setEventEndDate] = useState("");
-  const [eventInfo, setEventInfo] = useState("안녕");
-  const [eventPlace, setEventPlace] = useState("하세요");
-  const [timeValue, setTimeValue] = useState("");
+  const [eventInfo, setEventInfo] = useState("");
+  const [eventPlace, setEventPlace] = useState("");
+  const [eventMemo, setEventMemo] = useState("");
 
   useEffect(() => {
     if (isOpen && selectedDate) {
       setEventName("");
       setEventStartDate(selectedDate);
       setEventEndDate(selectedDate);
-      setEventInfo("안녕");
-      setEventPlace("하세요");
+      setEventInfo("");
+      setEventPlace("");
+      setEventMemo("");
     }
   }, [isOpen, selectedDate]);
 
@@ -41,6 +43,15 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
   const handleEndTimeSelect = (time) => {
     setEventEndDate((prev) => `${prev.split("T")[0]}T${time}`);
   };
+
+  const handleMemoChange = (e) => {
+    setEventMemo(e.replace(/<[^>]*>/g, ""));
+  };
+
+  const handlePlaceChange = (e) => {
+    setEventPlace(e.target.value);
+    console.log(e.target.value);
+  };
   // 백엔드에 데이터를 전송하는 함수
   const saveData = () => {
     // 백엔드 엔드포인트 URL, 여기서는 예시로 작성
@@ -49,7 +60,7 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
       eventName,
       eventStartDate,
       eventEndDate,
-      eventInfo,
+      eventInfo: eventMemo,
       eventPlace,
     };
     console.log(JSON.stringify(data));
@@ -98,7 +109,13 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
         <TimeSelect onTimeSelect={handleStartTimeSelect} />
         <TimeSelect onTimeSelect={handleEndTimeSelect} />
       </div>
-
+      <PlaceSelect
+        placeholder="위치 추가"
+        onChange={handlePlaceChange}
+      ></PlaceSelect>
+      <EditorBox>
+        <ReactQuill placeholder={"설명 추가"} onChange={handleMemoChange} />
+      </EditorBox>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <SaveButton onClick={saveData}>저장</SaveButton> {/* 저장 함수 호출 */}
       </div>
@@ -128,4 +145,21 @@ const SaveButton = styled.button`
   outline: none;
   cursor: pointer;
   right: 0;
+`;
+
+const EditorBox = styled.div`
+  .ql-editor {
+    height: 110px;
+    overflow-y: auto;
+  }
+  .ql-editor::before {
+    font-style: normal !important; /* 기울임 없애기 */
+    color: #999 !important; /* Placeholder 텍스트 색상 설정, 선택적으로 변경 가능 */
+  }
+`;
+
+const PlaceSelect = styled.input`
+  border: none;
+  width: 100%;
+  outline: none;
 `;
