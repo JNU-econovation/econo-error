@@ -49,6 +49,11 @@ jobs:
       working-directory: ./BE/error
       run: ./gradlew build -x test
 
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+      with:
+        version: v0.7.0
+    
     - name: Docker build & push to dev
       working-directory: ./BE/error
       if: contains(github.ref, 'main')
