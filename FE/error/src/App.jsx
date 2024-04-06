@@ -1,6 +1,8 @@
 import "./App.css";
 import EconoCalendar from "./components/EconoCalendar";
 import styled from "styled-components";
+import CreateModal from "./components/CreateModal";
+
 function App() {
   return (
     <CalendarPage>
@@ -32,7 +34,7 @@ const LineBox = styled.div`
   border: 1px solid #ddd;
   border-right: none;
 
-  margin-top: 1.58em;
+  margin-top: 1.63em;
 `;
 
 const Logo = styled.div`

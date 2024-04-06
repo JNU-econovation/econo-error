@@ -77,6 +77,7 @@ const EconoCalendar = () => {
             today: "오늘",
           }}
           eventClick={handleDateClick}
+          dateClick={handleDateClick}
         />
       </CalendarContainer>
       <CheckCalendar
