@@ -1,13 +1,36 @@
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
 import styled from "styled-components";
+import React, { useEffect } from "react";
 import { Calendar } from "@fullcalendar/core";
+import CreateModal from "./CreateModal";
+import { useState } from "react";
+import axios from "axios";
+
 const EconoCalendar = () => {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState("");
+
+  const instance = axios.create({
+    baseURL: `${import.meta.env.VITE_ERROR_API}`,
+  });
+
+  instance.get("/api/calendar/month/2025-05-05").then((res) => {
+    console.log(res.data);
+  });
+
+  const handleDateClick = (arg) => {
+    setSelectedDate(arg.dateStr);
+
+    setModalIsOpen(true);
+  };
+
   return (
     <>
       <CalendarContainer>
         <FullCalendar
-          plugins={[dayGridPlugin]}
+          plugins={[dayGridPlugin, interactionPlugin]}
           locale={"ko"}
           height={"98vh"}
           headerToolbar={{
@@ -15,6 +38,7 @@ const EconoCalendar = () => {
             center: "",
             right: "",
           }}
+          events={[]}
           dayCellContent={function (info) {
             var number = document.createElement("a");
             number.classList.add("fc-daygrid-day-number");
@@ -37,8 +61,14 @@ const EconoCalendar = () => {
           buttonText={{
             today: "오늘",
           }}
+          dateClick={handleDateClick}
         />
       </CalendarContainer>
+      <CreateModal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        selectedDate={selectedDate}
+      />
     </>
   );
 };
