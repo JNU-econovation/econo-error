@@ -4,27 +4,41 @@ import interactionPlugin from "@fullcalendar/interaction";
 import styled from "styled-components";
 import React, { useEffect } from "react";
 import { Calendar } from "@fullcalendar/core";
-import CreateModal from "./CreateModal";
+import CreateModal from "./CheckModal/CheckCalendar";
 import { useState } from "react";
 import axios from "axios";
+import CheckCalendar from "./CheckModal/CheckCalendar";
 
 const EconoCalendar = () => {
+  const [events, setEvents] = useState([]);
+  const [selectID, setSelectID] = useState("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState("");
 
-  const instance = axios.create({
-    baseURL: `${import.meta.env.VITE_ERROR_API}`,
-  });
-
-  instance.get("/api/calendar/month/2025-05-05").then((res) => {
-    console.log(res.data);
-  });
-
-  const handleDateClick = (arg) => {
-    setSelectedDate(arg.dateStr);
-
+  const handleDateClick = (info) => {
+    setSelectID(info.event._def.publicId);
     setModalIsOpen(true);
   };
+
+  useEffect(() => {
+    const instance = axios.create({
+      baseURL: `${import.meta.env.VITE_ERROR_API}`,
+    });
+    instance
+      .get("/api/calendar/all/2024-04-05")
+      .then((res) => {
+        const fetchedEvents = res.data.data.map((event) => ({
+          title: event.eventName,
+          id: event.eventId,
+          start: event.eventStartDate.split("T")[0],
+          end: event.eventEndDate.split("T")[0],
+          color: "#beb9ff",
+        }));
+        setEvents(fetchedEvents);
+      })
+      .catch((error) => {
+        console.error("Error fetching events:", error);
+      });
+  }, []);
 
   return (
     <>
@@ -38,7 +52,8 @@ const EconoCalendar = () => {
             center: "",
             right: "",
           }}
-          events={[]}
+          events={events}
+          eventDisplay={"block"}
           dayCellContent={function (info) {
             var number = document.createElement("a");
             number.classList.add("fc-daygrid-day-number");
@@ -61,13 +76,16 @@ const EconoCalendar = () => {
           buttonText={{
             today: "오늘",
           }}
+          eventClick={handleDateClick}
           dateClick={handleDateClick}
         />
       </CalendarContainer>
-      <CreateModal
+      <CheckCalendar
         isOpen={modalIsOpen}
         onRequestClose={() => setModalIsOpen(false)}
-        selectedDate={selectedDate}
+        selectID={selectID}
+        events={events}
+        setEvents={setEvents}
       />
     </>
   );
@@ -118,7 +136,10 @@ const CalendarContainer = styled.div`
     color: #595959;
     border: 1px solid #cbcbcb;
   }
-
+  .fc-day-sun a {
+    color: red;
+    text-decoration: none;
+  }
   .fc-daygrid-day-top {
     width: 2rem;
     margin-left: 0.3rem;
@@ -132,10 +153,6 @@ const CalendarContainer = styled.div`
     color: #fff;
     margin-left: 0.5rem;
     width: 1.7rem;
-  }
-  .fc-day-sun {
-    color: red;
-    text-decoration: none;
   }
   .fc-day-today .fc-daygrid-day-frame {
     margin-top: 0.2rem;
