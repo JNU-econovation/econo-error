@@ -4,10 +4,10 @@ import interactionPlugin from "@fullcalendar/interaction";
 import styled from "styled-components";
 import React, { useEffect } from "react";
 import { Calendar } from "@fullcalendar/core";
-import CreateModal from "./CheckCalendar";
+import CreateModal from "./CheckModal/CheckCalendar";
 import { useState } from "react";
 import axios from "axios";
-import CheckCalendar from "./CheckCalendar";
+import CheckCalendar from "./CheckModal/CheckCalendar";
 
 const EconoCalendar = () => {
   const [events, setEvents] = useState([]);
@@ -83,6 +83,8 @@ const EconoCalendar = () => {
         isOpen={modalIsOpen}
         onRequestClose={() => setModalIsOpen(false)}
         selectID={selectID}
+        events={events}
+        setEvents={setEvents}
       />
     </>
   );
