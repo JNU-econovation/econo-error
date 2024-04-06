@@ -9,7 +9,7 @@ import { useState } from "react";
 import axios from "axios";
 
 const EconoCalendar = () => {
-  const [modalIsOpen, setModalIsOpen] = useState(false); // 모달 상태 관리
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
 
   const instance = axios.create({
@@ -23,20 +23,9 @@ const EconoCalendar = () => {
   const handleDateClick = (arg) => {
     setSelectedDate(arg.dateStr);
 
-    setModalIsOpen(true); // 날짜 클릭 시 모달 열기
+    setModalIsOpen(true);
   };
 
-  // useEffect(() => {
-  //   console.log(import.meta.env.VITE_ERROR_API);
-  //   axios
-  //     .get(`${import.meta.env.VITE_ERROR_API}/api/calendar/month/2025-05-05`)
-  //     .then((res) => {
-  //       console.log(res.data); // 전체 응답 출력
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching data:", error);
-  //     });
-  // }, []);
   return (
     <>
       <CalendarContainer>
@@ -78,7 +67,7 @@ const EconoCalendar = () => {
       <CreateModal
         isOpen={modalIsOpen}
         onRequestClose={() => setModalIsOpen(false)}
-        selectedDate={selectedDate} // 클릭한 날짜를 CreateModal에 전달
+        selectedDate={selectedDate}
       />
     </>
   );

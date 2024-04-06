@@ -6,7 +6,7 @@ import TimeSelect from "./TimeSelect";
 import ReactQuill from "react-quill";
 
 const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
-  const [eventName, setEventName] = useState(""); // 제목 상태 추가
+  const [eventName, setEventName] = useState("");
   const [eventStartDate, setEventStartDate] = useState("");
   const [eventEndDate, setEventEndDate] = useState("");
   const [eventInfo, setEventInfo] = useState("");
@@ -52,9 +52,8 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
     setEventPlace(e.target.value);
     console.log(e.target.value);
   };
-  // 백엔드에 데이터를 전송하는 함수
+
   const saveData = () => {
-    // 백엔드 엔드포인트 URL, 여기서는 예시로 작성
     const url = `${import.meta.env.VITE_ERROR_API}/api/calendar`;
     const data = {
       eventName,
@@ -65,16 +64,16 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
     };
     console.log(JSON.stringify(data));
     fetch(url, {
-      method: "POST", // HTTP 메소드
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data), // JSON 문자열로 변환
+      body: JSON.stringify(data),
     })
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
-        onRequestClose(); // 모달 닫기
+        onRequestClose();
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -91,7 +90,7 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
       <TitleInput
         placeholder="제목"
         value={eventName}
-        onChange={handleTitleChange} // 제목 입력 시 상태 업데이트
+        onChange={handleTitleChange}
       />
       <div style={{ display: "flex" }}>
         <input
@@ -117,7 +116,7 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
         <ReactQuill placeholder={"설명 추가"} onChange={handleMemoChange} />
       </EditorBox>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <SaveButton onClick={saveData}>저장</SaveButton> {/* 저장 함수 호출 */}
+        <SaveButton onClick={saveData}>저장</SaveButton>
       </div>
     </Modal>
   );
@@ -153,8 +152,8 @@ const EditorBox = styled.div`
     overflow-y: auto;
   }
   .ql-editor::before {
-    font-style: normal !important; /* 기울임 없애기 */
-    color: #999 !important; /* Placeholder 텍스트 색상 설정, 선택적으로 변경 가능 */
+    font-style: normal !important;
+    color: #999 !important;
   }
 `;
 
