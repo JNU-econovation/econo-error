@@ -75,6 +75,7 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
       .then((data) => {
         console.log("Success:", data);
         onRequestClose();
+        window.location.reload();
       })
       .catch((error) => {
         console.error("Error:", error);
