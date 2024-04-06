@@ -55,7 +55,7 @@ const CheckCalendar = ({
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      className="modal"
+      className="CheckModal"
       overlayClassName="overlay"
     >
       <ModalBar>
@@ -93,7 +93,7 @@ export default CheckCalendar;
 
 const ModalBar = styled.div`
   margin-top: 0.5rem;
-  width: 100%;
+  width: 25rem;
   display: flex;
   flex-direction: row-reverse;
   outline: none;
@@ -109,7 +109,7 @@ const ModalBar = styled.div`
 `;
 
 const ModalContent = styled.div`
-  padding: 1rem;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   span {
