@@ -3,8 +3,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import styled from "styled-components";
 import React, { useEffect } from "react";
-import { Calendar } from "@fullcalendar/core";
-import CreateModal from "./CheckModal/CheckCalendar";
+import CreateModal from "./CreateModal";
 import { useState } from "react";
 import axios from "axios";
 import CheckCalendar from "./CheckModal/CheckCalendar";
@@ -12,11 +11,17 @@ import CheckCalendar from "./CheckModal/CheckCalendar";
 const EconoCalendar = () => {
   const [events, setEvents] = useState([]);
   const [selectID, setSelectID] = useState("");
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [checkModalIsOpen, setCheckModalIsOpen] = useState(false);
+  const [createModalIsOpen, setCreateModalIsOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState("");
 
-  const handleDateClick = (info) => {
+  const handleEventClick = (info) => {
     setSelectID(info.event._def.publicId);
-    setModalIsOpen(true);
+    setCheckModalIsOpen(true);
+  };
+  const handleDateClick = (arg) => {
+    setSelectedDate(arg.dateStr);
+    setCreateModalIsOpen(true);
   };
 
   useEffect(() => {
@@ -76,16 +81,21 @@ const EconoCalendar = () => {
           buttonText={{
             today: "오늘",
           }}
-          eventClick={handleDateClick}
+          eventClick={handleEventClick}
           dateClick={handleDateClick}
         />
       </CalendarContainer>
       <CheckCalendar
-        isOpen={modalIsOpen}
-        onRequestClose={() => setModalIsOpen(false)}
+        isOpen={checkModalIsOpen}
+        onRequestClose={() => setCheckModalIsOpen(false)}
         selectID={selectID}
         events={events}
         setEvents={setEvents}
+      />
+      <CreateModal
+        isOpen={createModalIsOpen}
+        onRequestClose={() => setCreateModalIsOpen(false)}
+        selectedDate={selectedDate}
       />
     </>
   );

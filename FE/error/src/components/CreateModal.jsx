@@ -4,6 +4,7 @@ import "./CreateModal.css";
 import styled from "styled-components";
 import TimeSelect from "./TimeSelect";
 import ReactQuill from "react-quill";
+import axios from "axios";
 
 const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
   const [eventName, setEventName] = useState("");
@@ -79,7 +80,21 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
         console.error("Error:", error);
       });
   };
-
+  // const saveData = () => {
+  //   const instance = axios.create({
+  //     baseURL: `${import.meta.env.VITE_ERROR_API}`,
+  //   });
+  //   instance.post("/api/calendar").then((res) => {
+  //     const data = {
+  //       eventName,
+  //       eventStartDate,
+  //       eventEndDate,
+  //       eventInfo: eventMemo,
+  //       eventPlace,
+  //     };
+  //     onRequestClose();
+  //   });
+  // };
   return (
     <Modal
       isOpen={isOpen}
