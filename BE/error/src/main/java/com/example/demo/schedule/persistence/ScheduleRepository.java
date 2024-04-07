@@ -1,5 +1,6 @@
 package com.example.demo.schedule.persistence;
 
+import com.example.demo.schedule.application.model.ScheduleModel;
 import jakarta.persistence.Entity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,4 +15,7 @@ import java.util.stream.Stream;
 @Repository
 public interface ScheduleRepository extends JpaRepository<ScheduleEntity, Long> {
     @Query("select p from ScheduleEntity p") Stream<ScheduleEntity> streamAll();
+
+    @Query("SELECT p.eventId, p.eventName, p.eventStartDate, p.createdDate FROM ScheduleEntity p")
+    List<ScheduleModel> getYearCalendar();
 }
