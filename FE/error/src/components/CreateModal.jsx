@@ -70,6 +70,7 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
+      credentials: "include",
     })
       .then((response) => response.json())
       .then((data) => {

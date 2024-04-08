@@ -27,6 +27,7 @@ const EconoCalendar = () => {
   useEffect(() => {
     const instance = axios.create({
       baseURL: `${import.meta.env.VITE_ERROR_API}`,
+      withCredentials: true,
     });
     instance
       .get("/api/calendar/all/2024-04-05")
