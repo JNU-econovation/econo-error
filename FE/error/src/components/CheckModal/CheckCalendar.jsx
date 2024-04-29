@@ -88,16 +88,19 @@ const CheckCalendar = ({
           <span></span>
           <div>{event.title}</div>
         </Title>
-
         <Date>{date(event.startDate, event.endDate)}</Date>
-        <p>
-          <MdOutlineLocationOn style={{ marginRight: "0.5rem" }} />
-          {event.place}
-        </p>
-        <p>
-          <MdOutlineAutoAwesomeMotion style={{ marginRight: "0.5rem" }} />
-          {event.info}
-        </p>
+        {event.place && (
+          <p>
+            <MdOutlineLocationOn style={{ marginRight: "0.5rem" }} />
+            {event.place}
+          </p>
+        )}
+        {event.info && (
+          <p>
+            <MdOutlineAutoAwesomeMotion style={{ marginRight: "0.5rem" }} />
+            {event.info}
+          </p>
+        )}
       </ModalContent>
     </Modal>
   );
