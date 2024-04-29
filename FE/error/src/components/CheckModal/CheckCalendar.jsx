@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"; // useState 추가
+import React, { useEffect, useState, useRef } from "react"; // useState 추가
 import Modal from "react-modal";
 import "./CheckCalendar.css";
 import styled from "styled-components";
@@ -29,7 +29,14 @@ const CheckCalendar = ({
     };
     setEvent(specificEvent);
   }
+
+  const isMount = useRef(false);
   useEffect(() => {
+    if (!isMount.current) {
+      isMount.current = true;
+      return;
+    }
+
     const instance = axios.create({
       baseURL: `${import.meta.env.VITE_ERROR_API}`,
     });
