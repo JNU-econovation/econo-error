@@ -1,7 +1,6 @@
 import "./App.css";
 import EconoCalendar from "./components/EconoCalendar";
 import styled from "styled-components";
-import CreateModal from "./components/CreateModal";
 
 function App() {
   return (

@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import "./CreateModal.css";
 import styled from "styled-components";
 import TimeSelect from "./TimeSelect";
 import ReactQuill from "react-quill";
-import axios from "axios";
 
 const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
   const [eventName, setEventName] = useState("");
