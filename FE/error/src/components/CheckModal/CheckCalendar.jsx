@@ -51,12 +51,20 @@ const CheckCalendar = ({
     });
   }, [selectID]);
 
-  /*function date(startDate, endDate) {
-    if (startDate.split("T")[0] === endDate.split("T")[0]) return startDate;
-    else {
-      return `${startDate} - ${endDate}`;
-    }
-  }*/
+  function date(startDate, endDate) {
+    if (!startDate && !endDate) return "날짜 정보 없음";
+    if (startDate.split("T")[0] === endDate.split("T")[0]) {
+      if (startDate === endDate) {
+        return `${startDate.split("T")[0]} ${startDate.split("T")[1]}`;
+      } else
+        return `${startDate.split("T")[0]} ${startDate.split("T")[1]}~${
+          endDate.split("T")[1]
+        }`;
+    } else
+      return `${startDate.split("T")[0]} ${startDate.split("T")[1]} - ${
+        endDate.split("T")[0]
+      } ${endDate.split("T")[1]}`;
+  }
 
   return (
     <Modal
@@ -80,9 +88,8 @@ const CheckCalendar = ({
           <span></span>
           <div>{event.title}</div>
         </Title>
-        {/*<Date>
-          <p>{date(event.startDate, event.endDate)}</p>
-  </Date>*/}
+
+        <Date>{date(event.startDate, event.endDate)}</Date>
         <p>
           <MdOutlineLocationOn style={{ marginRight: "0.5rem" }} />
           {event.place}
@@ -138,6 +145,7 @@ const Title = styled.div`
   display: flex;
 `;
 
-/*const Date = styled.div`
+const Date = styled.p`
   margin-left: 1.55rem;
-`;*/
+  font-size: small;
+`;
