@@ -98,7 +98,7 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
       overlayClassName="overlay"
     >
       <TitleInput
-        placeholder="제목"
+        placeholder="제목을 입력하세요"
         value={eventName}
         onChange={handleTitleChange}
       />
@@ -123,7 +123,9 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
         <ReactQuill placeholder={"설명 추가"} onChange={handleMemoChange} />
       </EditorBox>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <SaveButton onClick={saveData}>저장</SaveButton>
+        <SaveButton onClick={saveData} disabled={!eventName}>
+          저장
+        </SaveButton>
       </div>
     </Modal>
   );
@@ -147,10 +149,16 @@ const SaveButton = styled.button`
   border-radius: 0.25rem;
   margin-top: 3rem;
   border: 0.5px solid #858585;
-  color: #3e3e3e;
   outline: none;
   cursor: pointer;
   right: 0;
+  background-color: ${(props) => (props.disabled ? "#e0e0e0" : "white")};
+  color: ${(props) => (props.disabled ? "#9e9e9e" : "#3e3e3e")};
+  border: ${(props) => (props.disabled ? "none" : "0.5px solid #858585")};
+
+  &:disabled {
+    cursor: default;
+  }
 `;
 
 const EditorBox = styled.div`

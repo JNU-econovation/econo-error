@@ -54,6 +54,7 @@ const EconoCalendar = () => {
           locale={"ko"}
           height={"98vh"}
           dayMaxEventRows={true}
+          editable={true}
           views={{
             timeGrid: {
               dayMaxEventRows: 6, // adjust to 6 only for timeGridWeek/timeGridDay
