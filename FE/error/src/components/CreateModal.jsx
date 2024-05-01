@@ -7,20 +7,24 @@ import ReactQuill from "react-quill";
 
 const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
   const [eventName, setEventName] = useState("");
-  const [eventStartDate, setEventStartDate] = useState("");
-  const [eventEndDate, setEventEndDate] = useState("");
+  const [StartDate, setStartDate] = useState("");
+  const [EndDate, setEndDate] = useState("");
   const [eventInfo, setEventInfo] = useState("");
   const [eventPlace, setEventPlace] = useState("");
   const [eventMemo, setEventMemo] = useState("");
+  const [eventStartDate, setNewStartDate] = useState("");
+  const [eventEndDate, setNewEndDate] = useState("");
 
   useEffect(() => {
     if (isOpen && selectedDate) {
       setEventName("");
-      setEventStartDate(selectedDate);
-      setEventEndDate(selectedDate);
+      setStartDate(selectedDate);
+      setEndDate(selectedDate);
       setEventInfo("");
       setEventPlace("");
       setEventMemo("");
+      setNewStartDate("");
+      setNewEndDate("");
     }
   }, [isOpen, selectedDate]);
 
@@ -29,19 +33,23 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
   };
 
   const handleStartDateChange = (event) => {
-    setEventStartDate(event.target.value);
+    setStartDate(event.target.value);
   };
 
   const handleEndDateChange = (event) => {
-    setEventEndDate(event.target.value);
+    setEndDate(event.target.value);
   };
 
   const handleStartTimeSelect = (time) => {
-    setEventStartDate((prev) => `${prev.split("T")[0]}T${time}`);
+    const startDate = `${StartDate.split("T")[0]}T${time}`;
+    setNewStartDate(startDate);
   };
 
   const handleEndTimeSelect = (time) => {
-    setEventEndDate((prev) => `${prev.split("T")[0]}T${time}`);
+    let endDate = new Date(EndDate.split("T")[0]);
+    endDate.setDate(endDate.getDate() + 1);
+    const newEndDate = `${endDate.toISOString().split("T")[0]}T${time}`;
+    setNewEndDate(newEndDate);
   };
 
   const handleMemoChange = (e) => {
@@ -75,27 +83,13 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
       .then((data) => {
         console.log("Success:", data);
         onRequestClose();
-        window.location.reload();
+        //window.location.reload();
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   };
-  // const saveData = () => {
-  //   const instance = axios.create({
-  //     baseURL: `${import.meta.env.VITE_ERROR_API}`,
-  //   });
-  //   instance.post("/api/calendar").then((res) => {
-  //     const data = {
-  //       eventName,
-  //       eventStartDate,
-  //       eventEndDate,
-  //       eventInfo: eventMemo,
-  //       eventPlace,
-  //     };
-  //     onRequestClose();
-  //   });
-  // };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -109,15 +103,12 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
         onChange={handleTitleChange}
       />
       <div style={{ display: "flex" }}>
+        <input type="date" value={StartDate} onChange={handleStartDateChange} />
         <input
           type="date"
-          value={eventStartDate}
-          onChange={handleStartDateChange}
-        />
-        <input
-          type="date"
-          value={eventEndDate}
+          value={EndDate}
           onChange={handleEndDateChange}
+          min={StartDate}
         />
       </div>
       <div style={{ display: "flex" }}>

@@ -2,7 +2,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import styled from "styled-components";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import CreateModal from "./CreateModal";
 import { useState } from "react";
 import axios from "axios";
