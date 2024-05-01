@@ -55,15 +55,23 @@ const EconoCalendar = () => {
           height={"98vh"}
           dayMaxEventRows={true}
           editable={true}
+          customButtons={{
+            createDateButton: {
+              text: "일정 생성",
+              click: function () {
+                setCreateModalIsOpen(true);
+              },
+            },
+          }}
           views={{
             timeGrid: {
-              dayMaxEventRows: 6, // adjust to 6 only for timeGridWeek/timeGridDay
+              dayMaxEventRows: 6,
             },
           }}
           headerToolbar={{
             left: "today prev title next",
             center: "",
-            right: "",
+            right: "createDateButton",
           }}
           events={events}
           eventDisplay={"block"}
@@ -116,6 +124,9 @@ const CalendarContainer = styled.div`
   margin-top: 1rem;
   .fc-toolbar-chunk {
     display: flex;
+    .fc-toolbar-chunk > :last-child {
+      margin-right: 1rem;
+    }
   }
 
   .fc-prev-button {
@@ -137,6 +148,11 @@ const CalendarContainer = styled.div`
       color: #6c757d;
       border: none;
     }
+  }
+  .fc-prev-button:focus,
+  .fc-next-button:focus {
+    outline: none; /* 기본 아웃라인을 제거합니다. */
+    box-shadow: none; /* 추가적인 그림자가 있다면 제거합니다. */
   }
 
   .fc-today-button {
@@ -191,5 +207,12 @@ const CalendarContainer = styled.div`
   .fc-col-header-cell {
     border-right: none;
     border-left: none;
+  }
+
+  .fc-createDateButton-button {
+    background-color: #fff;
+    border-color: #cbcbcb;
+    color: #595959;
+    margin-right: 1rem;
   }
 `;
