@@ -51,10 +51,13 @@ const EconoCalendar = () => {
       <CalendarContainer>
         <FullCalendar
           plugins={[dayGridPlugin, interactionPlugin]}
-          locale={"ko"}
-          height={"98vh"}
+          locale="ko"
+          height="98vh"
           dayMaxEventRows={true}
           editable={true}
+          moreLinkText={function (num) {
+            return "+" + num + "개 더보기";
+          }}
           customButtons={{
             createDateButton: {
               text: "일정 생성",
