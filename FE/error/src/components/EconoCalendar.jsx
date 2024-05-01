@@ -53,6 +53,12 @@ const EconoCalendar = () => {
           plugins={[dayGridPlugin, interactionPlugin]}
           locale={"ko"}
           height={"98vh"}
+          dayMaxEventRows={true}
+          views={{
+            timeGrid: {
+              dayMaxEventRows: 6, // adjust to 6 only for timeGridWeek/timeGridDay
+            },
+          }}
           headerToolbar={{
             left: "today prev title next",
             center: "",
