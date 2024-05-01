@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react"; // useState 추가
+import { useEffect, useState, useRef } from "react"; // useState 추가
 import Modal from "react-modal";
 import "./CheckCalendar.css";
 import styled from "styled-components";
@@ -8,6 +8,7 @@ import axios from "axios";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { MdOutlineAutoAwesomeMotion } from "react-icons/md";
 import DeletEvent from "./DeleteEvent";
+import { Link } from "react-router-dom";
 
 const CheckCalendar = ({
   isOpen,
@@ -17,7 +18,6 @@ const CheckCalendar = ({
   setEvents,
 }) => {
   const [event, setEvent] = useState({});
-  const Calendarmodify = () => {};
 
   function createDate(title, startDate, endDate, place, info) {
     const specificEvent = {
@@ -77,9 +77,11 @@ const CheckCalendar = ({
         <button onClick={onRequestClose}>
           <IoClose size="1.2rem" />
         </button>
-        <button onClick={Calendarmodify}>
-          <GoPencil size="1.2rem" />
-        </button>
+        <Link to={"/ModifyPage"}>
+          <button>
+            <GoPencil size="1.2rem" />
+          </button>
+        </Link>
         <DeletEvent events={events} setEvents={setEvents} selectID={selectID} />
       </ModalBar>
 
