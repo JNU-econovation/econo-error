@@ -4,9 +4,14 @@ import "./CreateModal.css";
 import styled from "styled-components";
 import TimeSelect from "./TimeSelect";
 import ReactQuill from "react-quill";
-import { format, addDays } from "date-fns";
+import { format, addDays, compareAsc, parseISO } from "date-fns";
 
-const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
+const CreateModal = ({
+  isOpen,
+  onRequestClose,
+  selectedDate,
+  handleUpdateData,
+}) => {
   const [eventName, setEventName] = useState("");
   const [StartDate, setStartDate] = useState("");
   const [EndDate, setEndDate] = useState("");
@@ -59,9 +64,16 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
   };
 
   const handleStartTimeSelect = (time) => {
-    const startDate = `${StartDate}T${time}`;
+    const startDateString = `${StartDate}T${time}`;
+    const endDateString = `${EndDate}T${eventEndTime}`;
+
     setEventStartTime(time);
-    setNewStartDate(startDate);
+    setNewStartDate(startDateString);
+
+    if (compareAsc(parseISO(startDateString), parseISO(endDateString)) > 0) {
+      setEventEndTime(time);
+      setNewEndDate(startDateString);
+    }
   };
 
   const handleEndTimeSelect = (time) => {
@@ -102,6 +114,7 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
       .then((data) => {
         console.log("Success:", data);
         onRequestClose();
+        handleUpdateData(data);
         //window.location.reload();
       })
       .catch((error) => {

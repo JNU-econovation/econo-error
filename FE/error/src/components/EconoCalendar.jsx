@@ -7,6 +7,7 @@ import CreateModal from "./CreateModal";
 import { useState } from "react";
 import axios from "axios";
 import CheckCalendar from "./CheckModal/CheckCalendar";
+import { set } from "date-fns";
 
 const EconoCalendar = () => {
   const [events, setEvents] = useState([]);
@@ -51,7 +52,11 @@ const EconoCalendar = () => {
       .catch((error) => {
         console.error("Error fetching events:", error);
       });
-  }, []);
+  }, [events]);
+
+  const handleUpdateData = (newData) => {
+    setEvents(...newData);
+  };
 
   return (
     <>
@@ -123,6 +128,7 @@ const EconoCalendar = () => {
         isOpen={createModalIsOpen}
         onRequestClose={() => setCreateModalIsOpen(false)}
         selectedDate={selectedDate}
+        handleUpdateData={handleUpdateData}
       />
     </>
   );
