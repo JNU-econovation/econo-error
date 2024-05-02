@@ -88,6 +88,7 @@ const CheckCalendar = ({
           selectID={selectID}
           handleUpdateData={handleUpdateData}
           handleDelete={handleDelete}
+          onRequestClose={onRequestClose}
         />
       </ModalBar>
 
