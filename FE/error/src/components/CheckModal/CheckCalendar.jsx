@@ -7,7 +7,7 @@ import { IoClose } from "react-icons/io5";
 import axios from "axios";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { MdOutlineAutoAwesomeMotion } from "react-icons/md";
-import DeletEvent from "./DeleteEvent";
+import DeleteEvent from "./DeleteEvent";
 import { Link } from "react-router-dom";
 
 const CheckCalendar = ({
@@ -15,7 +15,8 @@ const CheckCalendar = ({
   onRequestClose,
   selectID,
   events,
-  setEvents,
+  handleUpdateData,
+  handleDelete,
 }) => {
   const [event, setEvent] = useState({});
 
@@ -82,7 +83,12 @@ const CheckCalendar = ({
             <GoPencil size="1.2rem" />
           </button>
         </Link>
-        <DeletEvent events={events} setEvents={setEvents} selectID={selectID} />
+        <DeleteEvent
+          events={events}
+          selectID={selectID}
+          handleUpdateData={handleUpdateData}
+          handleDelete={handleDelete}
+        />
       </ModalBar>
 
       <ModalContent>
