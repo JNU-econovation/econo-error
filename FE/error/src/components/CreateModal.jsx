@@ -81,21 +81,7 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
         console.error("Error:", error);
       });
   };
-  // const saveData = () => {
-  //   const instance = axios.create({
-  //     baseURL: `${import.meta.env.VITE_ERROR_API}`,
-  //   });
-  //   instance.post("/api/calendar").then((res) => {
-  //     const data = {
-  //       eventName,
-  //       eventStartDate,
-  //       eventEndDate,
-  //       eventInfo: eventMemo,
-  //       eventPlace,
-  //     };
-  //     onRequestClose();
-  //   });
-  // };
+
   return (
     <Modal
       isOpen={isOpen}
