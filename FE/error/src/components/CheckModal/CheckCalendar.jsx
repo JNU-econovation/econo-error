@@ -78,7 +78,7 @@ const CheckCalendar = ({
         <button onClick={onRequestClose}>
           <IoClose size="1.2rem" />
         </button>
-        <Link to={"/ModifyPage"}>
+        <Link to="/ModifyPage" state={{ selectID: selectID }}>
           <button>
             <GoPencil size="1.2rem" />
           </button>
