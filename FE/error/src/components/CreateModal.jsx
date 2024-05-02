@@ -4,6 +4,7 @@ import "./CreateModal.css";
 import styled from "styled-components";
 import TimeSelect from "./TimeSelect";
 import ReactQuill from "react-quill";
+import { format, addDays } from "date-fns";
 
 const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
   const [eventName, setEventName] = useState("");
@@ -45,8 +46,15 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
   const handleEndDateChange = (event) => {
     setEndDate(event.target.value);
 
-    // 종료 날짜가 변경될 때 종료 날짜와 기존에 설정된 종료 시간을 결합하여 설정
-    const newEndDate = `${event.target.value}T${eventEndTime}`;
+    // Create a Date object and add a day
+    const updatedEndDate = addDays(new Date(event.target.value), 1);
+
+    // Format the date and concatenate with the end time
+    const newEndDate = `${format(
+      updatedEndDate,
+      "yyyy-MM-dd"
+    )}T${eventEndTime}`;
+
     setNewEndDate(newEndDate);
   };
 
@@ -59,15 +67,10 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
 
   const handleEndTimeSelect = (time) => {
     // 종료 시간 선택시, 날짜를 다음 날로 설정하고 시간을 결합하여 종료 날짜와 시간 설정
-    let endDate = new Date(EndDate);
-    endDate.setDate(endDate.getDate() + 1);
-    const newEndDate = `${endDate.toISOString().split("T")[0]}T${time}`;
+    let updatedEndDate = addDays(new Date(EndDate), 1);
+    const newEndDate = `${format(updatedEndDate, "yyyy-MM-dd")}T${time}`;
     setEventEndTime(time);
     setNewEndDate(newEndDate);
-
-    //  const endDate = `${EndDate}T${time}`;
-    //setEventEntTime(time);
-    //setNewEndDate(endDate);
   };
 
   const handleMemoChange = (e) => {
