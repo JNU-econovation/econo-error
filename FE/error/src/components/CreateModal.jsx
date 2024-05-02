@@ -39,6 +39,12 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
     setStartDate(event.target.value);
     const newStartDate = `${event.target.value}T${eventStartTime}`;
     setNewStartDate(newStartDate);
+    if (new Date(event.target.value) > new Date(EndDate)) {
+      setEndDate(event.target.value);
+      const updatedEndDate = event.target.value;
+      const newEndDate = `${updatedEndDate}T${eventEndTime}`;
+      setNewEndDate(newEndDate);
+    }
   };
 
   const handleEndDateChange = (event) => {
