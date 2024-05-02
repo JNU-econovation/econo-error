@@ -1,7 +1,7 @@
 import { RiDeleteBinLine } from "react-icons/ri";
 import axios from "axios";
 
-const DeletEvent = ({ events, setEvents, selectID }) => {
+const DeleteEvent = ({ events, selectID, handleUpdateData, handleDelete }) => {
   const calendarDelete = () => {
     const instance = axios.create({
       baseURL: `${import.meta.env.VITE_ERROR_API}`,
@@ -11,8 +11,8 @@ const DeletEvent = ({ events, setEvents, selectID }) => {
       .delete("/api/calendar/" + selectID)
       .then(() => {
         const updatedEvents = events.filter((event) => event.id !== selectID);
-        setEvents(updatedEvents);
-        window.location.reload();
+        handleUpdateData(updatedEvents);
+        handleDelete();
       })
       .catch((error) => {
         console.error("Error deleting event:", error);
@@ -20,10 +20,12 @@ const DeletEvent = ({ events, setEvents, selectID }) => {
   };
 
   return (
-    <button onClick={calendarDelete}>
-      <RiDeleteBinLine size="1.2rem" />
-    </button>
+    <>
+      <button onClick={calendarDelete}>
+        <RiDeleteBinLine size="1.2rem" />
+      </button>
+    </>
   );
 };
 
-export default DeletEvent;
+export default DeleteEvent;
