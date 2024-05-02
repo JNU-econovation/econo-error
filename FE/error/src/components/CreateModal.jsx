@@ -37,19 +37,13 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
 
   const handleStartDateChange = (event) => {
     setStartDate(event.target.value);
-
-    // 새로운 시작 날짜 설정. 기존에 선택했던 시작 시간을 포함시킨다.
     const newStartDate = `${event.target.value}T${eventStartTime}`;
     setNewStartDate(newStartDate);
   };
 
   const handleEndDateChange = (event) => {
     setEndDate(event.target.value);
-
-    // Create a Date object and add a day
     const updatedEndDate = addDays(new Date(event.target.value), 1);
-
-    // Format the date and concatenate with the end time
     const newEndDate = `${format(
       updatedEndDate,
       "yyyy-MM-dd"
@@ -59,14 +53,12 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
   };
 
   const handleStartTimeSelect = (time) => {
-    // 시작 시간 선택시, 날짜와 시간을 결합하여 시작 날짜와 시간 설정
     const startDate = `${StartDate}T${time}`;
     setEventStartTime(time);
     setNewStartDate(startDate);
   };
 
   const handleEndTimeSelect = (time) => {
-    // 종료 시간 선택시, 날짜를 다음 날로 설정하고 시간을 결합하여 종료 날짜와 시간 설정
     let updatedEndDate = addDays(new Date(EndDate), 1);
     const newEndDate = `${format(updatedEndDate, "yyyy-MM-dd")}T${time}`;
     setEventEndTime(time);

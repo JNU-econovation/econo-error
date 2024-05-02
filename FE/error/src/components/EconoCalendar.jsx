@@ -23,6 +23,13 @@ const EconoCalendar = () => {
     setSelectedDate(arg.dateStr);
     setCreateModalIsOpen(true);
   };
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ("0" + (today.getMonth() + 1)).slice(-2);
+    const day = ("0" + today.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
+  };
 
   useEffect(() => {
     const instance = axios.create({
@@ -62,6 +69,7 @@ const EconoCalendar = () => {
             createDateButton: {
               text: "일정 생성",
               click: function () {
+                setSelectedDate(getCurrentDate());
                 setCreateModalIsOpen(true);
               },
             },
