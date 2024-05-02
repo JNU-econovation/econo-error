@@ -14,6 +14,8 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
   const [eventMemo, setEventMemo] = useState("");
   const [eventStartDate, setNewStartDate] = useState("");
   const [eventEndDate, setNewEndDate] = useState("");
+  const [eventStartTime, setEventStartTime] = useState("00:00");
+  const [eventEndTime, setEventEndTime] = useState("00:00");
 
   useEffect(() => {
     if (isOpen && selectedDate) {
@@ -23,8 +25,8 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
       setEventInfo("");
       setEventPlace("");
       setEventMemo("");
-      setNewStartDate("");
-      setNewEndDate("");
+      setNewStartDate(selectedDate + "T" + eventStartTime);
+      setNewEndDate(selectedDate + "T" + eventEndTime);
     }
   }, [isOpen, selectedDate]);
 
@@ -34,22 +36,38 @@ const CreateModal = ({ isOpen, onRequestClose, selectedDate }) => {
 
   const handleStartDateChange = (event) => {
     setStartDate(event.target.value);
+
+    // 새로운 시작 날짜 설정. 기존에 선택했던 시작 시간을 포함시킨다.
+    const newStartDate = `${event.target.value}T${eventStartTime}`;
+    setNewStartDate(newStartDate);
   };
 
   const handleEndDateChange = (event) => {
     setEndDate(event.target.value);
+
+    // 종료 날짜가 변경될 때 종료 날짜와 기존에 설정된 종료 시간을 결합하여 설정
+    const newEndDate = `${event.target.value}T${eventEndTime}`;
+    setNewEndDate(newEndDate);
   };
 
   const handleStartTimeSelect = (time) => {
-    const startDate = `${StartDate.split("T")[0]}T${time}`;
+    // 시작 시간 선택시, 날짜와 시간을 결합하여 시작 날짜와 시간 설정
+    const startDate = `${StartDate}T${time}`;
+    setEventStartTime(time);
     setNewStartDate(startDate);
   };
 
   const handleEndTimeSelect = (time) => {
-    let endDate = new Date(EndDate.split("T")[0]);
+    // 종료 시간 선택시, 날짜를 다음 날로 설정하고 시간을 결합하여 종료 날짜와 시간 설정
+    let endDate = new Date(EndDate);
     endDate.setDate(endDate.getDate() + 1);
     const newEndDate = `${endDate.toISOString().split("T")[0]}T${time}`;
+    setEventEndTime(time);
     setNewEndDate(newEndDate);
+
+    //  const endDate = `${EndDate}T${time}`;
+    //setEventEntTime(time);
+    //setNewEndDate(endDate);
   };
 
   const handleMemoChange = (e) => {
