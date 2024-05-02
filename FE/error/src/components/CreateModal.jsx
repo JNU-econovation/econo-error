@@ -134,19 +134,23 @@ const CreateModal = ({
         value={eventName}
         onChange={handleTitleChange}
       />
-      <div style={{ display: "flex" }}>
+      <DateRow>
+        시작일 :
         <input type="date" value={StartDate} onChange={handleStartDateChange} />
+        마감일 :
         <input
           type="date"
           value={EndDate}
           onChange={handleEndDateChange}
           min={StartDate}
         />
-      </div>
-      <div style={{ display: "flex" }}>
+      </DateRow>
+      <DateRow>
         <TimeSelect onTimeSelect={handleStartTimeSelect} />
+        부터
         <TimeSelect onTimeSelect={handleEndTimeSelect} />
-      </div>
+        까지
+      </DateRow>
       <PlaceSelect
         placeholder="위치 추가"
         onChange={handlePlaceChange}
@@ -208,4 +212,11 @@ const PlaceSelect = styled.input`
   border: none;
   width: 100%;
   outline: none;
+  margin: 1.1rem 0;
+`;
+
+const DateRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
 `;
