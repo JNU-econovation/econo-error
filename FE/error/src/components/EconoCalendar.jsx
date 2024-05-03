@@ -45,7 +45,7 @@ const EconoCalendar = () => {
           id: event.eventId,
           start: event.eventStartDate.split("T")[0],
           end: event.eventEndDate.split("T")[0],
-          color: "#beb9ff",
+          color: "#ffc5bf",
         }));
         setEvents(fetchedEvents);
       })
