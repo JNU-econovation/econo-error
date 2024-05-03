@@ -8,6 +8,7 @@ import { useState } from "react";
 import axios from "axios";
 import CheckCalendar from "./CheckModal/CheckCalendar";
 import toast, { Toaster } from "react-hot-toast";
+import { set } from "date-fns";
 
 const EconoCalendar = () => {
   const [events, setEvents] = useState([]);
@@ -32,6 +33,15 @@ const EconoCalendar = () => {
     setSelectedDate(arg.dateStr);
     setCreateModalIsOpen(true);
   };
+
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ("0" + (today.getMonth() + 1)).slice(-2);
+    const day = ("0" + today.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
+  };
+  
   useEffect(() => {
     const instance = axios.create({
       baseURL: `${import.meta.env.VITE_ERROR_API}`,
@@ -52,7 +62,11 @@ const EconoCalendar = () => {
       .catch((error) => {
         console.error("Error fetching events:", error);
       });
-  }, []);
+  }, [events]);
+
+  const handleUpdateData = (newData) => {
+    setEvents(...newData);
+  };
 
   const handleUpdateData = (newData) => {
     setEvents(newData);
@@ -63,12 +77,31 @@ const EconoCalendar = () => {
       <CalendarContainer>
         <FullCalendar
           plugins={[dayGridPlugin, interactionPlugin]}
-          locale={"ko"}
-          height={"98vh"}
+          locale="ko"
+          height="98vh"
+          dayMaxEventRows={true}
+          editable={true}
+          moreLinkText={function (num) {
+            return "+" + num + "개 더보기";
+          }}
+          customButtons={{
+            createDateButton: {
+              text: "일정 생성",
+              click: function () {
+                setSelectedDate(getCurrentDate());
+                setCreateModalIsOpen(true);
+              },
+            },
+          }}
+          views={{
+            timeGrid: {
+              dayMaxEventRows: 6,
+            },
+          }}
           headerToolbar={{
             left: "today prev title next",
             center: "",
-            right: "",
+            right: "createDateButton",
           }}
           events={events}
           eventDisplay={"block"}
@@ -110,6 +143,7 @@ const EconoCalendar = () => {
         isOpen={createModalIsOpen}
         onRequestClose={() => setCreateModalIsOpen(false)}
         selectedDate={selectedDate}
+        handleUpdateData={handleUpdateData}
       />
       <Toaster position="bottom-center" reverseOrder={false} />
     </>
@@ -123,6 +157,9 @@ const CalendarContainer = styled.div`
   margin-top: 1rem;
   .fc-toolbar-chunk {
     display: flex;
+    .fc-toolbar-chunk > :last-child {
+      margin-right: 1rem;
+    }
   }
 
   .fc-prev-button {
@@ -144,6 +181,11 @@ const CalendarContainer = styled.div`
       color: #6c757d;
       border: none;
     }
+  }
+  .fc-prev-button:focus,
+  .fc-next-button:focus {
+    outline: none; /* 기본 아웃라인을 제거합니다. */
+    box-shadow: none; /* 추가적인 그림자가 있다면 제거합니다. */
   }
 
   .fc-today-button {
@@ -198,5 +240,12 @@ const CalendarContainer = styled.div`
   .fc-col-header-cell {
     border-right: none;
     border-left: none;
+  }
+
+  .fc-createDateButton-button {
+    background-color: #fff;
+    border-color: #cbcbcb;
+    color: #595959;
+    margin-right: 1rem;
   }
 `;
