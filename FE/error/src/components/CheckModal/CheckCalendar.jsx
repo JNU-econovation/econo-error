@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"; // useState 추가
+import { useEffect, useState, useRef } from "react"; // useState 추가
 import Modal from "react-modal";
 import "./CheckCalendar.css";
 import styled from "styled-components";
@@ -7,17 +7,18 @@ import { IoClose } from "react-icons/io5";
 import axios from "axios";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { MdOutlineAutoAwesomeMotion } from "react-icons/md";
-import DeletEvent from "./DeleteEvent";
+import DeleteEvent from "./DeleteEvent";
+import { Link } from "react-router-dom";
 
 const CheckCalendar = ({
   isOpen,
   onRequestClose,
   selectID,
   events,
-  setEvents,
+  handleUpdateData,
+  handleDelete,
 }) => {
   const [event, setEvent] = useState({});
-  const Calendarmodify = () => {};
 
   function createDate(title, startDate, endDate, place, info) {
     const specificEvent = {
@@ -29,7 +30,14 @@ const CheckCalendar = ({
     };
     setEvent(specificEvent);
   }
+
+  const isMount = useRef(false);
   useEffect(() => {
+    if (!isMount.current) {
+      isMount.current = true;
+      return;
+    }
+
     const instance = axios.create({
       baseURL: `${import.meta.env.VITE_ERROR_API}`,
     });
@@ -44,12 +52,20 @@ const CheckCalendar = ({
     });
   }, [selectID]);
 
-  /*function date(startDate, endDate) {
-    if (startDate.split("T")[0] === endDate.split("T")[0]) return startDate;
-    else {
-      return `${startDate} - ${endDate}`;
-    }
-  }*/
+  function date(startDate, endDate) {
+    if (!startDate && !endDate) return "날짜 정보 없음";
+    if (startDate.split("T")[0] === endDate.split("T")[0]) {
+      if (startDate === endDate) {
+        return `${startDate.split("T")[0]} ${startDate.split("T")[1]}`;
+      } else
+        return `${startDate.split("T")[0]} ${startDate.split("T")[1]}~${
+          endDate.split("T")[1]
+        }`;
+    } else
+      return `${startDate.split("T")[0]} ${startDate.split("T")[1]} - ${
+        endDate.split("T")[0]
+      } ${endDate.split("T")[1]}`;
+  }
 
   return (
     <Modal
@@ -62,10 +78,18 @@ const CheckCalendar = ({
         <button onClick={onRequestClose}>
           <IoClose size="1.2rem" />
         </button>
-        <button onClick={Calendarmodify}>
-          <GoPencil size="1.2rem" />
-        </button>
-        <DeletEvent events={events} setEvents={setEvents} selectID={selectID} />
+        <Link to="/ModifyPage" state={{ selectID: selectID }}>
+          <button>
+            <GoPencil size="1.2rem" />
+          </button>
+        </Link>
+        <DeleteEvent
+          events={events}
+          selectID={selectID}
+          handleUpdateData={handleUpdateData}
+          handleDelete={handleDelete}
+          onRequestClose={onRequestClose}
+        />
       </ModalBar>
 
       <ModalContent>
@@ -73,17 +97,19 @@ const CheckCalendar = ({
           <span></span>
           <div>{event.title}</div>
         </Title>
-        {/*<Date>
-          <p>{date(event.startDate, event.endDate)}</p>
-  </Date>*/}
-        <p>
-          <MdOutlineLocationOn style={{ marginRight: "0.5rem" }} />
-          {event.place}
-        </p>
-        <p>
-          <MdOutlineAutoAwesomeMotion style={{ marginRight: "0.5rem" }} />
-          {event.info}
-        </p>
+        <Date>{date(event.startDate, event.endDate)}</Date>
+        {event.place && (
+          <p>
+            <MdOutlineLocationOn style={{ marginRight: "0.5rem" }} />
+            {event.place}
+          </p>
+        )}
+        {event.info && (
+          <p>
+            <MdOutlineAutoAwesomeMotion style={{ marginRight: "0.5rem" }} />
+            {event.info}
+          </p>
+        )}
       </ModalContent>
     </Modal>
   );
@@ -131,6 +157,7 @@ const Title = styled.div`
   display: flex;
 `;
 
-/*const Date = styled.div`
+const Date = styled.p`
   margin-left: 1.55rem;
-`;*/
+  font-size: small;
+`;

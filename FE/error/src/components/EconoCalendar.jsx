@@ -7,6 +7,7 @@ import CreateModal from "./CreateModal";
 import { useState } from "react";
 import axios from "axios";
 import CheckCalendar from "./CheckModal/CheckCalendar";
+import toast, { Toaster } from "react-hot-toast";
 import { set } from "date-fns";
 
 const EconoCalendar = () => {
@@ -16,6 +17,14 @@ const EconoCalendar = () => {
   const [createModalIsOpen, setCreateModalIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
 
+  const handleDelete = () => {
+    toast("일정이 삭제되었습니다", {
+      style: {
+        backgroundColor: "#535353",
+        color: "#fff",
+      },
+    });
+  };
   const handleEventClick = (info) => {
     setSelectID(info.event._def.publicId);
     setCheckModalIsOpen(true);
@@ -24,6 +33,7 @@ const EconoCalendar = () => {
     setSelectedDate(arg.dateStr);
     setCreateModalIsOpen(true);
   };
+
   const getCurrentDate = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -31,7 +41,7 @@ const EconoCalendar = () => {
     const day = ("0" + today.getDate()).slice(-2);
     return `${year}-${month}-${day}`;
   };
-
+  
   useEffect(() => {
     const instance = axios.create({
       baseURL: `${import.meta.env.VITE_ERROR_API}`,
@@ -45,7 +55,7 @@ const EconoCalendar = () => {
           id: event.eventId,
           start: event.eventStartDate.split("T")[0],
           end: event.eventEndDate.split("T")[0],
-          color: "#beb9ff",
+          color: "#ffc5bf",
         }));
         setEvents(fetchedEvents);
       })
@@ -56,6 +66,10 @@ const EconoCalendar = () => {
 
   const handleUpdateData = (newData) => {
     setEvents(...newData);
+  };
+
+  const handleUpdateData = (newData) => {
+    setEvents(newData);
   };
 
   return (
@@ -122,7 +136,8 @@ const EconoCalendar = () => {
         onRequestClose={() => setCheckModalIsOpen(false)}
         selectID={selectID}
         events={events}
-        setEvents={setEvents}
+        handleUpdateData={handleUpdateData}
+        handleDelete={handleDelete}
       />
       <CreateModal
         isOpen={createModalIsOpen}
@@ -130,6 +145,7 @@ const EconoCalendar = () => {
         selectedDate={selectedDate}
         handleUpdateData={handleUpdateData}
       />
+      <Toaster position="bottom-center" reverseOrder={false} />
     </>
   );
 };
@@ -196,14 +212,14 @@ const CalendarContainer = styled.div`
     margin-left: 0.3rem;
   }
   .fc-day-today {
-    background: #fff !important;
+    background-color: #ffffff !important;
   }
   .fc-day-today .fc-daygrid-day-top {
     background: #ff9999 !important;
     border-radius: 50% !important;
     color: #fff;
     margin-left: 0.5rem;
-    width: 1.7rem;
+    width: 1.53rem;
   }
   .fc-day-today .fc-daygrid-day-frame {
     margin-top: 0.2rem;
