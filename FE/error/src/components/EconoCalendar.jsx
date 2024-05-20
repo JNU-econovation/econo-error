@@ -8,7 +8,6 @@ import { useState } from "react";
 import axios from "axios";
 import CheckCalendar from "./CheckModal/CheckCalendar";
 import toast, { Toaster } from "react-hot-toast";
-import { set } from "date-fns";
 
 const EconoCalendar = () => {
   const [events, setEvents] = useState([]);
@@ -65,11 +64,8 @@ const EconoCalendar = () => {
   }, []);
 
   const handleUpdateData = (newData) => {
-    setEvents(...newData);
-  };
-
-  const handleUpdateDeleteData = (newData) => {
-    setEvents(newData);
+    console.log(newData);
+    setEvents([...events, newData]);
   };
 
   return (
@@ -136,7 +132,6 @@ const EconoCalendar = () => {
         onRequestClose={() => setCheckModalIsOpen(false)}
         selectID={selectID}
         events={events}
-        handleUpdateDeleteData={handleUpdateDeleteData}
         handleDelete={handleDelete}
       />
       <CreateModal

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import EconoCalendar from "../EconoCalendar";
+import EconoCalendar from "../components/EconoCalendar";
 
 const MainPage = () => {
   return (
@@ -33,7 +33,6 @@ const LineBox = styled.div`
   height: 1.25rem;
   border: 1px solid #ddd;
   border-right: none;
-
   margin-top: 1.63em;
 `;
 

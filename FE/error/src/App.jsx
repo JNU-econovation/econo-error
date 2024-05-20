@@ -1,8 +1,7 @@
-import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import MainPage from "./components/pages/MainPage";
-import LoginPage from "./components/pages/LoginPage";
-import CalendarModify from "./components/pages/CalendarModify";
+import MainPage from "./pages/MainPage";
+import LoginPage from "./pages/LoginPage";
+import CalendarModify from "./pages/CalendarModify";
 
 function App() {
   return (
