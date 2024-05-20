@@ -15,7 +15,7 @@ const CheckCalendar = ({
   onRequestClose,
   selectID,
   events,
-  handleUpdateData,
+  handleUpdateDeleteData,
   handleDelete,
 }) => {
   const [event, setEvent] = useState({});
@@ -86,7 +86,7 @@ const CheckCalendar = ({
         <DeleteEvent
           events={events}
           selectID={selectID}
-          handleUpdateData={handleUpdateData}
+          handleUpdateDeleteData={handleUpdateDeleteData}
           handleDelete={handleDelete}
           onRequestClose={onRequestClose}
         />
