@@ -2,11 +2,12 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import styled from "styled-components";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import CreateModal from "./CreateModal";
 import { useState } from "react";
 import axios from "axios";
 import CheckCalendar from "./CheckModal/CheckCalendar";
+import toast, { Toaster } from "react-hot-toast";
 
 const EconoCalendar = () => {
   const [events, setEvents] = useState([]);
@@ -15,6 +16,14 @@ const EconoCalendar = () => {
   const [createModalIsOpen, setCreateModalIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
 
+  const handleDelete = () => {
+    toast("일정이 삭제되었습니다", {
+      style: {
+        backgroundColor: "#535353",
+        color: "#fff",
+      },
+    });
+  };
   const handleEventClick = (info) => {
     setSelectID(info.event._def.publicId);
     setCheckModalIsOpen(true);
@@ -22,6 +31,14 @@ const EconoCalendar = () => {
   const handleDateClick = (arg) => {
     setSelectedDate(arg.dateStr);
     setCreateModalIsOpen(true);
+  };
+
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ("0" + (today.getMonth() + 1)).slice(-2);
+    const day = ("0" + today.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
   };
 
   useEffect(() => {
@@ -37,7 +54,7 @@ const EconoCalendar = () => {
           id: event.eventId,
           start: event.eventStartDate.split("T")[0],
           end: event.eventEndDate.split("T")[0],
-          color: "#beb9ff",
+          color: "#ffc5bf",
         }));
         setEvents(fetchedEvents);
       })
@@ -46,17 +63,41 @@ const EconoCalendar = () => {
       });
   }, []);
 
+  const handleUpdateData = (newData) => {
+    console.log(newData);
+    setEvents([...events, newData]);
+  };
+
   return (
     <>
       <CalendarContainer>
         <FullCalendar
           plugins={[dayGridPlugin, interactionPlugin]}
-          locale={"ko"}
-          height={"98vh"}
+          locale="ko"
+          height="98vh"
+          dayMaxEventRows={true}
+          editable={true}
+          moreLinkText={function (num) {
+            return "+" + num + "개 더보기";
+          }}
+          customButtons={{
+            createDateButton: {
+              text: "일정 생성",
+              click: function () {
+                setSelectedDate(getCurrentDate());
+                setCreateModalIsOpen(true);
+              },
+            },
+          }}
+          views={{
+            timeGrid: {
+              dayMaxEventRows: 6,
+            },
+          }}
           headerToolbar={{
             left: "today prev title next",
             center: "",
-            right: "",
+            right: "createDateButton",
           }}
           events={events}
           eventDisplay={"block"}
@@ -91,13 +132,15 @@ const EconoCalendar = () => {
         onRequestClose={() => setCheckModalIsOpen(false)}
         selectID={selectID}
         events={events}
-        setEvents={setEvents}
+        handleDelete={handleDelete}
       />
       <CreateModal
         isOpen={createModalIsOpen}
         onRequestClose={() => setCreateModalIsOpen(false)}
         selectedDate={selectedDate}
+        handleUpdateData={handleUpdateData}
       />
+      <Toaster position="bottom-center" reverseOrder={false} />
     </>
   );
 };
@@ -109,6 +152,9 @@ const CalendarContainer = styled.div`
   margin-top: 1rem;
   .fc-toolbar-chunk {
     display: flex;
+    .fc-toolbar-chunk > :last-child {
+      margin-right: 1rem;
+    }
   }
 
   .fc-prev-button {
@@ -130,6 +176,11 @@ const CalendarContainer = styled.div`
       color: #6c757d;
       border: none;
     }
+  }
+  .fc-prev-button:focus,
+  .fc-next-button:focus {
+    outline: none; /* 기본 아웃라인을 제거합니다. */
+    box-shadow: none; /* 추가적인 그림자가 있다면 제거합니다. */
   }
 
   .fc-today-button {
@@ -156,14 +207,14 @@ const CalendarContainer = styled.div`
     margin-left: 0.3rem;
   }
   .fc-day-today {
-    background: #fff !important;
+    background-color: #ffffff !important;
   }
   .fc-day-today .fc-daygrid-day-top {
     background: #ff9999 !important;
     border-radius: 50% !important;
     color: #fff;
     margin-left: 0.5rem;
-    width: 1.7rem;
+    width: 1.53rem;
   }
   .fc-day-today .fc-daygrid-day-frame {
     margin-top: 0.2rem;
@@ -184,5 +235,12 @@ const CalendarContainer = styled.div`
   .fc-col-header-cell {
     border-right: none;
     border-left: none;
+  }
+
+  .fc-createDateButton-button {
+    background-color: #fff;
+    border-color: #cbcbcb;
+    color: #595959;
+    margin-right: 1rem;
   }
 `;
