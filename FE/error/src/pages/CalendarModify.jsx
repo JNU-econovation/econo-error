@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import TimeSelect from "../TimeSelect";
+import TimeSelect from "../components/TimeSelect";
 import ReactQuill from "react-quill";
 import { IoMdClose } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
