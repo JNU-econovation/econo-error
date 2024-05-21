@@ -41,7 +41,7 @@ const EconoCalendar = () => {
     const day = ("0" + today.getDate()).slice(-2);
     return `${year}-${month}-${day}`;
   };
-  
+
   useEffect(() => {
     const instance = axios.create({
       baseURL: `${import.meta.env.VITE_ERROR_API}`,
@@ -62,14 +62,10 @@ const EconoCalendar = () => {
       .catch((error) => {
         console.error("Error fetching events:", error);
       });
-  }, [events]);
+  }, []);
 
   const handleUpdateData = (newData) => {
     setEvents(...newData);
-  };
-
-  const handleUpdateData = (newData) => {
-    setEvents(newData);
   };
 
   return (
