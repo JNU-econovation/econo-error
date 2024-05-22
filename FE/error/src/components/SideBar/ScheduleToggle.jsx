@@ -6,12 +6,16 @@ const ScheduleToggle = ({ color }) => {
 
   const handleOnClick = () => {
     setClicked(!clicked);
-    console.log(clicked);
   };
 
   return (
     <>
-      <ClickedBox type="checkbox" onClick={handleOnClick} color={color} />
+      <ClickedBox
+        type="checkbox"
+        onClick={handleOnClick}
+        color={color}
+        checked={clicked}
+      />
     </>
   );
 };
