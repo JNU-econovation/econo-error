@@ -14,7 +14,7 @@ const ScheduleToggle = ({ color }) => {
         type="checkbox"
         onClick={handleOnClick}
         color={color}
-        checked={clicked}
+        defaultChecked={clicked}
       />
     </>
   );
