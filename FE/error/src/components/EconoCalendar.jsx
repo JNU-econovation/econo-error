@@ -64,7 +64,6 @@ const EconoCalendar = () => {
   }, []);
 
   const handleUpdateData = (newData) => {
-    console.log(newData);
     setEvents([...events, newData]);
   };
 
@@ -179,8 +178,8 @@ const CalendarContainer = styled.div`
   }
   .fc-prev-button:focus,
   .fc-next-button:focus {
-    outline: none; /* 기본 아웃라인을 제거합니다. */
-    box-shadow: none; /* 추가적인 그림자가 있다면 제거합니다. */
+    outline: none;
+    box-shadow: none;
   }
 
   .fc-today-button {
@@ -215,6 +214,8 @@ const CalendarContainer = styled.div`
     color: #fff;
     margin-left: 0.5rem;
     width: 1.53rem;
+    display: flex;
+    justify-content: center;
   }
   .fc-day-today .fc-daygrid-day-frame {
     margin-top: 0.2rem;
@@ -225,6 +226,7 @@ const CalendarContainer = styled.div`
   }
   .fc-daygrid-day-number {
     margin-top: 0.3rem;
+    margin-left: -0.1rem;
   }
   .fc-toolbar-title {
     margin-top: 0.2em;
