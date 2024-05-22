@@ -90,7 +90,6 @@ const CreateModal = ({
 
   const handlePlaceChange = (e) => {
     setEventPlace(e.target.value);
-    console.log(e.target.value);
   };
   function createDate(title, id, startDate, endDate) {
     const specificEvent = {
@@ -100,7 +99,6 @@ const CreateModal = ({
       end: endDate.split("T")[0],
       color: "#ffc5bf",
     };
-    console.log(specificEvent);
     handleUpdateData(specificEvent);
   }
   const saveData = () => {
@@ -118,7 +116,6 @@ const CreateModal = ({
         eventStartDate,
         eventEndDate
       );
-      console.log(res.data.data.eventId);
       onRequestClose();
     });
   };

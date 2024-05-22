@@ -78,7 +78,6 @@ const CalendarModify = () => {
     axios
       .put("/api/calendar/" + selectID, eventData)
       .then((res) => {
-        console.log(res.data);
         goBack();
       })
       .catch((error) => {
