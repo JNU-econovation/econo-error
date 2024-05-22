@@ -48,10 +48,7 @@ const CalendarModify = () => {
   };
 
   useEffect(() => {
-    const instance = axios.create({
-      baseURL: `${import.meta.env.VITE_ERROR_API}`,
-    });
-    instance.get("/api/calendar/" + selectID).then((res) => {
+    axios.get("/api/calendar/" + selectID).then((res) => {
       const event = res.data.data;
       const title = event.eventName;
       const startDate = event.eventStartDate.split("T")[0];
@@ -71,10 +68,6 @@ const CalendarModify = () => {
   }, [selectID]);
 
   const modifyData = () => {
-    const instance = axios.create({
-      baseURL: `${import.meta.env.VITE_ERROR_API}`,
-    });
-
     const eventData = {
       eventName: modifyName,
       eventStartDate: modifyStartDate + "T" + modifyStartTime,
@@ -82,8 +75,7 @@ const CalendarModify = () => {
       eventInfo: modifyInfo,
       eventPlace: modifyPlace,
     };
-
-    instance
+    axios
       .put("/api/calendar/" + selectID, eventData)
       .then((res) => {
         console.log(res.data);
