@@ -9,13 +9,13 @@ import { MdOutlineLocationOn } from "react-icons/md";
 import { MdOutlineAutoAwesomeMotion } from "react-icons/md";
 import DeleteEvent from "./DeleteEvent";
 import { Link } from "react-router-dom";
-
 const CheckCalendar = ({
   isOpen,
   onRequestClose,
   selectID,
   events,
   handleDelete,
+  handleUpdateDeleteData,
 }) => {
   const [event, setEvent] = useState({});
 
@@ -37,10 +37,7 @@ const CheckCalendar = ({
       return;
     }
 
-    const instance = axios.create({
-      baseURL: `${import.meta.env.VITE_ERROR_API}`,
-    });
-    instance.get("/api/calendar/" + selectID).then((res) => {
+    axios.get("/api/calendar/" + selectID).then((res) => {
       createDate(
         res.data.data.eventName,
         res.data.data.eventStartDate,
@@ -87,6 +84,7 @@ const CheckCalendar = ({
           selectID={selectID}
           handleDelete={handleDelete}
           onRequestClose={onRequestClose}
+          handleUpdateDeleteData={handleUpdateDeleteData}
         />
       </ModalBar>
 
