@@ -42,11 +42,7 @@ const EconoCalendar = () => {
   };
 
   useEffect(() => {
-    const instance = axios.create({
-      baseURL: `${import.meta.env.VITE_ERROR_API}`,
-      withCredentials: true,
-    });
-    instance
+    axios
       .get("/api/calendar/all/2024-04-05")
       .then((res) => {
         const fetchedEvents = res.data.data.map((event) => ({
@@ -64,9 +60,12 @@ const EconoCalendar = () => {
   }, []);
 
   const handleUpdateData = (newData) => {
-    setEvents([...events, newData]);
+    setEvents((preEvents) => [...preEvents, newData]);
   };
 
+  const handleUpdateDeleteData = (newData) => {
+    setEvents(events.filter((event) => event.id !== parseInt(newData)));
+  };
   return (
     <>
       <CalendarContainer>
@@ -130,8 +129,8 @@ const EconoCalendar = () => {
         isOpen={checkModalIsOpen}
         onRequestClose={() => setCheckModalIsOpen(false)}
         selectID={selectID}
-        events={events}
         handleDelete={handleDelete}
+        handleUpdateDeleteData={handleUpdateDeleteData}
       />
       <CreateModal
         isOpen={createModalIsOpen}

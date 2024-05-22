@@ -1,15 +1,17 @@
 import { RiDeleteBinLine } from "react-icons/ri";
 import axios from "axios";
 
-const DeleteEvent = ({ events, selectID, handleDelete, onRequestClose }) => {
+const DeleteEvent = ({
+  selectID,
+  handleDelete,
+  onRequestClose,
+  handleUpdateDeleteData,
+}) => {
   const calendarDelete = () => {
-    const instance = axios.create({
-      baseURL: `${import.meta.env.VITE_ERROR_API}`,
-      withCredentials: true,
-    });
-    instance
+    axios
       .delete("/api/calendar/" + selectID)
       .then(() => {
+        handleUpdateDeleteData(selectID);
         handleDelete();
         onRequestClose();
       })
