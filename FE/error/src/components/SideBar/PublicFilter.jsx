@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import ScheduleToggle from "../ScheduleToggle";
+import ScheduleToggle from "./ScheduleToggle";
 
 const PublicFilter = () => {
   return (
