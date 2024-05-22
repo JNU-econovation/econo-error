@@ -5,6 +5,7 @@ import styled from "styled-components";
 import TimeSelect from "./TimeSelect";
 import ReactQuill from "react-quill";
 import { format, addDays, compareAsc, parseISO } from "date-fns";
+import axios from "axios";
 
 const CreateModal = ({
   isOpen,
@@ -89,37 +90,34 @@ const CreateModal = ({
 
   const handlePlaceChange = (e) => {
     setEventPlace(e.target.value);
-    console.log(e.target.value);
   };
-
-  const saveData = () => {
-    const url = `${import.meta.env.VITE_ERROR_API}/api/calendar`;
-    const data = {
-      eventName,
-      eventStartDate,
-      eventEndDate,
-      eventInfo: eventMemo,
-      eventPlace,
+  function createDate(title, id, startDate, endDate) {
+    const specificEvent = {
+      title: title,
+      id: id,
+      start: startDate.split("T")[0],
+      end: endDate.split("T")[0],
+      color: "#ffc5bf",
     };
-    console.log(JSON.stringify(data));
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-      credentials: "include",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-        onRequestClose();
-        handleUpdateData(data);
-        //window.location.reload();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    handleUpdateData(specificEvent);
+  }
+  const saveData = () => {
+    const data = {
+      eventName: eventName,
+      eventStartDate: eventStartDate,
+      eventEndDate: eventEndDate,
+      eventPlace: eventPlace,
+      eventInfo: eventMemo,
+    };
+    axios.post("/api/calendar", data).then((res) => {
+      createDate(
+        eventName,
+        res.data.data.eventId,
+        eventStartDate,
+        eventEndDate
+      );
+      onRequestClose();
+    });
   };
 
   return (

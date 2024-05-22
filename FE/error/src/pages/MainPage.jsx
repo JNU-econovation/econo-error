@@ -1,5 +1,10 @@
 import styled from "styled-components";
 import EconoCalendar from "../components/EconoCalendar";
+import ProfileBar from "../components/SideBar/ProfileBar";
+import PublicFilter from "../components/SideBar/PublicFilter";
+import IndividualFilter from "../components/SideBar/IndividualFilter";
+import GroupFilter from "../components/SideBar/GroupFilter";
+
 
 const MainPage = () => {
   return (
@@ -8,6 +13,12 @@ const MainPage = () => {
         <SideBar>
           <Logo>ERROR</Logo>
           <LineBox />
+          <ProfileBar />
+          <FilterFrame>
+            <PublicFilter />
+            <GroupFilter />
+            <IndividualFilter />
+          </FilterFrame>
         </SideBar>
         <EconoCalendar />
       </CalendarPage>
@@ -18,7 +29,7 @@ const MainPage = () => {
 export default MainPage;
 
 const SideBar = styled.div`
-  width: 20vw;
+  width: 250px;
   height: 98.1vh;
   margin-top: 1rem;
 `;
@@ -43,4 +54,10 @@ const Logo = styled.div`
   margin-top: 0.3rem;
   color: #ff9999;
   margin-bottom: 1rem;
+`;
+
+const FilterFrame = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
