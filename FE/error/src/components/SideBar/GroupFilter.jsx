@@ -7,7 +7,13 @@ const GroupFilter = () => {
   return (
     <GroupFilterFrame>
       <TextContainer>
-        <span style={{ color: "rgb(60, 64, 67)", marginBottom: "0.5rem" }}>
+        <span
+          style={{
+            color: "#333333",
+            marginBottom: "0.5rem",
+            fontSize: "1.1rem",
+          }}
+        >
           그룹 캘린더
         </span>
       </TextContainer>

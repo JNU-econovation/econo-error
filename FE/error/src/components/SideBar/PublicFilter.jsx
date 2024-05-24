@@ -6,11 +6,11 @@ const PublicFilter = () => {
     <PublicFilterFrame>
       <div
         style={{
-          color: "rgb(60, 64, 67)",
+          color: "#333333",
           marginBottom: "0.5rem",
         }}
       >
-        에코노 캘린더
+        <div style={{ fontSize: "1.1rem" }}>에코노 캘린더</div>
       </div>
       <SceduleType>
         <ScheduleToggle color={"#ff5b5b"} />
@@ -33,4 +33,5 @@ const PublicFilterFrame = styled.div`
 const SceduleType = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: 0.3rem;
 `;

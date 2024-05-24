@@ -225,7 +225,7 @@ const CalendarContainer = styled.div`
   }
   .fc-daygrid-day-number {
     margin-top: 0.3rem;
-    margin-left: -0.1rem;
+    margin-left: -0.06rem;
   }
   .fc-toolbar-title {
     margin-top: 0.2em;
