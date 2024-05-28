@@ -86,6 +86,12 @@ const EconoCalendar = () => {
                 setCreateModalIsOpen(true);
               },
             },
+            loginButtons: {
+              text: "로그인",
+              click: function () {
+                window.location.href = "/login";
+              },
+            },
           }}
           views={{
             timeGrid: {
@@ -95,7 +101,7 @@ const EconoCalendar = () => {
           headerToolbar={{
             left: "today prev title next",
             center: "",
-            right: "createDateButton",
+            right: "loginButtons,createDateButton",
           }}
           events={events}
           eventDisplay={"block"}
@@ -243,5 +249,12 @@ const CalendarContainer = styled.div`
     border-color: #cbcbcb;
     color: #595959;
     margin-right: 1rem;
+  }
+
+  .fc-loginButtons-button {
+    background-color: #fff;
+    border-color: #cbcbcb;
+    color: #595959;
+    margin-right: 0.7rem;
   }
 `;
