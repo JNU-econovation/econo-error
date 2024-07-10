@@ -1,5 +1,5 @@
-import styled from "styled-components";
 import { useState } from "react";
+import styled from "styled-components";
 
 const ScheduleToggle = ({ color }) => {
   const [clicked, setClicked] = useState(true);

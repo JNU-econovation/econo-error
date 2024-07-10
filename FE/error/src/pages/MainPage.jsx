@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import EconoCalendar from "../components/EconoCalendar";
 import ProfileBar from "../components/SideBar/ProfileBar";
-import PublicFilter from "../components/SideBar/PublicFilter";
-import IndividualFilter from "../components/SideBar/IndividualFilter";
-import GroupFilter from "../components/SideBar/GroupFilter";
-
+import PublicFilter from "../components/SideBar/publicFilter/PublicFilter";
+import IndividualFilter from "../components/SideBar/individualFilter/IndividualFilter";
+import GroupFilter from "../components/SideBar/groupFilter/GroupFilter";
 
 const MainPage = () => {
   return (

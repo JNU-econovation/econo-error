@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import Modal from "react-modal";
-import "./CreateModal.css";
-import styled from "styled-components";
-import TimeSelect from "./TimeSelect";
-import ReactQuill from "react-quill";
 import { format, addDays, compareAsc, parseISO } from "date-fns";
 import axios from "axios";
+import Modal from "react-modal";
+import styled from "styled-components";
+import ReactQuill from "react-quill";
+import TimeSelect from "../TimeSelect";
+import "./CreateModal.css";
 
 const CreateModal = ({
   isOpen,
