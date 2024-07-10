@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { SlArrowDown } from "react-icons/sl";
 import styled from "styled-components";
-import BasicCreateModal from "./BasicCreateModal";
+import BasicCreateModal from "./BasicFilterCreateModal";
 
 const IndividualFilter = () => {
   const [individualFilterIsOpen, setindividualFilterIsOpen] = useState(false);
