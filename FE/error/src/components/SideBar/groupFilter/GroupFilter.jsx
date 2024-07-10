@@ -1,9 +1,14 @@
+import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { SlArrowDown } from "react-icons/sl";
 import styled from "styled-components";
+import BasicCreateModal from "../individualFilter/BasicFilterCreateModal";
 
 const GroupFilter = () => {
-  const createGroupFilter = () => {};
+  const [groupFilterIsOpen, setGroupFilterIsOpen] = useState(false);
+  const createGroupFilter = () => {
+    setGroupFilterIsOpen(true);
+  };
   return (
     <GroupFilterFrame>
       <TextContainer>
@@ -22,6 +27,10 @@ const GroupFilter = () => {
           <FaPlus />
           <SlArrowDown style={{ fontWeight: "bold", marginLeft: "0.5rem" }} />
         </GroupFilterPlusBtn>
+        <BasicCreateModal
+          isOpen={groupFilterIsOpen}
+          onRequestClose={() => setGroupFilterIsOpen(false)}
+        />
       </IconContainer>
     </GroupFilterFrame>
   );
