@@ -1,9 +1,15 @@
+import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { SlArrowDown } from "react-icons/sl";
 import styled from "styled-components";
+import BasicCreateModal from "./BasicCreateModal";
 
 const IndividualFilter = () => {
-  const createIndividualFilter = () => {};
+  const [individualFilterIsOpen, setindividualFilterIsOpen] = useState(false);
+
+  const createIndividualFilter = () => {
+    setindividualFilterIsOpen(true);
+  };
   return (
     <IndividualFilterFrame>
       <TextContainer>
@@ -22,6 +28,10 @@ const IndividualFilter = () => {
           <FaPlus />
           <SlArrowDown style={{ fontWeight: "bold", marginLeft: "0.5rem" }} />
         </IndividualFilterPlusBtn>
+        <BasicCreateModal
+          isOpen={individualFilterIsOpen}
+          onRequestClose={() => setindividualFilterIsOpen(false)}
+        />
       </IconContainer>
     </IndividualFilterFrame>
   );
