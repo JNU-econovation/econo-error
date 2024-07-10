@@ -1,6 +1,6 @@
 .CreatePostCss {
-  width: 42.5rem;
-  height: 37.5rem;
+  width: 30rem;
+  height: auto;
   z-index: 150;
   position: absolute;
   top: 50%;
