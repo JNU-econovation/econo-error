@@ -43,7 +43,7 @@ const StyledUserShareContainer = styled.div`
   border-top: 1px solid #b8b8b8;
   border-bottom: 1px solid #b8b8b8;
   height: 4.875rem;
-  width: 91%;
+  width: 95%;
   margin-top: 1rem;
   margin-bottom: 1rem;
 `;
