@@ -6,7 +6,7 @@ import FilterCreateModal from "./FilterCreateModal";
 
 const IndividualFilter = () => {
   const [individualFilterIsOpen, setindividualFilterIsOpen] = useState(false);
-
+  const [filterModalType, setFilterModalType] = useState("individual");
   const createIndividualFilter = () => {
     setindividualFilterIsOpen(true);
   };
@@ -31,6 +31,7 @@ const IndividualFilter = () => {
         <FilterCreateModal
           isOpen={individualFilterIsOpen}
           onRequestClose={() => setindividualFilterIsOpen(false)}
+          filterModalType={filterModalType}
         />
       </IconContainer>
     </IndividualFilterFrame>
