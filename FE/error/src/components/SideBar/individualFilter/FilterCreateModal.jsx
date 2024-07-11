@@ -3,8 +3,10 @@ import { IoClose } from "react-icons/io5";
 import Modal from "react-modal";
 import styled from "styled-components";
 import "./CreateFilterModal.css";
+import GroupFilterCreateModal from "../groupFilter/GroupFilterCreateModal";
+import FilterColorSelect from "./FilterColorSelect";
 
-const BasicCreateModal = ({ isOpen, onRequestClose }) => {
+const FilterCreateModal = ({ isOpen, onRequestClose }) => {
   const [eventName, setEventName] = useState("");
   const handleTitleChange = (event) => {
     setEventName(event.target.value);
@@ -18,7 +20,7 @@ const BasicCreateModal = ({ isOpen, onRequestClose }) => {
         overlayClassName="overlay"
       >
         <StyledModalBar>
-          <h1>새 필터 만들기</h1>
+          <div>새 필터 만들기</div>
           <button onClick={onRequestClose}>
             <IoClose size="1.2rem" />
           </button>
@@ -29,24 +31,20 @@ const BasicCreateModal = ({ isOpen, onRequestClose }) => {
             value={eventName}
             onChange={handleTitleChange}
           />
-          <div>색상</div>
-          <StyledFilterColorFrame>
-            {Array.from({ length: 12 }).map((_, index) => (
-              <StyledFilterColor key={index} />
-            ))}
-          </StyledFilterColorFrame>
+          <FilterColorSelect />
+          <GroupFilterCreateModal />
         </StyledDetail>
         <StyledModalFooter>
-          <StyledCreateFilter>
+          <StyledCreateFilterBtn>
             <span>필터 만들기</span>
-          </StyledCreateFilter>
+          </StyledCreateFilterBtn>
         </StyledModalFooter>
       </Modal>
     </>
   );
 };
 
-export default BasicCreateModal;
+export default FilterCreateModal;
 
 const StyledModalBar = styled.div`
   margin: 2rem;
@@ -68,7 +66,7 @@ const StyledDetail = styled.div`
   margin: 2rem;
 `;
 const TitleInput = styled.input`
-  width: 90%;
+  width: 95%;
   height: 2rem;
   margin-bottom: 2rem;
   font-size: 1.5rem;
@@ -77,28 +75,12 @@ const TitleInput = styled.input`
   outline: none;
 `;
 
-const StyledFilterColor = styled.div`
-  width: 2rem;
-  height: 2rem;
-  margin: 0.2rem;
-  border-radius: 99999px;
-  background-color: black;
-`;
-
-const StyledFilterColorFrame = styled.div`
-  margin-top: 1rem;
-  width: 15rem;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-`;
-
 const StyledModalFooter = styled.div`
   margin: 2rem;
   display: flex;
   flex-direction: row-reverse;
 `;
-const StyledCreateFilter = styled.button`
+const StyledCreateFilterBtn = styled.button`
   width: 6rem;
   height: 2rem;
   background-color: #ff9999;
