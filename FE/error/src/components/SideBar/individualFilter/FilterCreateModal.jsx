@@ -6,16 +6,20 @@ import "./CreateFilterModal.css";
 import GroupFilterCreateModal from "../groupFilter/GroupFilterCreateModal";
 import FilterColorSelect from "./FilterColorSelect";
 
-const FilterCreateModal = ({ isOpen, onRequestClose }) => {
+const FilterCreateModal = ({ isOpen, onRequestClose, filterModalType }) => {
   const [eventName, setEventName] = useState("");
+
   const handleTitleChange = (event) => {
     setEventName(event.target.value);
   };
+
   return (
     <>
       <Modal
         isOpen={isOpen}
-        onRequestClose={onRequestClose}
+        onRequestClose={() => {
+          onRequestClose();
+        }}
         className="CreatePostCss"
         overlayClassName="overlay"
       >
@@ -32,7 +36,7 @@ const FilterCreateModal = ({ isOpen, onRequestClose }) => {
             onChange={handleTitleChange}
           />
           <FilterColorSelect />
-          <GroupFilterCreateModal />
+          {filterModalType === "individual" ? "" : <GroupFilterCreateModal />}
         </StyledDetail>
         <StyledModalFooter>
           <StyledCreateFilterBtn>
