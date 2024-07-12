@@ -6,7 +6,6 @@ import FilterCreateModal from "../individualFilter/FilterCreateModal";
 
 const GroupFilter = () => {
   const [groupFilterIsOpen, setGroupFilterIsOpen] = useState(false);
-  const [filterModalType, setFilterModalType] = useState("group");
 
   const createGroupFilter = () => {
     setGroupFilterIsOpen(true);
@@ -33,7 +32,7 @@ const GroupFilter = () => {
         <FilterCreateModal
           isOpen={groupFilterIsOpen}
           onRequestClose={() => setGroupFilterIsOpen(false)}
-          filterModalType={filterModalType}
+          filterModalType={"group"}
         />
       </IconContainer>
     </GroupFilterFrame>
