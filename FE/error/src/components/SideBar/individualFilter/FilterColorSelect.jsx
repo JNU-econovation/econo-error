@@ -1,5 +1,9 @@
 import styled from "styled-components";
+import { useState } from "react";
+
 const FilterColorSelect = () => {
+  const [selectedColor, setSelectedColor] = useState(null);
+
   function getColorByIndex(index) {
     const colors = [
       "#ABDEE6",
@@ -18,6 +22,11 @@ const FilterColorSelect = () => {
 
     return colors[index % colors.length];
   }
+
+  const handleColorClick = (index) => {
+    setSelectedColor(index);
+  };
+
   return (
     <div>
       <div>색상</div>
@@ -27,6 +36,8 @@ const FilterColorSelect = () => {
           <StyledFilterColor
             key={index}
             backgroundColor={getColorByIndex(index)}
+            onClick={() => handleColorClick(index)}
+            isSelected={selectedColor === index}
           />
         ))}
       </StyledFilterColorFrame>
@@ -42,6 +53,10 @@ const StyledFilterColor = styled.div`
   margin: 0.2rem;
   border-radius: 99999px;
   background-color: ${(props) => props.backgroundColor};
+  border: none;
+  box-shadow: ${(props) =>
+    props.isSelected ? "0 0 10px 5px rgba(0, 0, 0, 0.1)" : "none"};
+  transition: box-shadow 0.3s ease-in-out;
 `;
 
 const StyledFilterColorFrame = styled.div`
