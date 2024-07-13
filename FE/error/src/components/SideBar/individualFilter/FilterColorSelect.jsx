@@ -1,7 +1,7 @@
-import styled from "styled-components";
 import { useState } from "react";
+import styled from "styled-components";
 
-const FilterColorSelect = () => {
+const FilterColorSelect = ({ setFilterColor }) => {
   const [selectedColor, setSelectedColor] = useState(null);
 
   function getColorByIndex(index) {
@@ -24,7 +24,9 @@ const FilterColorSelect = () => {
   }
 
   const handleColorClick = (index) => {
-    setSelectedColor(index);
+    const color = getColorByIndex(index);
+    setSelectedColor(color);
+    setFilterColor(color);
   };
 
   return (
@@ -37,7 +39,7 @@ const FilterColorSelect = () => {
             key={index}
             backgroundColor={getColorByIndex(index)}
             onClick={() => handleColorClick(index)}
-            isSelected={selectedColor === index}
+            isSelected={selectedColor === getColorByIndex(index)}
           />
         ))}
       </StyledFilterColorFrame>
