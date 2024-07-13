@@ -3,7 +3,7 @@ import ScheduleToggle from "../ScheduleToggle";
 
 const PublicFilter = () => {
   return (
-    <PublicFilterFrame>
+    <StyledPublicFilterFrame>
       <div
         style={{
           color: "#333333",
@@ -12,25 +12,25 @@ const PublicFilter = () => {
       >
         <div style={{ fontSize: "1.1rem" }}>에코노 캘린더</div>
       </div>
-      <SceduleType>
+      <StyledSceduleType>
         <ScheduleToggle color={"#ff5b5b"} />
         공식행사
-      </SceduleType>
-      <SceduleType>
+      </StyledSceduleType>
+      <StyledSceduleType>
         <ScheduleToggle color={"#63ABFF"} />
         주간발표
-      </SceduleType>
-    </PublicFilterFrame>
+      </StyledSceduleType>
+    </StyledPublicFilterFrame>
   );
 };
 
 export default PublicFilter;
 
-const PublicFilterFrame = styled.div`
+const StyledPublicFilterFrame = styled.div`
   margin: 1.3rem;
 `;
 
-const SceduleType = styled.div`
+const StyledSceduleType = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 0.3rem;

@@ -12,8 +12,8 @@ const IndividualFilter = () => {
   };
 
   return (
-    <IndividualFilterFrame>
-      <TextContainer>
+    <StyledIndividualFilterFrame>
+      <StyledTextContainer>
         <span
           style={{
             color: "#333333",
@@ -23,38 +23,33 @@ const IndividualFilter = () => {
         >
           개인 캘린더
         </span>
-      </TextContainer>
-      <IconContainer>
-        <IndividualFilterPlusBtn onClick={createIndividualFilter}>
-          <FaPlus />
-          <SlArrowDown style={{ fontWeight: "bold", marginLeft: "0.5rem" }} />
-        </IndividualFilterPlusBtn>
-        <FilterCreateModal
-          isOpen={individualFilterIsOpen}
-          onRequestClose={() => setindividualFilterIsOpen(false)}
-          filterModalType={"individual"}
-        />
-      </IconContainer>
-    </IndividualFilterFrame>
+      </StyledTextContainer>
+      <StyledIndividualFilterPlusBtn onClick={createIndividualFilter}>
+        <FaPlus />
+        <SlArrowDown style={{ fontWeight: "bold", marginLeft: "0.5rem" }} />
+      </StyledIndividualFilterPlusBtn>
+      <FilterCreateModal
+        isOpen={individualFilterIsOpen}
+        onRequestClose={() => setindividualFilterIsOpen(false)}
+        filterModalType={"individual"}
+      />
+    </StyledIndividualFilterFrame>
   );
 };
 
 export default IndividualFilter;
 
-const IndividualFilterFrame = styled.div`
+const StyledIndividualFilterFrame = styled.div`
   margin: 1.3rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
-const TextContainer = styled.div`
+const StyledTextContainer = styled.div`
   /* 필요한 스타일이 있다면 여기에 추가 */
 `;
 
-const IconContainer = styled.div`
-  /* 필요한 스타일이 있다면 여기에 추가 */
-`;
-const IndividualFilterPlusBtn = styled.button`
+const StyledIndividualFilterPlusBtn = styled.button`
   background: none;
   border: none;
 `;

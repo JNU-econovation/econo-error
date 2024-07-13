@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 const ProfileBar = () => {
-  return <ProfileFrame></ProfileFrame>;
+  return <StyledProfileFrame></StyledProfileFrame>;
 };
 
 export default ProfileBar;
 
-const ProfileFrame = styled.div`
+const StyledProfileFrame = styled.div`
   width: 20rem;
   height: 18.4375rem;
 `;

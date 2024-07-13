@@ -10,7 +10,7 @@ const ScheduleToggle = ({ color }) => {
 
   return (
     <>
-      <ClickedBox
+      <StyledClickedBox
         type="checkbox"
         onClick={handleOnClick}
         color={color}
@@ -22,7 +22,7 @@ const ScheduleToggle = ({ color }) => {
 
 export default ScheduleToggle;
 
-const ClickedBox = styled.input`
+const StyledClickedBox = styled.input`
   appearance: none;
   width: 1.15rem;
   height: 1.15rem;

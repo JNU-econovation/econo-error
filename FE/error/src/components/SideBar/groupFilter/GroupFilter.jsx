@@ -12,8 +12,8 @@ const GroupFilter = () => {
   };
 
   return (
-    <GroupFilterFrame>
-      <TextContainer>
+    <StyledGroupFilterFrame>
+      <StyledTextContainer>
         <span
           style={{
             color: "#333333",
@@ -23,38 +23,31 @@ const GroupFilter = () => {
         >
           그룹 캘린더
         </span>
-      </TextContainer>
-      <IconContainer>
-        <GroupFilterPlusBtn onClick={createGroupFilter}>
-          <FaPlus />
-          <SlArrowDown style={{ fontWeight: "bold", marginLeft: "0.5rem" }} />
-        </GroupFilterPlusBtn>
-        <FilterCreateModal
-          isOpen={groupFilterIsOpen}
-          onRequestClose={() => setGroupFilterIsOpen(false)}
-          filterModalType={"group"}
-        />
-      </IconContainer>
-    </GroupFilterFrame>
+      </StyledTextContainer>
+      <StyledGroupFilterPlusBtn onClick={createGroupFilter}>
+        <FaPlus />
+        <SlArrowDown style={{ fontWeight: "bold", marginLeft: "0.5rem" }} />
+      </StyledGroupFilterPlusBtn>
+      <FilterCreateModal
+        isOpen={groupFilterIsOpen}
+        onRequestClose={() => setGroupFilterIsOpen(false)}
+        filterModalType={"group"}
+      />
+    </StyledGroupFilterFrame>
   );
 };
 
 export default GroupFilter;
 
-const GroupFilterFrame = styled.div`
+const StyledGroupFilterFrame = styled.div`
   margin: 1.3rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
-const TextContainer = styled.div`
-  /* 필요한 스타일이 있다면 여기에 추가 */
-`;
+const StyledTextContainer = styled.div``;
 
-const IconContainer = styled.div`
-  /* 필요한 스타일이 있다면 여기에 추가 */
-`;
-const GroupFilterPlusBtn = styled.button`
+const StyledGroupFilterPlusBtn = styled.button`
   background: none;
   border: none;
 `;

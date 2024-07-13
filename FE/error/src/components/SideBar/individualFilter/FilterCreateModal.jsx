@@ -30,7 +30,7 @@ const FilterCreateModal = ({ isOpen, onRequestClose, filterModalType }) => {
           </button>
         </StyledModalBar>
         <StyledDetail>
-          <TitleInput
+          <StyledTitleInput
             placeholder="제목"
             value={eventName}
             onChange={handleTitleChange}
@@ -69,7 +69,7 @@ const StyledModalBar = styled.div`
 const StyledDetail = styled.div`
   margin: 2rem;
 `;
-const TitleInput = styled.input`
+const StyledTitleInput = styled.input`
   width: 95%;
   height: 2rem;
   margin-bottom: 2rem;
