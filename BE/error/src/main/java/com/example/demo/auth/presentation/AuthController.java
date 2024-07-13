@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class AuthController {
 
     private final LoginUsecase loginUsecase;
@@ -34,12 +34,12 @@ public class AuthController {
     private final TokenExtractor tokenExtractor;
 
 
-//    public AuthController(LoginUsecase loginUsecase, TokenResponseConverter tokenResponseConverter, CookieManager cookieManager, TokenExtractor tokenExtractor) {
-//        this.loginUsecase = loginUsecase;
-//        this.tokenResponseConverter = tokenResponseConverter;
-//        this.cookieManager = cookieManager;
-//        this.tokenExtractor = tokenExtractor;
-//    }
+    public AuthController(LoginUsecase loginUsecase, TokenResponseConverter tokenResponseConverter, CookieManager cookieManager, TokenExtractor tokenExtractor) {
+        this.loginUsecase = loginUsecase;
+        this.tokenResponseConverter = tokenResponseConverter;
+        this.cookieManager = cookieManager;
+        this.tokenExtractor = tokenExtractor;
+    }
 
     @Operation(
             summary = "로그인을 한다.",
@@ -60,7 +60,7 @@ public class AuthController {
     @PostMapping("/reissue")
     ApiResponse<SuccessBody<TokenResponse>> reissue(HttpServletRequest request, HttpServletResponse httpResonse) {
         String token = tokenExtractor.extract(request);
-        TokenModel tokenModel = reissueUsecase.excute(token);
+        TokenModel tokenModel = reissueUsecase.execute(token);
         TokenResponse response = generateTokenResponse(tokenModel, httpResonse);
 
         return ApiResponseGenerator.success(response, HttpStatus.CREATED, MessageCode.CREATE);
