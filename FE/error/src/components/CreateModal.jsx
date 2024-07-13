@@ -27,6 +27,8 @@ const CreateModal = ({
   const [eventEndDate, setNewEndDate] = useState("");
   const [eventStartTime, setEventStartTime] = useState("00:00");
   const [eventEndTime, setEventEndTime] = useState("00:00");
+  const [selectedFilter, setSelectedFilter] = useState(null);
+  const [activeDropdown, setActiveDropdown] = useState(null);
 
   useEffect(() => {
     if (isOpen && selectedDate) {
@@ -38,6 +40,8 @@ const CreateModal = ({
       setEventMemo("");
       setNewStartDate(selectedDate + "T" + eventStartTime);
       setNewEndDate(selectedDate + "T" + eventEndTime);
+      setSelectedFilter(null);
+      setActiveDropdown(null);
     }
   }, [isOpen, selectedDate]);
 
@@ -95,6 +99,31 @@ const CreateModal = ({
     setEventPlace(e.target.value);
   };
 
+  const toggleDropdown = (dropdownName) => {
+    setActiveDropdown(activeDropdown === dropdownName ? null : dropdownName);
+  };
+
+  const handleFilterSelect = (category, filter) => {
+    setSelectedFilter({ category, filter });
+    setActiveDropdown(null);
+  };
+
+  const getButtonContent = (category) => {
+    if (selectedFilter && selectedFilter.category === category) {
+      return selectedFilter.filter;
+    }
+    switch (category) {
+      case "econo":
+        return "에코노";
+      case "group":
+        return "그룹";
+      case "personal":
+        return "개인";
+      default:
+        return "";
+    }
+  };
+
   function createDate(title, id, startDate, endDate) {
     const specificEvent = {
       title: title,
@@ -145,9 +174,71 @@ const CreateModal = ({
           <IconWrapper>
             <FaWindowRestore />
           </IconWrapper>
-          <Button content="에코노" />
-          <Button content="그룹" />
-          <Button content="개인" />
+          {["econo", "group", "personal"].map((category) => (
+            <DropdownContainer key={category}>
+              <Button
+                content={getButtonContent(category)}
+                onClick={() => toggleDropdown(category)}
+                isActive={
+                  selectedFilter && selectedFilter.category === category
+                }
+              />
+              {activeDropdown === category && (
+                <DropdownMenu>
+                  {category === "econo" && (
+                    <>
+                      <DropdownItem
+                        onClick={() => handleFilterSelect(category, "공식행사")}
+                      >
+                        공식행사
+                      </DropdownItem>
+                      <DropdownItem
+                        onClick={() => handleFilterSelect(category, "주간발표")}
+                      >
+                        주간발표
+                      </DropdownItem>
+                    </>
+                  )}
+                  {category === "group" && (
+                    <>
+                      <DropdownItem
+                        onClick={() =>
+                          handleFilterSelect(category, "그룹필터1")
+                        }
+                      >
+                        그룹필터1
+                      </DropdownItem>
+                      <DropdownItem
+                        onClick={() =>
+                          handleFilterSelect(category, "그룹필터2")
+                        }
+                      >
+                        그룹필터2
+                      </DropdownItem>
+                    </>
+                  )}
+                  {category === "personal" && (
+                    <>
+                      <DropdownItem
+                        onClick={() =>
+                          handleFilterSelect(category, "개인필터1")
+                        }
+                      >
+                        개인필터1
+                      </DropdownItem>
+                      <DropdownItem
+                        onClick={() =>
+                          handleFilterSelect(category, "개인필터2")
+                        }
+                      >
+                        개인필터2
+                      </DropdownItem>
+                    </>
+                  )}
+                </DropdownMenu>
+              )}
+            </DropdownContainer>
+          ))}
         </RowContainer>
         <RowContainer>
           <TimeIconWrapper>
@@ -261,7 +352,7 @@ const TimeIconWrapper = styled.div`
   margin-right: 0.5rem;
   display: flex;
   align-items: center;
-  color: #606060;
+  color: #969696;
   margin-bottom: 2.5rem;
 `;
 
@@ -274,4 +365,31 @@ const PlaceSelect = styled.input`
   width: 100%;
   outline: none;
   padding: 0.5rem 0;
+`;
+
+const DropdownContainer = styled.div`
+  position: relative;
+  margin-right: 10px;
+`;
+
+const DropdownMenu = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding: 0.3rem 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  min-width: 5rem;
+`;
+
+const DropdownItem = styled.div`
+  padding: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  &:hover {
+    background-color: #f5f5f5;
+  }
 `;
