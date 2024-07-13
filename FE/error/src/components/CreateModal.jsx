@@ -142,6 +142,11 @@ const CreateModal = ({
       eventEndDate: eventEndDate,
       eventPlace: eventPlace,
       eventInfo: eventMemo,
+      eventCategory: {
+        econo: selectedFilter.econo,
+        group: selectedFilter.group,
+        personal: selectedFilter.personal,
+      },
     };
     axios.post("/api/calendar", data).then((res) => {
       createDate(
