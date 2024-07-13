@@ -1,98 +1,63 @@
 import { useState } from "react";
-import { IoClose } from "react-icons/io5";
-import Modal from "react-modal";
+import { FaPlus } from "react-icons/fa6";
+import { SlArrowDown } from "react-icons/sl";
 import styled from "styled-components";
-import "./CreateFilterModal.css";
-import GroupFilterCreateModal from "../groupFilter/GroupFilterCreateModal";
-import FilterColorSelect from "./FilterColorSelect";
+import FilterCreateModal from "./FilterCreateModal";
+import FilterList from "./FilterList";
 
-const FilterCreateModal = ({ isOpen, onRequestClose, filterModalType }) => {
-  const [eventName, setEventName] = useState("");
+const IndividualFilter = () => {
+  const [individualFilterIsOpen, setindividualFilterIsOpen] = useState(false);
+  const [filterLists, setFilterLists] = useState([]);
 
-  const handleTitleChange = (event) => {
-    setEventName(event.target.value);
+  const createIndividualFilter = () => {
+    setindividualFilterIsOpen(true);
   };
 
+  const addNewFilter = (newFilter) => {
+    setFilterLists([...filterLists, newFilter]);
+  };
   return (
     <>
-      <Modal
-        isOpen={isOpen}
-        onRequestClose={() => {
-          onRequestClose();
-        }}
-        className="CreatePostCss"
-        overlayClassName="overlay"
-      >
-        <StyledModalBar>
-          <div>새 필터 만들기</div>
-          <button onClick={onRequestClose}>
-            <IoClose size="1.2rem" />
-          </button>
-        </StyledModalBar>
-        <StyledDetail>
-          <StyledTitleInput
-            placeholder="제목"
-            value={eventName}
-            onChange={handleTitleChange}
-          />
-          <FilterColorSelect />
-          {filterModalType === "individual" ? "" : <GroupFilterCreateModal />}
-        </StyledDetail>
-        <StyledModalFooter>
-          <StyledCreateFilterBtn>
-            <span>필터 만들기</span>
-          </StyledCreateFilterBtn>
-        </StyledModalFooter>
-      </Modal>
+      <StyledIndividualFilterFrame>
+        <StyledTextContainer>
+          <span
+            style={{
+              color: "#333333",
+              fontSize: "1.1rem",
+            }}
+          >
+            개인 캘린더
+          </span>
+        </StyledTextContainer>
+        <StyledIndividualFilterPlusBtn onClick={createIndividualFilter}>
+          <FaPlus />
+          <SlArrowDown style={{ fontWeight: "bold", marginLeft: "0.5rem" }} />
+        </StyledIndividualFilterPlusBtn>
+        <FilterCreateModal
+          isOpen={individualFilterIsOpen}
+          onRequestClose={() => setindividualFilterIsOpen(false)}
+          filterModalType={"individual"}
+          addNewFilter={addNewFilter}
+        />
+      </StyledIndividualFilterFrame>
+      <FilterList filterLists={filterLists} />
     </>
   );
 };
 
-export default FilterCreateModal;
+export default IndividualFilter;
 
-const StyledModalBar = styled.div`
-  margin: 2rem;
+const StyledIndividualFilterFrame = styled.div`
+  margin: 1.3rem;
   display: flex;
   justify-content: space-between;
-  outline: none;
-
-  button {
-    width: 3rem;
-    background-color: #fff;
-    border: none;
-    svg {
-      size: 5rem;
-    }
-  }
+  align-items: center;
+`;
+const StyledTextContainer = styled.div`
+  /* 필요한 스타일이 있다면 여기에 추가 */
 `;
 
-const StyledDetail = styled.div`
-  margin: 2rem;
-`;
-const StyledTitleInput = styled.input`
-  width: 95%;
-  height: 2rem;
-  margin-bottom: 2rem;
-  font-size: 1.5rem;
+const StyledIndividualFilterPlusBtn = styled.button`
+  background: none;
   border: none;
-  border-bottom: 1px solid #495057;
-  outline: none;
-`;
-
-const StyledModalFooter = styled.div`
-  margin: 2rem;
-  display: flex;
-  flex-direction: row-reverse;
-`;
-const StyledCreateFilterBtn = styled.button`
-  width: 6rem;
-  height: 2rem;
-  background-color: #ff9999;
-  border-radius: 0.5rem;
-  border: none;
-  span {
-    font-size: 0.88rem;
-    font-weight: bold;
-    color: #fff;
-  }
 `;
