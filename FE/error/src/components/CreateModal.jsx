@@ -6,6 +6,10 @@ import TimeSelect from "./TimeSelect";
 import ReactQuill from "react-quill";
 import { format, addDays, compareAsc, parseISO } from "date-fns";
 import axios from "axios";
+import { PiTimer } from "react-icons/pi";
+import { IoLocationSharp, IoCloseOutline } from "react-icons/io5";
+import { FaWindowRestore } from "react-icons/fa";
+import Button from "./Button";
 
 const CreateModal = ({
   isOpen,
@@ -60,7 +64,6 @@ const CreateModal = ({
       updatedEndDate,
       "yyyy-MM-dd"
     )}T${eventEndTime}`;
-
     setNewEndDate(newEndDate);
   };
 
@@ -91,6 +94,7 @@ const CreateModal = ({
   const handlePlaceChange = (e) => {
     setEventPlace(e.target.value);
   };
+
   function createDate(title, id, startDate, endDate) {
     const specificEvent = {
       title: title,
@@ -101,6 +105,7 @@ const CreateModal = ({
     };
     handleUpdateData(specificEvent);
   }
+
   const saveData = () => {
     const data = {
       eventName: eventName,
@@ -127,39 +132,65 @@ const CreateModal = ({
       className="modal"
       overlayClassName="overlay"
     >
-      <TitleInput
-        placeholder="제목을 입력하세요"
-        value={eventName}
-        onChange={handleTitleChange}
-      />
-      <DateRow>
-        시작일 :
-        <input type="date" value={StartDate} onChange={handleStartDateChange} />
-        마감일 :
-        <input
-          type="date"
-          value={EndDate}
-          onChange={handleEndDateChange}
-          min={StartDate}
+      <div className="modal-header">
+        <IoCloseOutline className="close-icon" onClick={onRequestClose} />
+      </div>
+      <div className="modal-content">
+        <TitleInput
+          placeholder="제목을 입력하세요"
+          value={eventName}
+          onChange={handleTitleChange}
         />
-      </DateRow>
-      <DateRow>
-        <TimeSelect onTimeSelect={handleStartTimeSelect} />
-        부터
-        <TimeSelect onTimeSelect={handleEndTimeSelect} />
-        까지
-      </DateRow>
-      <PlaceSelect
-        placeholder="위치 추가"
-        onChange={handlePlaceChange}
-      ></PlaceSelect>
-      <EditorBox>
-        <ReactQuill placeholder={"설명 추가"} onChange={handleMemoChange} />
-      </EditorBox>
-      <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <SaveButton onClick={saveData} disabled={!eventName}>
-          저장
-        </SaveButton>
+        <RowContainer>
+          <IconWrapper>
+            <FaWindowRestore />
+          </IconWrapper>
+          <Button content="에코노" />
+          <Button content="그룹" />
+          <Button content="개인" />
+        </RowContainer>
+        <RowContainer>
+          <TimeIconWrapper>
+            <PiTimer />
+          </TimeIconWrapper>
+          <DateTimeContainer>
+            <DateRow>
+              시작일 :
+              <input
+                type="date"
+                value={StartDate}
+                onChange={handleStartDateChange}
+              />
+              마감일 :
+              <input
+                type="date"
+                value={EndDate}
+                onChange={handleEndDateChange}
+                min={StartDate}
+              />
+            </DateRow>
+            <DateRow>
+              <TimeSelect onTimeSelect={handleStartTimeSelect} />
+              부터
+              <TimeSelect onTimeSelect={handleEndTimeSelect} />
+              까지
+            </DateRow>
+          </DateTimeContainer>
+        </RowContainer>
+        <RowContainer>
+          <IconWrapper>
+            <IoLocationSharp />
+          </IconWrapper>
+          <PlaceSelect placeholder="위치 추가" onChange={handlePlaceChange} />
+        </RowContainer>
+        <EditorBox>
+          <ReactQuill placeholder={"설명 추가"} onChange={handleMemoChange} />
+        </EditorBox>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <SaveButton onClick={saveData} disabled={!eventName}>
+            저장
+          </SaveButton>
+        </div>
       </div>
     </Modal>
   );
@@ -206,15 +237,41 @@ const EditorBox = styled.div`
   }
 `;
 
-const PlaceSelect = styled.input`
-  border: none;
-  width: 100%;
-  outline: none;
-  margin: 1.1rem 0;
-`;
-
 const DateRow = styled.div`
   display: flex;
   align-items: center;
   gap: 0.7rem;
+`;
+
+const RowContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+`;
+
+const IconWrapper = styled.div`
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+  color: #969696;
+  margin-bottom: 0.2rem;
+`;
+
+const TimeIconWrapper = styled.div`
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+  color: #606060;
+  margin-bottom: 2.5rem;
+`;
+
+const DateTimeContainer = styled.div`
+  flex: 1;
+`;
+
+const PlaceSelect = styled.input`
+  border: none;
+  width: 100%;
+  outline: none;
+  padding: 0.5rem 0;
 `;
