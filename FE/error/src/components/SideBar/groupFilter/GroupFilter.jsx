@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { SlArrowDown } from "react-icons/sl";
 import styled from "styled-components";
-import FilterCreateModal from "../individualFilter/FilterCreateModal";
+import FilterCreateModal from "../../../utils/filterUtils/FilterCreateModal";
 
 const GroupFilter = () => {
   const [groupFilterIsOpen, setGroupFilterIsOpen] = useState(false);

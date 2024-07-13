@@ -4,9 +4,7 @@ import axios from "axios";
 import Modal from "react-modal";
 import styled from "styled-components";
 import ReactQuill from "react-quill";
-import TimeSelect from "../TimeSelect";
-import "./CreateModal.css";
-
+import TimeSelect from "../../utils/TimeSelect";
 const CreateModal = ({
   isOpen,
   onRequestClose,
