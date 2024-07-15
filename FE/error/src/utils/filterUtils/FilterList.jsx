@@ -57,7 +57,7 @@ const StyledSceduleType = styled.div`
 const StyledDetail = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 1rem;
+  margin-right: 1.3rem;
 `;
 const StyledTitle = styled.div`
   display: flex;
@@ -67,4 +67,5 @@ const StyledDetailIcon = styled.button`
   background-color: #fff;
   border: none;
   display: none;
+  margin-left: 0.5rem;
 `;
