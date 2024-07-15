@@ -46,6 +46,7 @@ export default GroupFilter;
 
 const StyledGroupFilterFrame = styled.div`
   margin: 1.3rem;
+  margin-bottom: 0.9rem;
   display: flex;
   justify-content: space-between;
   align-items: center;

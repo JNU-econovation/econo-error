@@ -45,6 +45,7 @@ export default IndividualFilter;
 
 const StyledIndividualFilterFrame = styled.div`
   margin: 1.3rem;
+  margin-bottom: 0.9rem;
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -7,7 +7,7 @@ const PublicFilter = () => {
       <div
         style={{
           color: "#333333",
-          marginBottom: "0.5rem",
+          marginBottom: "0.9rem",
         }}
       >
         <div style={{ fontSize: "1.1rem" }}>에코노 캘린더</div>
