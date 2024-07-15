@@ -106,7 +106,6 @@ const StyledCreateFilterBtn = styled.button`
 
   span {
     font-size: 0.88rem;
-    font-weight: bold;
     color: #fff;
   }
 `;
