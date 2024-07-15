@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { FaPlus } from "react-icons/fa6";
-import { SlArrowDown } from "react-icons/sl";
+import { AiOutlinePlus } from "react-icons/ai";
+import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowUp } from "react-icons/io";
 import styled from "styled-components";
 import FilterCreateModal from "../../../utils/filterUtils/FilterCreateModal";
 import FilterList from "../../../utils/filterUtils/FilterList";
@@ -8,6 +9,7 @@ import FilterList from "../../../utils/filterUtils/FilterList";
 const GroupFilter = ({ filterLists, addNewFilter }) => {
   const [groupFilterIsOpen, setGroupFilterIsOpen] = useState(false);
   const [filterListsIsOpen, setFilterListsIsOpen] = useState(true);
+
   const createGroupFilter = () => {
     setGroupFilterIsOpen(true);
   };
@@ -30,10 +32,26 @@ const GroupFilter = ({ filterLists, addNewFilter }) => {
         </StyledTextContainer>
         <StyledDetailIcon>
           <StyledGroupFilterPlusBtn onClick={createGroupFilter}>
-            <FaPlus />
+            <AiOutlinePlus style={{ fontSize: "1.3rem" }} />
           </StyledGroupFilterPlusBtn>
           <StyledIndividualFilterArrowDownBtn onClick={handleArrowDown}>
-            <SlArrowDown style={{ fontWeight: "bold", marginLeft: "0.5rem" }} />
+            {filterListsIsOpen ? (
+              <IoIosArrowDown
+                style={{
+                  fontWeight: "bold",
+                  marginLeft: "0.5rem",
+                  fontSize: "1.3rem",
+                }}
+              />
+            ) : (
+              <IoIosArrowUp
+                style={{
+                  fontWeight: "bold",
+                  marginLeft: "0.5rem",
+                  fontSize: "1.3rem",
+                }}
+              />
+            )}
           </StyledIndividualFilterArrowDownBtn>
           <FilterCreateModal
             isOpen={groupFilterIsOpen}

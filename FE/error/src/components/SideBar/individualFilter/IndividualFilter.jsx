@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { FaPlus } from "react-icons/fa6";
-import { SlArrowDown } from "react-icons/sl";
+import { AiOutlinePlus } from "react-icons/ai";
+import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowUp } from "react-icons/io";
 import styled from "styled-components";
 import FilterCreateModal from "../../../utils/filterUtils/FilterCreateModal";
 import FilterList from "../../../utils/filterUtils/FilterList";
@@ -30,10 +31,26 @@ const IndividualFilter = ({ filterLists, addNewFilter }) => {
         </StyledTextContainer>
         <StyledDetailIcon>
           <StyledIndividualFilterPlusBtn onClick={createIndividualFilter}>
-            <FaPlus />
+            <AiOutlinePlus style={{ fontSize: "1.3rem" }} />
           </StyledIndividualFilterPlusBtn>
           <StyledIndividualFilterArrowDownBtn onClick={handleArrowDown}>
-            <SlArrowDown style={{ fontWeight: "bold", marginLeft: "0.5rem" }} />
+            {filterListsIsOpen ? (
+              <IoIosArrowDown
+                style={{
+                  fontWeight: "bold",
+                  marginLeft: "0.5rem",
+                  fontSize: "1.3rem",
+                }}
+              />
+            ) : (
+              <IoIosArrowUp
+                style={{
+                  fontWeight: "bold",
+                  marginLeft: "0.5rem",
+                  fontSize: "1.3rem",
+                }}
+              />
+            )}
           </StyledIndividualFilterArrowDownBtn>
           <FilterCreateModal
             isOpen={individualFilterIsOpen}
