@@ -7,11 +7,14 @@ import FilterList from "../../../utils/filterUtils/FilterList";
 
 const IndividualFilter = ({ filterLists, addNewFilter }) => {
   const [individualFilterIsOpen, setindividualFilterIsOpen] = useState(false);
-
+  const [filterListsIsOpen, setFilterListsIsOpen] = useState(true);
   const createIndividualFilter = () => {
     setindividualFilterIsOpen(true);
   };
 
+  const handleArrowDown = () => {
+    setFilterListsIsOpen(!filterListsIsOpen);
+  };
   return (
     <>
       <StyledIndividualFilterFrame>
@@ -25,18 +28,22 @@ const IndividualFilter = ({ filterLists, addNewFilter }) => {
             개인 캘린더
           </span>
         </StyledTextContainer>
-        <StyledIndividualFilterPlusBtn onClick={createIndividualFilter}>
-          <FaPlus />
-          <SlArrowDown style={{ fontWeight: "bold", marginLeft: "0.5rem" }} />
-        </StyledIndividualFilterPlusBtn>
-        <FilterCreateModal
-          isOpen={individualFilterIsOpen}
-          onRequestClose={() => setindividualFilterIsOpen(false)}
-          filterModalType={"individual"}
-          addNewFilter={addNewFilter}
-        />
+        <StyledDetailIcon>
+          <StyledIndividualFilterPlusBtn onClick={createIndividualFilter}>
+            <FaPlus />
+          </StyledIndividualFilterPlusBtn>
+          <StyledIndividualFilterArrowDownBtn onClick={handleArrowDown}>
+            <SlArrowDown style={{ fontWeight: "bold", marginLeft: "0.5rem" }} />
+          </StyledIndividualFilterArrowDownBtn>
+          <FilterCreateModal
+            isOpen={individualFilterIsOpen}
+            onRequestClose={() => setindividualFilterIsOpen(false)}
+            filterModalType={"individual"}
+            addNewFilter={addNewFilter}
+          />
+        </StyledDetailIcon>
       </StyledIndividualFilterFrame>
-      <FilterList filterLists={filterLists} />
+      {filterListsIsOpen && <FilterList filterLists={filterLists} />}
     </>
   );
 };
@@ -53,8 +60,13 @@ const StyledIndividualFilterFrame = styled.div`
 const StyledTextContainer = styled.div`
   /* 필요한 스타일이 있다면 여기에 추가 */
 `;
-
+const StyledDetailIcon = styled.div``;
 const StyledIndividualFilterPlusBtn = styled.button`
+  background: none;
+  border: none;
+`;
+
+const StyledIndividualFilterArrowDownBtn = styled.button`
   background: none;
   border: none;
 `;

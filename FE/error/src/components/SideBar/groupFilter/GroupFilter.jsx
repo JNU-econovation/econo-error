@@ -7,11 +7,13 @@ import FilterList from "../../../utils/filterUtils/FilterList";
 
 const GroupFilter = ({ filterLists, addNewFilter }) => {
   const [groupFilterIsOpen, setGroupFilterIsOpen] = useState(false);
-
+  const [filterListsIsOpen, setFilterListsIsOpen] = useState(true);
   const createGroupFilter = () => {
     setGroupFilterIsOpen(true);
   };
-
+  const handleArrowDown = () => {
+    setFilterListsIsOpen(!filterListsIsOpen);
+  };
   return (
     <>
       <StyledGroupFilterFrame>
@@ -26,18 +28,22 @@ const GroupFilter = ({ filterLists, addNewFilter }) => {
             그룹 캘린더
           </span>
         </StyledTextContainer>
-        <StyledGroupFilterPlusBtn onClick={createGroupFilter}>
-          <FaPlus />
-          <SlArrowDown style={{ fontWeight: "bold", marginLeft: "0.5rem" }} />
-        </StyledGroupFilterPlusBtn>
-        <FilterCreateModal
-          isOpen={groupFilterIsOpen}
-          onRequestClose={() => setGroupFilterIsOpen(false)}
-          filterModalType={"group"}
-          addNewFilter={addNewFilter}
-        />
+        <StyledDetailIcon>
+          <StyledGroupFilterPlusBtn onClick={createGroupFilter}>
+            <FaPlus />
+          </StyledGroupFilterPlusBtn>
+          <StyledIndividualFilterArrowDownBtn onClick={handleArrowDown}>
+            <SlArrowDown style={{ fontWeight: "bold", marginLeft: "0.5rem" }} />
+          </StyledIndividualFilterArrowDownBtn>
+          <FilterCreateModal
+            isOpen={groupFilterIsOpen}
+            onRequestClose={() => setGroupFilterIsOpen(false)}
+            filterModalType={"group"}
+            addNewFilter={addNewFilter}
+          />
+        </StyledDetailIcon>
       </StyledGroupFilterFrame>
-      <FilterList filterLists={filterLists} />
+      {filterListsIsOpen && <FilterList filterLists={filterLists} />}
     </>
   );
 };
@@ -52,8 +58,13 @@ const StyledGroupFilterFrame = styled.div`
   align-items: center;
 `;
 const StyledTextContainer = styled.div``;
+const StyledDetailIcon = styled.div``;
 
 const StyledGroupFilterPlusBtn = styled.button`
+  background: none;
+  border: none;
+`;
+const StyledIndividualFilterArrowDownBtn = styled.button`
   background: none;
   border: none;
 `;
