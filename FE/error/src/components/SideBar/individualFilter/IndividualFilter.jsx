@@ -5,17 +5,13 @@ import styled from "styled-components";
 import FilterCreateModal from "../../../utils/filterUtils/FilterCreateModal";
 import FilterList from "../../../utils/filterUtils/FilterList";
 
-const IndividualFilter = () => {
+const IndividualFilter = ({ filterLists, addNewFilter }) => {
   const [individualFilterIsOpen, setindividualFilterIsOpen] = useState(false);
-  const [filterLists, setFilterLists] = useState([]);
 
   const createIndividualFilter = () => {
     setindividualFilterIsOpen(true);
   };
 
-  const addNewFilter = (newFilter) => {
-    setFilterLists([...filterLists, newFilter]);
-  };
   return (
     <>
       <StyledIndividualFilterFrame>

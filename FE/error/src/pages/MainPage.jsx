@@ -7,11 +7,16 @@ import IndividualFilter from "../components/SideBar/individualFilter/IndividualF
 import GroupFilter from "../components/SideBar/groupFilter/GroupFilter";
 
 const MainPage = () => {
-  const [filterLists, setFilterLists] = useState([]);
+  const [filterIndividualLists, setFilterIndividualLists] = useState([]);
+  const [filterGroupLists, setFilterGroupLists] = useState([]);
 
-  const addNewFilter = (newFilter) => {
-    setFilterLists([...filterLists, newFilter]);
+  const addNewIndividualFilter = (newIndividualFilter) => {
+    setFilterIndividualLists([...filterIndividualLists, newIndividualFilter]);
   };
+  const addNewGroupFilter = (newGroupFilter) => {
+    setFilterGroupLists([...filterGroupLists, newGroupFilter]);
+  };
+
   return (
     <div>
       <CalendarPage>
@@ -21,10 +26,13 @@ const MainPage = () => {
           <ProfileBar />
           <FilterFrame>
             <PublicFilter />
-            <GroupFilter />
+            <GroupFilter
+              filterLists={filterGroupLists}
+              addNewFilter={addNewGroupFilter}
+            />
             <IndividualFilter
-              filterLists={filterLists}
-              addNewFilter={addNewFilter}
+              filterLists={filterIndividualLists}
+              addNewFilter={addNewIndividualFilter}
             />
           </FilterFrame>
         </SideBar>
