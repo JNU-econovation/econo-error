@@ -8,7 +8,8 @@ import TimeSelect from "../../utils/TimeSelect";
 import { PiTimer } from "react-icons/pi";
 import { IoLocationSharp, IoCloseOutline } from "react-icons/io5";
 import { FaWindowRestore } from "react-icons/fa";
-import Button from "./Button";
+import Button from "../Button";
+import "./CreateModal.css";
 
 const CreateModal = ({
   isOpen,
