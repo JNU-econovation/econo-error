@@ -27,8 +27,8 @@ export default LoginPage;
 
 const StyledTextArea = styled.div`
   position: absolute;
-  top: 10rem;
-  left: 11rem;
+  top: 20%;
+  left: 15%;
 
   h2 {
     font-family: "Pretendard-bold";
@@ -65,13 +65,13 @@ const StyledSubTitle = styled.h3`
 `;
 
 const StyledBackground = styled.img`
-  margin-left: 40rem;
-  margin-top: 5rem;
+  margin-left: 48%;
+  margin-top: 8%;
   height: 35rem;
 `;
 
 const StyledCharacter = styled.img`
   position: absolute;
-  top: 13rem;
-  left: 55rem;
+  top: 25%;
+  left: 60%;
 `;
