@@ -14,6 +14,17 @@ services:
       - ./resources/develop-environment/mysql-init.d:/docker-entrypoint-initdb.d
     networks: #사용할 네트워크 지정
       - error-network
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    expose:
+      - "6379"
+    environment:
+      - REDIS_PASSWORD=root
+    networks:
+      - error-network
+
   backend:
     build:
       context: .
@@ -29,7 +40,58 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
       SPRING_PROFILES_ACTIVE: dev
+      SPRING_REDIS_HOST: error-redis
+      SPRING_REDIS_PORT: 6379
+      SPRING_REDIS_PASSWORD: root
+
+
     networks: #사용할 네트워크 지정
       - error-network
+#
+#  cadvisor:
+#    image: gcr.io/cadvisor/cadvisor:v0.47.0
+#    container_name: cAdvisor
+#    privileged: true
+#    command:
+#      - '-port=8090'
+#    ports:
+#      - "8090:8090"
+#    volumes:
+#      - /:/rootfs:ro
+#      - /var/run:/var/run:ro
+#      - /var/run/docker.sock:/var/run/docker.sock:ro
+#      - /sys:/sys:ro
+#      - /var/lib/docker/:/var/lib/docker:ro
+#      - /dev/disk/:/dev/disk:ro
+#    networks:
+#      - error-network
+#
+#  prometheus:
+#    image: prom/prometheus:v2.44.0
+#    container_name: prometheus
+#    ports:
+#      - "9090:9090"
+#    volumes:
+#      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+#      - ./prometheus/alert_rules.yml:/prometheus/alert_rules.yml
+#    networks:
+#      - error-network
+#
+#  grafana:
+#    image: grafana/grafana:9.5.2
+#    container_name: grafana
+#    ports:
+#      - "3000:3000"
+#    volumes:
+#      - ./grafana/provisioning/datasources/:/etc/grafana/provisioning/datasources/
+#      - ./grafana/provisioning/dashboards/:/etc/grafana/provisioning/dashboards/
+#      - ./grafana/data/:/var/lib/grafana/dashboards/
+#    environment:
+#      - GF_AUTH_BASIC_ENABLED=false
+#      - GF_AUTH_ANONYMOUS_ENABLED=true
+#      - GF_AUTH_ANONYMOUS_ORG_ROLE=Editor
+#    networks:
+#      - error-network
+
 networks:
   error-network:
