@@ -24,8 +24,8 @@ public class TokenResolver {
     private final SecretKey refreshSecretKey;
 
     public TokenResolver(
-            @Value("${security.jwt.access.secretKey:TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST}") String accessSecretKey,
-            @Value("${security.jwt.refresh.secretKey:TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST}") String refreshSecretKey) {
+            @Value("${security.jwt.access.secretKey:erroroverflowsecretekeyerroroverflowsecretekey}") String accessSecretKey,
+            @Value("${security.jwt.refresh.secretKey:erroroverflowsecretekeyerroroverflowsecretekey}") String refreshSecretKey) {
         this.accessSecretKey = generateSecretKey(accessSecretKey);
         this.refreshSecretKey = generateSecretKey(refreshSecretKey);
     }
