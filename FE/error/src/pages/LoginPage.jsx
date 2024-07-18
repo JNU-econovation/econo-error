@@ -1,15 +1,15 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+
   const handleOnLogin = () => {
-    /* const clientId = "437291124342.7141431332214";
-    const redirectUri = encodeURIComponent(
-      "&state=&granular_bot_scope=0&single_channel=0&install_redirect=&tracked=1&team="
-    );
-    const scopes = encodeURIComponent("incoming-webhook&user_scope=");*/
     const slackAuthUrl = `https://econovation-2018.slack.com/oauth?client_id=437291124342.7141431332214&scope=incoming-webhook&user_scope=&redirect_uri=&state=&granular_bot_scope=0&single_channel=0&install_redirect=&tracked=1&team=`;
     window.location.href = slackAuthUrl;
   };
+
   return (
     <>
       <StyledTextArea>
@@ -23,11 +23,12 @@ const LoginPage = () => {
           공식 일정만 조회 가능합니다.
         </StyledSubTitle>
         <StyledSlackButton onClick={handleOnLogin}>
-          <StyledSlackImage src="Slack.png"></StyledSlackImage>슬랙으로 로그인
+          <StyledSlackImage src="Slack.png" alt="Slack logo" />
+          슬랙으로 로그인
         </StyledSlackButton>
       </StyledTextArea>
-      <StyledBackground src="Background.png" />
-      <StyledCharacter src="Picture.png" />
+      <StyledBackground src="Background.png" alt="Background" />
+      <StyledCharacter src="Picture.png" alt="Character" />
     </>
   );
 };
@@ -38,7 +39,6 @@ const StyledTextArea = styled.div`
   position: absolute;
   top: 20%;
   left: 15%;
-
   h2 {
     font-family: "Pretendard-bold";
     font-size: 3rem;

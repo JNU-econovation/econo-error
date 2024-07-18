@@ -5,7 +5,6 @@ import PublicFilter from "../components/SideBar/PublicFilter";
 import IndividualFilter from "../components/SideBar/IndividualFilter";
 import GroupFilter from "../components/SideBar/GroupFilter";
 
-
 const MainPage = () => {
   return (
     <div>
