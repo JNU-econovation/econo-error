@@ -31,6 +31,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
 
         String token = tokenExtractor.extract(request);
+        System.out.println("token :" + token);
         tokenResolver.getUserDataByAccessToken(token);
         return true;
     }
