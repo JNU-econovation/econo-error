@@ -42,7 +42,7 @@ const EconoCalendar = () => {
 
   useEffect(() => {
     axios
-      .get("/api/calendar/all/2024-04-05")
+      .get("/api/calendar/all")
       .then((res) => {
         const fetchedEvents = res.data.data.map((event) => ({
           title: event.eventName,
