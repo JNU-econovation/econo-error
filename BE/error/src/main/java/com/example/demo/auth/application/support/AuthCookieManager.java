@@ -14,10 +14,10 @@ public class AuthCookieManager implements CookieManager {
     private static final String SAMESITE = "None";
     private static final Long EXPIRATION = 0L;
 
-    @Value("${token.cookie.domain:TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST}")
+    @Value("${token.cookie.domain:http://localhost}")
     private String domain;
 
-    @Value("${token.cookie.path:TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST}")
+    @Value("${token.cookie.path:/}")
     private String path;
 
     @Value("${security.jwt.refresh.validTime:3600}")
