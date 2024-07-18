@@ -1,9 +1,20 @@
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const code = searchParams.get("code");
+
+  useEffect(() => {
+    if (code) {
+      // code를 이용한 처리 로직
+      console.log("Received code:", code);
+      // 여기에 code를 사용하는 추가 로직을 구현할 수 있습니다.
+      // 예: API 호출, 상태 업데이트 등
+    }
+  }, [code]);
 
   const handleOnLogin = () => {
     const slackAuthUrl = `https://econovation-2018.slack.com/oauth?client_id=437291124342.7141431332214&scope=incoming-webhook&user_scope=&redirect_uri=&state=&granular_bot_scope=0&single_channel=0&install_redirect=&tracked=1&team=`;

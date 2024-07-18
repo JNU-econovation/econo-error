@@ -3,7 +3,6 @@ import MainPage from "./pages/MainPage";
 import LoginPage from "./pages/LoginPage";
 import CalendarModify from "./pages/CalendarModify";
 import "./axiosConfig";
-import SlackRedirectHandler from "./components/SlackRedirectHandler";
 
 function App() {
   return (
@@ -11,7 +10,6 @@ function App() {
       <Route path="/" element={<MainPage />} />
       <Route path="/ModifyPage" element={<CalendarModify />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/slack-redirect" element={<SlackRedirectHandler />} />
     </Routes>
   );
 }
