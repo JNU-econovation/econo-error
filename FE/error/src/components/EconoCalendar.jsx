@@ -1,13 +1,12 @@
+import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
 import styled from "styled-components";
-import { useEffect } from "react";
-import CreateModal from "./CreateModal";
-import { useState } from "react";
+import interactionPlugin from "@fullcalendar/interaction";
 import axios from "axios";
-import CheckCalendar from "./CheckModal/CheckCalendar";
-import toast, { Toaster } from "react-hot-toast";
+import CreateModal from "./scheduleCreate/CreateModal";
+import CheckCalendar from "./scheduleCheck/CheckCalendar";
 
 const EconoCalendar = () => {
   const [events, setEvents] = useState([]);
