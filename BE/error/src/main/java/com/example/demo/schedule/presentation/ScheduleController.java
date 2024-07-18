@@ -24,6 +24,7 @@ public class ScheduleController {
     private final UpdateScheduleUsecase updateScheduleUsecase;
     private final DeleteScheduleUsecase deleteScheduleUsecase;
     private final GetWeekScheduleUsecase getWeekScheduleUsecase;
+    private final GetAllScheduleUsecase getAllScheduleUsecase;
 
 
     @PostMapping
@@ -34,12 +35,19 @@ public class ScheduleController {
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.CREATE);
     }
 
+
     @GetMapping("/{eventId}")
-    public ApiResponse<SuccessBody<SpecificScheduleResopnse>> getSpecificCalendar (
+    public ApiResponse<SuccessBody<SpecificScheduleResopnse>> getSpecificCalendar(
             @PathVariable("eventId") Long eventId
     ) {
         SpecificScheduleResopnse response = getSpecificScheduleUsecase.getSpecificSchedule(eventId);
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
+    }
+
+    @GetMapping("all")
+    public ApiResponse<SuccessBody<List<AllCalendarResponse>>> getAllCalendar() {
+        List<AllCalendarResponse> response = getAllScheduleUsecase.getAllSchedule();
+        return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GETALL);
     }
 
 

@@ -49,13 +49,26 @@ public class ScheduleResponseConverter {
         return response;
     }
 
+    public List<AllCalendarResponse> toAllModel(List<ScheduleModel> models) {
+        List<AllCalendarResponse> response = new ArrayList<>();
+        for (ScheduleModel model : models) {
+            AllCalendarResponse schedule = AllCalendarResponse.builder()
+                    .eventId(model.getEventId())
+                    .eventName(model.getEventName())
+                    .eventStartDate(String.valueOf(LocalDateTime.parse(model.getEventStartDate().toString(), formatter)))
+                    .eventEndDate(String.valueOf(LocalDateTime.parse(model.getEventEndDate().toString(), formatter)))
+                    .build();
+            response.add(schedule);
+        }
+        return response;
+    }
+
     public List<MonthCalendarResponse> toMonthModel(List<ScheduleModel> models) {
 
         List<MonthCalendarResponse> response = new ArrayList<>();
         for (ScheduleModel model : models) {
             MonthCalendarResponse schedule = MonthCalendarResponse.builder()
                     .eventId(model.getEventId())
-                    .eventName(model.getEventName())
                     .eventStartDate(String.valueOf(LocalDateTime.parse(model.getEventStartDate().toString(), formatter)))
                     .eventEndDate(String.valueOf(LocalDateTime.parse(model.getEventEndDate().toString(), formatter)))
                     .build();
