@@ -23,10 +23,10 @@ public class TokenProvider {
     private final long refreshValidTime;
 
     public TokenProvider(
-            @Value("${security.jwt.access.secretKey:TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST}") String accessSecretKey,
-            @Value("${security.jwt.refresh.secretKey:TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST}") String refreshSecretKey,
-            @Value("${security.jwt.access.validTime:3600}") long accessValidTime,
-            @Value("${security.jwt.refresh.validTime:3600}") long refreshValidTime) {
+            @Value("${security.jwt.access.secretKey}") String accessSecretKey,
+            @Value("${security.jwt.refresh.secretKey}") String refreshSecretKey,
+            @Value("${security.jwt.access.validTime:3600000}") long accessValidTime,
+            @Value("${security.jwt.refresh.validTime:26280000}") long refreshValidTime) {
         this.accessSecretKey = Keys.hmacShaKeyFor(accessSecretKey.getBytes(StandardCharsets.UTF_8));
         this.refreshSecretKey = Keys.hmacShaKeyFor(refreshSecretKey.getBytes(StandardCharsets.UTF_8));
         this.accessValidTime = accessValidTime;
