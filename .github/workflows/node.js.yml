@@ -18,4 +18,5 @@ jobs:
           username: ${{ secrets.FRONT_EC2_USER }}
           script: |
             pwd
+            ./frontCDScript.sh 
             
