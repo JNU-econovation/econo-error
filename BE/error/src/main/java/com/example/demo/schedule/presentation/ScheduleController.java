@@ -35,15 +35,16 @@ public class ScheduleController {
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.CREATE);
     }
 
+
     @GetMapping("/{eventId}")
-    public ApiResponse<SuccessBody<SpecificScheduleResopnse>> getSpecificCalendar (
+    public ApiResponse<SuccessBody<SpecificScheduleResopnse>> getSpecificCalendar(
             @PathVariable("eventId") Long eventId
     ) {
         SpecificScheduleResopnse response = getSpecificScheduleUsecase.getSpecificSchedule(eventId);
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
     }
 
-    @GetMapping("all/{year}-{month}-{day}")
+    @GetMapping("all")
     public ApiResponse<SuccessBody<List<AllCalendarResponse>>> getAllCalendar() {
         List<AllCalendarResponse> response = getAllScheduleUsecase.getAllSchedule();
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GETALL);

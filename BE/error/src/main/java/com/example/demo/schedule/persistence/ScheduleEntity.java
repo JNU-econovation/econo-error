@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
 @Entity
-@SuperBuilder(toBuilder = true) // TODO what is the superbuilder??
+@SuperBuilder(toBuilder = true)
 @Table(name = "Schedule")
 @EntityListeners(AuditingEntityListener.class)
-public class ScheduleEntity extends BaseEntity { // ScheduleEntity에서 BaseEntity를 extends하지 않으면 왜 ScheduleEntityConverter 여기서 에러가 발생했는지 애하가 잘 안가네
+public class ScheduleEntity extends BaseEntity {
 
     @Id
     @GeneratedValue
