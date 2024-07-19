@@ -5,7 +5,7 @@ import com.example.demo.auth.application.model.token.TokenResolver;
 import com.example.demo.auth.application.support.CookieTokenExtractor;
 import com.example.demo.auth.application.support.HeaderTokenExtractor;
 import com.example.demo.auth.application.support.MemberArgumentResolver;
-import com.example.demo.auth.presentation.interceptor.AuthInterceptor;
+//import com.example.demo.auth.presentation.interceptor.AuthInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,36 +21,36 @@ public class LoginConfig implements WebMvcConfigurer {
     private final MemberArgumentResolver memberArgumentResolver;
     private final TokenResolver tokenResolver;
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry
-                .addInterceptor(memberAuthInterceptor())
-                .addPathPatterns("/api/**")
-                .excludePathPatterns("/api/guest/**", "/api/auth/**", "/api/health-check","/api/programs/**");
-        registry
-                .addInterceptor(reissueAuthInterceptor())
-                .addPathPatterns("/auth/reissue")
-                .excludePathPatterns("/api/guest/**", "/api/auth/**", "/api/health-check");
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry
+//                .addInterceptor(memberAuthInterceptor())
+//                .addPathPatterns("/api/**")
+//                .excludePathPatterns("/api/guest/**", "/api/auth/**", "/api/health-check","/api/programs/**");
+//        registry
+//                .addInterceptor(reissueAuthInterceptor())
+//                .addPathPatterns("/auth/reissue")
+//                .excludePathPatterns("/api/guest/**", "/api/auth/**", "/api/health-check");
+//    }
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(memberArgumentResolver);
     }
 
-    @Bean
-    public AuthInterceptor memberAuthInterceptor() {
-        return AuthInterceptor.builder()
-                .tokenExtractor(new HeaderTokenExtractor())
-                .tokenResolver(tokenResolver)
-                .build();
-    }
-
-    @Bean
-    public AuthInterceptor reissueAuthInterceptor() {
-        return AuthInterceptor.builder()
-                .tokenExtractor(new CookieTokenExtractor())
-                .tokenResolver(tokenResolver)
-                .build();
-    }
+//    @Bean
+//    public AuthInterceptor memberAuthInterceptor() {
+//        return AuthInterceptor.builder()
+//                .tokenExtractor(new HeaderTokenExtractor())
+//                .tokenResolver(tokenResolver)
+//                .build();
+//    }
+//
+//    @Bean
+//    public AuthInterceptor reissueAuthInterceptor() {
+//        return AuthInterceptor.builder()
+//                .tokenExtractor(new CookieTokenExtractor())
+//                .tokenResolver(tokenResolver)
+//                .build();
+//    }
 }

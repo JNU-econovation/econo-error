@@ -14,21 +14,21 @@ public class AuthCookieManager implements CookieManager {
     private static final String SAMESITE = "None";
     private static final Long EXPIRATION = 0L;
 
-    @Value("${token.cookie.domain:http://localhost}")
+    @Value("${token.cookie.domain}")
     private String domain;
 
-    @Value("${token.cookie.path:/}")
+    @Value("${token.cookie.path}")
     private String path;
 
-    @Value("${security.jwt.refresh.validTime:3600}")
+    @Value("${security.jwt.refresh.validTime}")
     private Long validTime;
 
     @Override
     public ResponseCookie setCookie(String key, String value) {
         return ResponseCookie.from(key, value)
                 .path(path)
-                .domain(domain)
                 .httpOnly(HTTP_ONLY)
+                .domain(".econo-calendar.com")
                 .secure(SECURE)
                 .sameSite(SAMESITE)
                 .maxAge(TimeUtil.convertSecondsFromMillis(validTime))
@@ -39,8 +39,8 @@ public class AuthCookieManager implements CookieManager {
     public ResponseCookie deleteCookie(String key) {
         return ResponseCookie.from(key, "")
                 .path(path)
-                .domain(domain)
                 .httpOnly(HTTP_ONLY)
+                .domain(".econo-calendar.com")
                 .secure(SECURE)
                 .sameSite(SAMESITE)
                 .maxAge(TimeUtil.convertSecondsFromMillis(EXPIRATION))
