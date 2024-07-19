@@ -247,10 +247,7 @@ const CalendarContainer = styled.div`
     height: 1.3rem;
     display: flex;
     align-items: center;
-    font-size: 1rem;
+    font-size: 0.95rem;
     margin-left: 0.3rem;
-  }
-  .fc-event-title-container {
-    height: 1.2rem;
   }
 `;
