@@ -1,13 +1,12 @@
+import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
 import styled from "styled-components";
-import { useEffect } from "react";
-import CreateModal from "./CreateModal";
-import { useState } from "react";
+import interactionPlugin from "@fullcalendar/interaction";
 import axios from "axios";
-import CheckCalendar from "./CheckModal/CheckCalendar";
-import toast, { Toaster } from "react-hot-toast";
+import CreateModal from "./scheduleCreate/CreateModal";
+import CheckCalendar from "./scheduleCheck/CheckCalendar";
 
 const EconoCalendar = () => {
   const [events, setEvents] = useState([]);
@@ -86,6 +85,12 @@ const EconoCalendar = () => {
                 setCreateModalIsOpen(true);
               },
             },
+            loginButtons: {
+              text: "로그인",
+              click: function () {
+                window.location.href = "/login";
+              },
+            },
           }}
           views={{
             timeGrid: {
@@ -95,7 +100,7 @@ const EconoCalendar = () => {
           headerToolbar={{
             left: "today prev title next",
             center: "",
-            right: "createDateButton",
+            right: "loginButtons,createDateButton",
           }}
           events={events}
           eventDisplay={"block"}
@@ -225,7 +230,7 @@ const CalendarContainer = styled.div`
   }
   .fc-daygrid-day-number {
     margin-top: 0.3rem;
-    margin-left: -0.1rem;
+    margin-left: -0.06rem;
   }
   .fc-toolbar-title {
     margin-top: 0.2em;
@@ -243,5 +248,12 @@ const CalendarContainer = styled.div`
     border-color: #cbcbcb;
     color: #595959;
     margin-right: 1rem;
+  }
+
+  .fc-loginButtons-button {
+    background-color: #fff;
+    border-color: #cbcbcb;
+    color: #595959;
+    margin-right: 0.7rem;
   }
 `;

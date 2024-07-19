@@ -1,12 +1,22 @@
+import { useState } from "react";
 import styled from "styled-components";
 import EconoCalendar from "../components/EconoCalendar";
 import ProfileBar from "../components/SideBar/ProfileBar";
-import PublicFilter from "../components/SideBar/PublicFilter";
-import IndividualFilter from "../components/SideBar/IndividualFilter";
-import GroupFilter from "../components/SideBar/GroupFilter";
-
+import PublicFilter from "../components/SideBar/publicFilter/PublicFilter";
+import IndividualFilter from "../components/SideBar/individualFilter/IndividualFilter";
+import GroupFilter from "../components/SideBar/groupFilter/GroupFilter";
 
 const MainPage = () => {
+  const [filterIndividualLists, setFilterIndividualLists] = useState([]);
+  const [filterGroupLists, setFilterGroupLists] = useState([]);
+
+  const addNewIndividualFilter = (newIndividualFilter) => {
+    setFilterIndividualLists([...filterIndividualLists, newIndividualFilter]);
+  };
+  const addNewGroupFilter = (newGroupFilter) => {
+    setFilterGroupLists([...filterGroupLists, newGroupFilter]);
+  };
+
   return (
     <div>
       <CalendarPage>
@@ -16,8 +26,14 @@ const MainPage = () => {
           <ProfileBar />
           <FilterFrame>
             <PublicFilter />
-            <GroupFilter />
-            <IndividualFilter />
+            <GroupFilter
+              filterLists={filterGroupLists}
+              addNewFilter={addNewGroupFilter}
+            />
+            <IndividualFilter
+              filterLists={filterIndividualLists}
+              addNewFilter={addNewIndividualFilter}
+            />
           </FilterFrame>
         </SideBar>
         <EconoCalendar />

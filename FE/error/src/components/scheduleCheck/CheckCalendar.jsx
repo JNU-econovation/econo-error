@@ -1,14 +1,15 @@
-import { useEffect, useState, useRef } from "react"; // useState 추가
-import Modal from "react-modal";
-import "./CheckCalendar.css";
-import styled from "styled-components";
+import { useEffect, useState, useRef } from "react";
 import { GoPencil } from "react-icons/go";
 import { IoClose } from "react-icons/io5";
-import axios from "axios";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { MdOutlineAutoAwesomeMotion } from "react-icons/md";
-import DeleteEvent from "./DeleteEvent";
 import { Link } from "react-router-dom";
+import Modal from "react-modal";
+import styled from "styled-components";
+import axios from "axios";
+import "./CheckCalendar.css";
+import DeleteEvent from "../DeleteEvent";
+
 const CheckCalendar = ({
   isOpen,
   onRequestClose,
