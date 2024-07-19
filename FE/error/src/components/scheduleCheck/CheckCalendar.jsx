@@ -22,13 +22,15 @@ const CheckCalendar = ({
 }) => {
   const [event, setEvent] = useState({});
 
-  function createDate(title, startDate, endDate, place, info, event) {
+  function createDate(title, startDate, endDate, place, info, type, color) {
     const specificEvent = {
       title: title,
       startDate: startDate,
       endDate: endDate,
       place: place,
       info: info,
+      type: type,
+      color: color,
     };
     setEvent(specificEvent);
   }
@@ -46,7 +48,9 @@ const CheckCalendar = ({
         res.data.data.eventStartDate,
         res.data.data.eventEndDate,
         res.data.data.eventPlace,
-        res.data.data.eventInfo
+        res.data.data.eventInfo,
+        res.data.data.eventType,
+        res.data.data.filterColor
       );
     });
   }, [selectID]);
@@ -94,7 +98,7 @@ const CheckCalendar = ({
       </ModalBar>
 
       <ModalContent>
-        <Title>
+        <Title color={event.color}>
           <span></span>
           <div>{event.title}</div>
         </Title>
@@ -119,14 +123,14 @@ const CheckCalendar = ({
             <div> {event.info}</div>
           </StyledDetailIcon>
         )}
-        {event.info && (
+        {event.type && (
           <StyledDetailIcon>
             <FaRegCalendar
               size="1.5rem"
               color="rgb(95, 99, 104)"
               style={{ marginRight: "1.5rem" }}
             />
-            <div> {event.info}</div>
+            <div> {event.type}</div>
           </StyledDetailIcon>
         )}
       </ModalContent>
@@ -175,12 +179,12 @@ const Title = styled.div`
   span {
     width: 1rem;
     height: 1rem;
-    background-color: #beb9ff;
+    background-color: ${(props) => props.color || "#beb9ff"};
     margin-right: 1.6rem;
     border-radius: 0.3rem;
   }
   div {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
   }
 `;
 
@@ -190,6 +194,8 @@ const Date = styled.p`
 `;
 const StyledDetailIcon = styled.div`
   margin-top: 1.2rem;
+  margin-bottom: 1.2rem;
+
   display: flex;
   align-items: center;
   div {
