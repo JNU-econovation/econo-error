@@ -2,7 +2,9 @@ import { useEffect, useState, useRef } from "react";
 import { GoPencil } from "react-icons/go";
 import { IoClose } from "react-icons/io5";
 import { MdOutlineLocationOn } from "react-icons/md";
-import { MdOutlineAutoAwesomeMotion } from "react-icons/md";
+import { AiOutlineBars } from "react-icons/ai";
+import { FaRegCalendar } from "react-icons/fa6";
+
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
 import styled from "styled-components";
@@ -20,7 +22,7 @@ const CheckCalendar = ({
 }) => {
   const [event, setEvent] = useState({});
 
-  function createDate(title, startDate, endDate, place, info) {
+  function createDate(title, startDate, endDate, place, info, event) {
     const specificEvent = {
       title: title,
       startDate: startDate,
@@ -73,13 +75,15 @@ const CheckCalendar = ({
     >
       <ModalBar>
         <button onClick={onRequestClose}>
-          <IoClose size="1.2rem" />
+          <IoClose size="2rem" color="rgb(95, 99, 104)" />
         </button>
-        <Link to="/ModifyPage" state={{ selectID: selectID }}>
-          <button>
-            <GoPencil size="1.2rem" />
-          </button>
-        </Link>
+        <StyledModifyIcon>
+          <Link to="/ModifyPage" state={{ selectID: selectID }}>
+            <button>
+              <GoPencil size="1.55rem" color="rgb(95, 99, 104)" />
+            </button>
+          </Link>
+        </StyledModifyIcon>
         <DeleteEvent
           events={events}
           selectID={selectID}
@@ -96,16 +100,34 @@ const CheckCalendar = ({
         </Title>
         <Date>{date(event.startDate, event.endDate)}</Date>
         {event.place && (
-          <p>
-            <MdOutlineLocationOn style={{ marginRight: "0.5rem" }} />
-            {event.place}
-          </p>
+          <StyledDetailIcon>
+            <MdOutlineLocationOn
+              size="1.6rem"
+              color="rgb(95, 99, 104)"
+              style={{ marginRight: "1.5rem" }}
+            />
+            <div>{event.place}</div>
+          </StyledDetailIcon>
         )}
         {event.info && (
-          <p>
-            <MdOutlineAutoAwesomeMotion style={{ marginRight: "0.5rem" }} />
-            {event.info}
-          </p>
+          <StyledDetailIcon>
+            <AiOutlineBars
+              size="1.6rem"
+              color="rgb(95, 99, 104)"
+              style={{ marginRight: "1.5rem" }}
+            />
+            <div> {event.info}</div>
+          </StyledDetailIcon>
+        )}
+        {event.info && (
+          <StyledDetailIcon>
+            <FaRegCalendar
+              size="1.5rem"
+              color="rgb(95, 99, 104)"
+              style={{ marginRight: "1.5rem" }}
+            />
+            <div> {event.info}</div>
+          </StyledDetailIcon>
         )}
       </ModalContent>
     </Modal>
@@ -114,9 +136,14 @@ const CheckCalendar = ({
 
 export default CheckCalendar;
 
+const StyledModifyIcon = styled.div`
+  margin-top: 0.22rem;
+  margin-left: 0.4rem;
+`;
 const ModalBar = styled.div`
-  margin-top: 0.5rem;
-  width: 25rem;
+  padding-top: 0.5rem;
+  padding-left: 0.375rem;
+  padding-right: 0.375rem;
   display: flex;
   flex-direction: row-reverse;
   outline: none;
@@ -132,18 +159,9 @@ const ModalBar = styled.div`
 `;
 
 const ModalContent = styled.div`
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  span {
-    width: 1rem;
-    height: 1rem;
-    background-color: #beb9ff;
-    margin-right: 0.5rem;
-  }
-  div {
-    font-weight: bold;
-  }
+  padding-right: 1.75rem;
+  padding-left: 1.75rem;
+  padding-bottom: 1rem;
   p {
     margin-top: 0.6rem;
     margin-right: 0.6rem;
@@ -152,9 +170,29 @@ const ModalContent = styled.div`
 
 const Title = styled.div`
   display: flex;
+  align-items: center;
+  margin-left: 0.3rem;
+  span {
+    width: 1rem;
+    height: 1rem;
+    background-color: #beb9ff;
+    margin-right: 1.6rem;
+    border-radius: 0.3rem;
+  }
+  div {
+    font-size: 1.8rem;
+  }
 `;
 
 const Date = styled.p`
-  margin-left: 1.55rem;
-  font-size: small;
+  margin-left: 2.75rem;
+  margin-bottom: 1.8rem;
+`;
+const StyledDetailIcon = styled.div`
+  margin-top: 1.2rem;
+  display: flex;
+  align-items: center;
+  div {
+    font-size: 1.1em;
+  }
 `;

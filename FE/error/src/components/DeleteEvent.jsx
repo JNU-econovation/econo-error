@@ -23,7 +23,7 @@ const DeleteEvent = ({
   return (
     <>
       <button onClick={calendarDelete}>
-        <RiDeleteBinLine size="1.2rem" />
+        <RiDeleteBinLine size="1.6rem" color="rgb(95, 99, 104)" />
       </button>
     </>
   );
