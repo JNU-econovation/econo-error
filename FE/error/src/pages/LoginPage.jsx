@@ -88,7 +88,6 @@ const StyledSubTitle = styled.h3`
 const StyledBackground = styled.img`
   margin-left: 48%;
   margin-top: 8%;
-
   height: 35rem;
 `;
 
