@@ -15,10 +15,8 @@ const LoginPage = () => {
   useEffect(() => {
     if (code) {
       handleSlackAuth(code);
-      // 코드 사용 후 URL에서 코드 제거
-      // navigate("/", { replace: true });
     }
-  }, [code, navigate]);
+  }, [code]);
 
   const handleSlackAuth = async (authCode) => {
     setIsLoading(true);
@@ -29,7 +27,7 @@ const LoginPage = () => {
       );
       if (response.data.success) {
         localStorage.setItem("slackToken", response.data.token);
-        // 성공적인 인증 후 추가 작업
+        navigate("/");
       } else {
         setError(response.data.message || "Login failed");
         console.error("Login failed:", response.data);
