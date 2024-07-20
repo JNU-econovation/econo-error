@@ -15,7 +15,7 @@ const LoginPage = () => {
       localStorage.setItem("slackCode", code);
       navigate("/");
     }
-  }, [code, navigate]);
+  }, [code]);
 
   const handleSlackAuth = async (authCode) => {
     setIsLoading(true);
