@@ -25,9 +25,7 @@ const LoginPage = () => {
     setError(null);
     try {
       const response = await axios.post(
-        `https://error.econo-calendar.com:8080/api/auth/login/slack?type=slack&code=${authCode}&redirect_uri=${encodeURIComponent(
-          redirectUri
-        )}`
+        `https://error.econo-calendar.com:8080/api/auth/login/slack?type=slack&code=${authCode}&redirect_uri=https://econo-calendar.com/login`
       );
       if (response.data.success) {
         localStorage.setItem("slackToken", response.data.token);
