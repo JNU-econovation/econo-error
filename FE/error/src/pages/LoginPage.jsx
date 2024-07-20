@@ -20,8 +20,10 @@ const LoginPage = () => {
   const handleSlackAuth = async (authCode) => {
     setIsLoading(true);
     try {
-      const response = await axios.post("/api/auth/login/slack", authCode);
-
+      const response = await axios.post(
+        `/api/auth/login/slack?code=${authCode}&redirect_uri=https://econo-calendar.com`
+      );
+      //https://error.econo-calendar.com:8080/api/auth/login/slack?code=437291124342.7450366183669.707a922032302fb4173d10c87e3c7e31400240615b5b7a49bf6bb0bc210069c5&redirect_uri=https://econo-calendar.com
       if (response.data.success) {
         localStorage.setItem("slackToken", response.data.token);
       } else {
@@ -37,6 +39,7 @@ const LoginPage = () => {
   };
 
   const handleOnLogin = () => {
+    //슬랙 로그인 경로
     const slackAuthUrl = `https://econovation-2018.slack.com/oauth?client_id=437291124342.7141431332214&scope=incoming-webhook&user_scope=&redirect_uri=&state=&granular_bot_scope=0&single_channel=0&install_redirect=&tracked=1&team=`;
     window.location.href = slackAuthUrl;
   };
