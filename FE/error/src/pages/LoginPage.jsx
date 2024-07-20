@@ -20,9 +20,7 @@ const LoginPage = () => {
   const handleSlackAuth = async (authCode) => {
     setIsLoading(true);
     try {
-      const response = await axios.post("/api/auth/login/slack", {
-        authCode,
-      });
+      const response = await axios.post("/api/auth/login/slack", authCode);
 
       if (response.data.success) {
         localStorage.setItem("slackToken", response.data.token);
