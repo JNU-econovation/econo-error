@@ -23,7 +23,7 @@ const LoginPage = () => {
       const response = await axios.post(
         `/api/auth/login/slack?code=${authCode}&redirect_uri=https://econo-calendar.com`
       );
-      //https://error.econo-
+      //https://error.econo-calendar.com:8080/api/auth/login/slack?code=437291124342.7450366183669.707a922032302fb4173d10c87e3c7e31400240615b5b7a49bf6bb0bc210069c5&redirect_uri=https://econo-calendar.com
       if (response.data.success) {
         localStorage.setItem("slackToken", response.data.token);
       } else {
