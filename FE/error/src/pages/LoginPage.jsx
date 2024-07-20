@@ -16,7 +16,7 @@ const LoginPage = () => {
     if (code) {
       handleSlackAuth(code);
       // 코드 사용 후 URL에서 코드 제거
-      navigate("/", { replace: true });
+      // navigate("/", { replace: true });
     }
   }, [code, navigate]);
 
