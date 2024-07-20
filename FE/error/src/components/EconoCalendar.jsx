@@ -49,7 +49,7 @@ const EconoCalendar = () => {
           id: event.eventId,
           start: event.eventStartDate.split("T")[0],
           end: event.eventEndDate.split("T")[0],
-          color: "#ffc5bf",
+          color: "#FFC0CB",
         }));
         setEvents(fetchedEvents);
       })
@@ -255,5 +255,12 @@ const CalendarContainer = styled.div`
     border-color: #cbcbcb;
     color: #595959;
     margin-right: 0.7rem;
+  }
+  .fc-event-title-container {
+    height: 1.3rem;
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    margin-left: 0.3rem;
   }
 `;
