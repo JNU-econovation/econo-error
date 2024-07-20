@@ -1,6 +1,58 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import axios from "axios";
+
+// Axios 기본 설정
+axios.defaults.baseURL = import.meta.env.VITE_ERROR_API;
+axios.defaults.headers.common["Content-Type"] = "application/json";
+axios.defaults.withCredentials = true;
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const code = searchParams.get("code");
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (code) {
+      handleSlackAuth(code);
+      localStorage.setItem("slackCode", code);
+      navigate("/");
+    }
+  }, [code, navigate]);
+
+  const handleSlackAuth = async (authCode) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post("/api/auth/login/slack", {
+        code: authCode,
+      });
+
+      if (response.data.success) {
+        localStorage.setItem("slackToken", response.data.token);
+        navigate("/dashboard");
+      } else {
+        console.error("Login failed:", response.data.message);
+        // 여기에 에러 처리 로직 추가 (예: 사용자에게 알림)
+      }
+    } catch (error) {
+      console.error("Error during Slack authentication:", error);
+      // 여기에 에러 처리 로직 추가 (예: 사용자에게 알림)
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleOnLogin = () => {
+    const slackAuthUrl = `https://econovation-2018.slack.com/oauth?client_id=437291124342.7141431332214&scope=incoming-webhook&user_scope=&redirect_uri=&state=&granular_bot_scope=0&single_channel=0&install_redirect=&tracked=1&team=`;
+    window.location.href = slackAuthUrl;
+  };
+
+  if (isLoading) {
+    return <div>로그인 중...</div>;
+  }
+
   return (
     <>
       <StyledTextArea>
@@ -13,12 +65,13 @@ const LoginPage = () => {
           <br />
           공식 일정만 조회 가능합니다.
         </StyledSubTitle>
-        <StyledSlackButton>
-          <StyledSlackImage src="Slack.png"></StyledSlackImage>슬랙으로 로그인
+        <StyledSlackButton onClick={handleOnLogin}>
+          <StyledSlackImage src="Slack.png" alt="Slack logo" />
+          슬랙으로 로그인
         </StyledSlackButton>
       </StyledTextArea>
-      <StyledBackground src="Background.png" />
-      <StyledCharacter src="Picture.png" />
+      <StyledBackground src="Background.png" alt="Background" />
+      <StyledCharacter src="Picture.png" alt="Character" />
     </>
   );
 };
