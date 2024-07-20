@@ -21,9 +21,9 @@ const LoginPage = () => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        `/api/auth/login/slack?code=${authCode}&redirect_uri=https://econo-calendar.com`
+        `/api/auth/login/slack?type=slack&code=${authCode}&redirect_uri=https://econo-calendar.com/login`
       );
-      //https://error.econo-calendar.com:8080/api/auth/login/slack?code=437291124342.7450366183669.707a922032302fb4173d10c87e3c7e31400240615b5b7a49bf6bb0bc210069c5&redirect_uri=https://econo-calendar.com
+      //https://error.econo-calendar.com:8080/api/auth/login/slack?type=slack&code=437291124342.7450149308964.72d587a945484ba89cfb71b85a8988c1a0e2dc5e2a0bbf5ff00d4eef8e8b0a89&redirect_uri=https://econo-calendar.com/login
       if (response.data.success) {
         localStorage.setItem("slackToken", response.data.token);
       } else {
