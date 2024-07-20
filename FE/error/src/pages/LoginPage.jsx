@@ -12,8 +12,8 @@ const LoginPage = () => {
   useEffect(() => {
     if (code) {
       handleSlackAuth(code);
-      localStorage.setItem("slackCode", code);
-      navigate("/");
+      // 코드 사용 후 URL에서 코드 제거
+      navigate("/", { replace: true });
     }
   }, [code]);
 
@@ -23,16 +23,16 @@ const LoginPage = () => {
       const response = await axios.post(
         `/api/auth/login/slack?type=slack&code=${authCode}&redirect_uri=https://econo-calendar.com/login`
       );
-      //https://error.econo-calendar.com:8080/api/auth/login/slack?type=slack&code=437291124342.7450149308964.72d587a945484ba89cfb71b85a8988c1a0e2dc5e2a0bbf5ff00d4eef8e8b0a89&redirect_uri=https://econo-calendar.com/login
       if (response.data.success) {
         localStorage.setItem("slackToken", response.data.token);
+        // 성공적인 인증 후 추가 작업
       } else {
         console.error("Login failed:", response.data.message);
-        // 여기에 에러 처리 로직 추가 (예: 사용자에게 알림)
+        // 에러 처리
       }
     } catch (error) {
       console.error("Error during Slack authentication:", error);
-      // 여기에 에러 처리 로직 추가 (예: 사용자에게 알림)
+      // 에러 처리
     } finally {
       setIsLoading(false);
     }
