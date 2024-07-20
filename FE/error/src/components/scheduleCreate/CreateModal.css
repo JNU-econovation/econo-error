@@ -5,7 +5,7 @@
   transform: translate(-50%, -50%);
   background-color: white;
   z-index: 1000;
-  width: 50rem; /* 원하는 너비 설정 */
+  width: 40rem; /* 원하는 너비 설정 */
   max-width: 90%; /* 화면이 작은 경우 최대 너비 설정 */
   border-radius: 6px;
   box-shadow: 2px 2px 20px 2px rgba(0, 0, 0, 0.3);

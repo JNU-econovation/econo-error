@@ -3,11 +3,6 @@ import styled from "styled-components";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
-// Axios 기본 설정
-axios.defaults.baseURL = import.meta.env.VITE_ERROR_API;
-axios.defaults.headers.common["Content-Type"] = "application/json";
-axios.defaults.withCredentials = true;
-
 const LoginPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -25,7 +20,9 @@ const LoginPage = () => {
   const handleSlackAuth = async (authCode) => {
     setIsLoading(true);
     try {
-      const response = await axios.post("/slack/auth", { code: authCode });
+      const response = await axios.post("/api/auth/login/slack", {
+        code: authCode,
+      });
 
       if (response.data.success) {
         localStorage.setItem("slackToken", response.data.token);
