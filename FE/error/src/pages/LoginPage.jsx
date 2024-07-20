@@ -21,12 +21,11 @@ const LoginPage = () => {
     setIsLoading(true);
     try {
       const response = await axios.post("/api/auth/login/slack", {
-        code: authCode,
+        authCode,
       });
 
       if (response.data.success) {
         localStorage.setItem("slackToken", response.data.token);
-        navigate("/dashboard");
       } else {
         console.error("Login failed:", response.data.message);
         // 여기에 에러 처리 로직 추가 (예: 사용자에게 알림)
