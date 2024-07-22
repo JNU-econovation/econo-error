@@ -14,6 +14,12 @@ const EconoCalendar = () => {
   const [checkModalIsOpen, setCheckModalIsOpen] = useState(false);
   const [createModalIsOpen, setCreateModalIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("slackToken");
+    setIsLoggedIn(!!token);
+  }, []);
 
   const handleDelete = () => {
     toast("일정이 삭제되었습니다", {
@@ -23,10 +29,12 @@ const EconoCalendar = () => {
       },
     });
   };
+
   const handleEventClick = (info) => {
     setSelectID(info.event._def.publicId);
     setCheckModalIsOpen(true);
   };
+
   const handleDateClick = (arg) => {
     setSelectedDate(arg.dateStr);
     setCreateModalIsOpen(true);
@@ -65,6 +73,16 @@ const EconoCalendar = () => {
   const handleUpdateDeleteData = (newData) => {
     setEvents(events.filter((event) => event.id !== parseInt(newData)));
   };
+
+  const handleLoginLogout = () => {
+    if (isLoggedIn) {
+      localStorage.removeItem("slackToken");
+      setIsLoggedIn(false);
+    } else {
+      window.location.href = "/login";
+    }
+  };
+
   return (
     <>
       <CalendarContainer>
@@ -85,11 +103,9 @@ const EconoCalendar = () => {
                 setCreateModalIsOpen(true);
               },
             },
-            loginButtons: {
-              text: "로그인",
-              click: function () {
-                window.location.href = "/login";
-              },
+            loginLogoutButton: {
+              text: isLoggedIn ? "로그아웃" : "로그인",
+              click: handleLoginLogout,
             },
           }}
           views={{
@@ -100,7 +116,7 @@ const EconoCalendar = () => {
           headerToolbar={{
             left: "today prev title next",
             center: "",
-            right: "loginButtons,createDateButton",
+            right: "loginLogoutButton,createDateButton",
           }}
           events={events}
           eventDisplay={"block"}
@@ -250,7 +266,7 @@ const CalendarContainer = styled.div`
     margin-right: 1rem;
   }
 
-  .fc-loginButtons-button {
+  .fc-loginLogoutButton-button {
     background-color: #fff;
     border-color: #cbcbcb;
     color: #595959;
