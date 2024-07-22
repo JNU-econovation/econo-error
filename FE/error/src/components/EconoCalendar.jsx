@@ -15,14 +15,15 @@ const EconoCalendar = () => {
   const [createModalIsOpen, setCreateModalIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("slackToken");
-    setIsLoggedIn(!!token);
+    const storedToken = localStorage.getItem("slackToken");
+    setToken(storedToken);
+    setIsLoggedIn(!!storedToken);
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem("slackToken");
     const uri = isLoggedIn ? "/api/calendar/all" : "/api/calendar/public/all";
     const config = isLoggedIn
       ? { headers: { Authorization: `Bearer ${token}` } }
@@ -43,7 +44,7 @@ const EconoCalendar = () => {
       .catch((error) => {
         console.error("Error fetching events:", error);
       });
-  }, [isLoggedIn]);
+  }, [isLoggedIn, token]);
 
   const handleDelete = () => {
     toast("일정이 삭제되었습니다", {
@@ -60,8 +61,10 @@ const EconoCalendar = () => {
   };
 
   const handleDateClick = (arg) => {
-    setSelectedDate(arg.dateStr);
-    setCreateModalIsOpen(true);
+    if (isLoggedIn) {
+      setSelectedDate(arg.dateStr);
+      setCreateModalIsOpen(true);
+    }
   };
 
   const getCurrentDate = () => {
@@ -84,6 +87,7 @@ const EconoCalendar = () => {
     if (isLoggedIn) {
       localStorage.removeItem("slackToken");
       setIsLoggedIn(false);
+      setToken(null);
     } else {
       window.location.href = "/login";
     }
@@ -102,13 +106,15 @@ const EconoCalendar = () => {
             return "+" + num + "개 더보기";
           }}
           customButtons={{
-            createDateButton: {
-              text: "일정 생성",
-              click: function () {
-                setSelectedDate(getCurrentDate());
-                setCreateModalIsOpen(true);
+            ...(isLoggedIn && {
+              createDateButton: {
+                text: "일정 생성",
+                click: function () {
+                  setSelectedDate(getCurrentDate());
+                  setCreateModalIsOpen(true);
+                },
               },
-            },
+            }),
             loginLogoutButton: {
               text: isLoggedIn ? "로그아웃" : "로그인",
               click: handleLoginLogout,
@@ -122,7 +128,9 @@ const EconoCalendar = () => {
           headerToolbar={{
             left: "today prev title next",
             center: "",
-            right: "loginLogoutButton,createDateButton",
+            right: isLoggedIn
+              ? "loginLogoutButton createDateButton"
+              : "loginLogoutButton",
           }}
           events={events}
           eventDisplay={"block"}
