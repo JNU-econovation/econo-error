@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import EconoCalendar from "../components/EconoCalendar";
 import ProfileBar from "../components/SideBar/ProfileBar";
@@ -9,6 +9,12 @@ import GroupFilter from "../components/SideBar/groupFilter/GroupFilter";
 const MainPage = () => {
   const [filterIndividualLists, setFilterIndividualLists] = useState([]);
   const [filterGroupLists, setFilterGroupLists] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("slackToken");
+    setIsLoggedIn(!!token);
+  }, []);
 
   const addNewIndividualFilter = (newIndividualFilter) => {
     setFilterIndividualLists([...filterIndividualLists, newIndividualFilter]);
@@ -26,14 +32,18 @@ const MainPage = () => {
           <ProfileBar />
           <FilterFrame>
             <PublicFilter />
-            <GroupFilter
-              filterLists={filterGroupLists}
-              addNewFilter={addNewGroupFilter}
-            />
-            <IndividualFilter
-              filterLists={filterIndividualLists}
-              addNewFilter={addNewIndividualFilter}
-            />
+            {isLoggedIn && (
+              <>
+                <GroupFilter
+                  filterLists={filterGroupLists}
+                  addNewFilter={addNewGroupFilter}
+                />
+                <IndividualFilter
+                  filterLists={filterIndividualLists}
+                  addNewFilter={addNewIndividualFilter}
+                />
+              </>
+            )}
           </FilterFrame>
         </SideBar>
         <EconoCalendar />
