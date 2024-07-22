@@ -10,8 +10,8 @@ const FilterList = ({ filterLists }) => {
       {filterLists.map((filterList, index) => (
         <StyledSceduleType key={index}>
           <StyledTitle>
-            <ScheduleToggle color={filterList.color} />
-            {filterList.title}
+            <ScheduleToggle color={filterList.filterColor} />
+            {filterList.filterName}
           </StyledTitle>
           <StyledDetail>
             <StyledDetailIcon

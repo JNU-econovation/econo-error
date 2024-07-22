@@ -5,6 +5,7 @@ import Modal from "react-modal";
 import "./CreateFilterModal.css";
 import GroupFilterCreateModal from "../../components/SideBar/groupFilter/GroupFilterCreateModal";
 import FilterColorSelect from "./FilterColorSelect";
+import axios from "axios";
 
 const FilterCreateModal = ({
   isOpen,
@@ -20,14 +21,17 @@ const FilterCreateModal = ({
   };
   const handleCreateFilter = () => {
     const newFilter = {
-      title: filterTitle,
-      color: filterColor,
+      filterName: filterTitle,
+      filterColor: filterColor,
     };
+    //axios.post("/api/calendar/filter", newFilter).then((res) => {
     addNewFilter(newFilter);
     setFilterTitle("");
     setFilterColor("");
     onRequestClose();
+    //});
   };
+
   return (
     <>
       <Modal

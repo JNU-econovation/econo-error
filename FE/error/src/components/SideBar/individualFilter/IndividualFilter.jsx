@@ -16,6 +16,7 @@ const IndividualFilter = ({ filterLists, addNewFilter }) => {
   const handleArrowDown = () => {
     setFilterListsIsOpen(!filterListsIsOpen);
   };
+
   return (
     <>
       <StyledIndividualFilterFrame>
