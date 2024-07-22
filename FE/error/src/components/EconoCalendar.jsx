@@ -21,6 +21,30 @@ const EconoCalendar = () => {
     setIsLoggedIn(!!token);
   }, []);
 
+  useEffect(() => {
+    const token = localStorage.getItem("slackToken");
+    const uri = isLoggedIn ? "/api/calendar/all" : "/api/calendar/public/all";
+    const config = isLoggedIn
+      ? { headers: { Authorization: `Bearer ${token}` } }
+      : {};
+
+    axios
+      .get(uri, config)
+      .then((res) => {
+        const fetchedEvents = res.data.data.map((event) => ({
+          title: event.eventName,
+          id: event.eventId,
+          start: event.eventStartDate.split("T")[0],
+          end: event.eventEndDate.split("T")[0],
+          color: "#FFC0CB",
+        }));
+        setEvents(fetchedEvents);
+      })
+      .catch((error) => {
+        console.error("Error fetching events:", error);
+      });
+  }, [isLoggedIn]);
+
   const handleDelete = () => {
     toast("일정이 삭제되었습니다", {
       style: {
@@ -47,24 +71,6 @@ const EconoCalendar = () => {
     const day = ("0" + today.getDate()).slice(-2);
     return `${year}-${month}-${day}`;
   };
-
-  useEffect(() => {
-    axios
-      .get("/api/calendar/all")
-      .then((res) => {
-        const fetchedEvents = res.data.data.map((event) => ({
-          title: event.eventName,
-          id: event.eventId,
-          start: event.eventStartDate.split("T")[0],
-          end: event.eventEndDate.split("T")[0],
-          color: "#FFC0CB",
-        }));
-        setEvents(fetchedEvents);
-      })
-      .catch((error) => {
-        console.error("Error fetching events:", error);
-      });
-  }, []);
 
   const handleUpdateData = (newData) => {
     setEvents((preEvents) => [...preEvents, newData]);
