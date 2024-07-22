@@ -8,6 +8,7 @@ import com.example.demo.schedule.application.dto.*;
 import com.example.demo.schedule.application.usecase.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,6 +43,12 @@ public class ScheduleController {
     ) {
         SpecificScheduleResopnse response = getSpecificScheduleUsecase.getSpecificSchedule(eventId);
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
+    }
+
+    @GetMapping("public/all")
+    public ApiResponse<SuccessBody<List<AllCalendarResponse>>> getTestAll() {
+        List<AllCalendarResponse> response = getAllScheduleUsecase.getAllSchedule();
+        return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GETALL);
     }
 
     @GetMapping("all")
