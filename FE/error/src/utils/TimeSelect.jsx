@@ -13,24 +13,24 @@ for (let i = 0; i < 24; i++) {
   hour.push(op);
 }
 
-const TimeSelect = ({ onTimeSelect }) => {
-  const [timeValue, setTimeValue] = useState("");
+const TimeSelect = ({ onTimeSelect, currentTime, minTime }) => {
   const handleChange = (option) => {
-    setTimeValue(option.value);
     if (onTimeSelect) {
       onTimeSelect(option.value);
     }
   };
 
+  const filteredHours = minTime
+    ? hour.filter((option) => option.value >= minTime)
+    : hour;
+
   return (
-    <>
-      <Select
-        value={hour.find((option) => option.value === timeValue)}
-        onChange={handleChange}
-        placeholder="00시 00분"
-        options={hour}
-      />
-    </>
+    <Select
+      value={hour.find((option) => option.value === currentTime)}
+      onChange={handleChange}
+      placeholder="00시 00분"
+      options={filteredHours}
+    />
   );
 };
 

@@ -25,12 +25,14 @@ const LoginPage = () => {
       const response = await axios.post(
         `https://error.econo-calendar.com:8080/api/auth/login/slack?type=slack&code=${authCode}&redirect_uri=https://econo-calendar.com/login`
       );
-      if (response.data.success) {
-        localStorage.setItem("slackToken", response.data.token);
+
+      if (response.data.data.code === "201") {
+        localStorage.setItem("slackToken", response.data.data.accessToken);
         navigate("/");
       } else {
-        setError(response.data.message || "Login failed");
-        console.error("Login failed:", response.data);
+        setError(response.data.data.message || "Login failed");
+        console.log(response.data.data.code);
+        console.error("Login failed:", response.data.data);
       }
     } catch (error) {
       setError("Authentication failed. Please try again.");
@@ -44,9 +46,9 @@ const LoginPage = () => {
   };
 
   const handleOnLogin = () => {
-    const slackAuthUrl = `https://econovation-2018.slack.com/oauth?client_id=437291124342.7141431332214&scope=incoming-webhook&user_scope=&redirect_uri=${encodeURIComponent(
+    const slackAuthUrl = `https://econovation-2018.slack.com/oauth?client_id=437291124342.7141431332214&scope=chat%3Awrite%2Cchat%3Awrite.customize%2Cchat%3Awrite.public%2Cemoji%3Aread%2Cfiles%3Awrite%2Cincoming-webhook&user_scope=chat%3Awrite%2Cusers.profile%3Aread&redirect_uri=${encodeURIComponent(
       redirectUri
-    )}&state=&granular_bot_scope=0&single_channel=0&install_redirect=&tracked=1&team=`;
+    )}&state=&granular_bot_scope=1&single_channel=0&install_redirect=&tracked=1&team=`;
     window.location.href = slackAuthUrl;
   };
 
