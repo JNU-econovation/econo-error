@@ -38,8 +38,11 @@ const CreateModal = ({
       setEventInfo("");
       setEventPlace("");
       setEventMemo("");
-      setNewStartDate(selectedDate + "T" + eventStartTime);
-      setNewEndDate(selectedDate + "T" + eventEndTime);
+      setEventStartTime("00:00"); // 초기화 추가
+      setEventEndTime("00:00"); // 초기화 추가
+      setNewStartDate(selectedDate + "T00:00"); // 수정
+      setNewEndDate(selectedDate + "T00:00"); // 수정
+
       setSelectedFilter(null);
       setActiveDropdown(null);
     }
@@ -72,23 +75,25 @@ const CreateModal = ({
   };
 
   const handleStartTimeSelect = (time) => {
-    const startDateString = `${StartDate}T${time}`;
-    const endDateString = `${EndDate}T${eventEndTime}`;
-
     setEventStartTime(time);
-    setNewStartDate(startDateString);
+    setNewStartDate(`${StartDate}T${time}`);
 
-    if (compareAsc(parseISO(startDateString), parseISO(endDateString)) > 0) {
+    // 시작 시간이 종료 시간보다 늦을 경우, 종료 시간을 시작 시간과 같게 설정
+    if (StartDate === EndDate && time > eventEndTime) {
       setEventEndTime(time);
-      setNewEndDate(startDateString);
+      setNewEndDate(`${EndDate}T${time}`);
     }
   };
 
   const handleEndTimeSelect = (time) => {
-    let updatedEndDate = addDays(new Date(EndDate), 1);
-    const newEndDate = `${format(updatedEndDate, "yyyy-MM-dd")}T${time}`;
+    if (StartDate === EndDate && time < eventStartTime) {
+      // 종료 시간이 시작 시간보다 이를 경우, 시작 시간을 종료 시간과 같게 설정
+      setEventStartTime(time);
+      setNewStartDate(`${StartDate}T${time}`);
+    }
+
     setEventEndTime(time);
-    setNewEndDate(newEndDate);
+    setNewEndDate(`${EndDate}T${time}`);
   };
 
   const handleMemoChange = (e) => {
@@ -266,9 +271,16 @@ const CreateModal = ({
               />
             </DateRow>
             <DateRow>
-              <TimeSelect onTimeSelect={handleStartTimeSelect} />
+              <TimeSelect
+                onTimeSelect={handleStartTimeSelect}
+                currentTime={eventStartTime}
+              />
               부터
-              <TimeSelect onTimeSelect={handleEndTimeSelect} />
+              <TimeSelect
+                onTimeSelect={handleEndTimeSelect}
+                currentTime={eventEndTime}
+                minTime={StartDate === EndDate ? eventStartTime : undefined}
+              />
               까지
             </DateRow>
           </DateTimeContainer>
