@@ -19,6 +19,7 @@ const MainPage = () => {
   const addNewIndividualFilter = (newIndividualFilter) => {
     setFilterIndividualLists([...filterIndividualLists, newIndividualFilter]);
   };
+
   const addNewGroupFilter = (newGroupFilter) => {
     setFilterGroupLists([...filterGroupLists, newGroupFilter]);
   };
@@ -46,7 +47,7 @@ const MainPage = () => {
             )}
           </FilterFrame>
         </SideBar>
-        <EconoCalendar />
+        <EconoCalendar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       </CalendarPage>
     </div>
   );
