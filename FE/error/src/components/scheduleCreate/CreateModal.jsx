@@ -48,6 +48,10 @@ const CreateModal = ({
     }
   }, [isOpen, selectedDate]);
 
+  const isFilterSelected = () => {
+    return selectedFilter && selectedFilter.category && selectedFilter.filter;
+  };
+
   const handleTitleChange = (event) => {
     setEventName(event.target.value);
   };
@@ -141,6 +145,10 @@ const CreateModal = ({
   }
 
   const saveData = () => {
+    if (!eventName || !isFilterSelected()) {
+      return; // 추가적인 안전장치
+    }
+
     const data = {
       eventName: eventName,
       eventStartDate: eventStartDate,
@@ -148,11 +156,10 @@ const CreateModal = ({
       eventPlace: eventPlace,
       eventInfo: eventMemo,
       eventCategory: {
-        econo: selectedFilter.econo,
-        group: selectedFilter.group,
-        personal: selectedFilter.personal,
+        [selectedFilter.category]: selectedFilter.filter,
       },
     };
+
     axios.post("/api/calendar", data).then((res) => {
       createDate(
         eventName,
@@ -295,7 +302,10 @@ const CreateModal = ({
           <ReactQuill placeholder={"설명 추가"} onChange={handleMemoChange} />
         </EditorBox>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <SaveButton onClick={saveData} disabled={!eventName}>
+          <SaveButton
+            onClick={saveData}
+            disabled={!eventName || !isFilterSelected()}
+          >
             저장
           </SaveButton>
         </div>
