@@ -19,12 +19,15 @@ const EconoCalendar = ({ isLoggedIn, setIsLoggedIn }) => {
   useEffect(() => {
     const storedToken = localStorage.getItem("slackToken");
     setToken(storedToken);
-  }, []);
 
-  useEffect(() => {
-    const uri = isLoggedIn ? "/api/calendar/all" : "/api/calendar/public/all";
-    const config = isLoggedIn
-      ? { headers: { Authorization: `Bearer ${token}` } }
+    const isUserLoggedIn = !!storedToken;
+    setIsLoggedIn(isUserLoggedIn);
+
+    const uri = isUserLoggedIn
+      ? "/api/calendar/all"
+      : "/api/calendar/public/all";
+    const config = isUserLoggedIn
+      ? { headers: { Authorization: `Bearer ${storedToken}` } }
       : {};
 
     axios
@@ -42,7 +45,7 @@ const EconoCalendar = ({ isLoggedIn, setIsLoggedIn }) => {
       .catch((error) => {
         console.error("Error fetching events:", error);
       });
-  }, [isLoggedIn, token]);
+  }, []);
 
   const handleDelete = () => {
     toast("일정이 삭제되었습니다", {
