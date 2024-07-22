@@ -8,19 +8,17 @@ import axios from "axios";
 import CreateModal from "./scheduleCreate/CreateModal";
 import CheckCalendar from "./scheduleCheck/CheckCalendar";
 
-const EconoCalendar = () => {
+const EconoCalendar = ({ isLoggedIn, setIsLoggedIn }) => {
   const [events, setEvents] = useState([]);
   const [selectID, setSelectID] = useState("");
   const [checkModalIsOpen, setCheckModalIsOpen] = useState(false);
   const [createModalIsOpen, setCreateModalIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState(null);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("slackToken");
     setToken(storedToken);
-    setIsLoggedIn(!!storedToken);
   }, []);
 
   useEffect(() => {
@@ -88,16 +86,16 @@ const EconoCalendar = () => {
       localStorage.removeItem("slackToken");
       setIsLoggedIn(false);
       setToken(null);
+      // } else {
+      //   const newToken = "dummyToken" + Math.random().toString(36).substr(2, 9); // 임의의 토큰 생성
+      //   localStorage.setItem("slackToken", newToken);
+      //   setToken(newToken);
+      //   setIsLoggedIn(true);
+      // }
+      //TODO: 추후 아래 코드로 변경
     } else {
-      const newToken = "dummyToken" + Math.random().toString(36).substr(2, 9); // 임의의 토큰 생성
-      localStorage.setItem("slackToken", newToken);
-      setToken(newToken);
-      setIsLoggedIn(true);
+      window.location.href = "/login";
     }
-    //TODO: 추후 아래 코드로 변경
-    // } else {
-    //   window.location.href = "/login";
-    // }
   };
 
   return (
