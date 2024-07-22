@@ -71,7 +71,7 @@ public class AuthController {
         return ApiResponseGenerator.success(response, HttpStatus.CREATED, MessageCode.CREATE);
     }
 
-    // 여기 부터 기능 구현 안됨
+
     @Operation(summary = "로그아웃한다.", description = "쿠키에 담긴 리프레시 토큰을 이용하여 로그아웃한다.")
     @PostMapping("/logout")
     ApiResponse<SuccessBody<Void>> logout(
@@ -93,7 +93,7 @@ public class AuthController {
 
         return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.DELETE);
     }
-    // 여기 까지 기능 구현 안됨
+
 
 
     private TokenResponse generateTokenResponse(
