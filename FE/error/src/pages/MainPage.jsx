@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import EconoCalendar from "../components/EconoCalendar";
 import ProfileBar from "../components/SideBar/ProfileBar";
 import PublicFilter from "../components/SideBar/publicFilter/PublicFilter";
 import IndividualFilter from "../components/SideBar/individualFilter/IndividualFilter";
 import GroupFilter from "../components/SideBar/groupFilter/GroupFilter";
+import axios from "axios";
 
 const MainPage = () => {
   const [filterIndividualLists, setFilterIndividualLists] = useState([]);
@@ -17,6 +18,33 @@ const MainPage = () => {
     setFilterGroupLists([...filterGroupLists, newGroupFilter]);
   };
 
+  useEffect(() => {
+    axios
+      .get("/api/calendar/filter/all")
+      .then((res) => {
+        const fetchedFilter = res.data.data.map((filter) => ({
+          filterId: filter.filterId,
+          filterName: filter.filterName,
+          filterColor: filter.filterColor,
+        }));
+        /*[
+        {
+          filterId: 1,
+          filterName: 'hi',
+          filterColor: 'pink'
+        },
+        {
+          filterId: 2,
+          filterName: 'hi',
+          filterColor: 'pink'
+        }
+      ]*/
+        setFilterIndividualLists(fetchedFilter);
+      })
+      .catch((err) => {
+        console.log("Error fetching events:", err);
+      });
+  }, []);
   return (
     <div>
       <CalendarPage>
