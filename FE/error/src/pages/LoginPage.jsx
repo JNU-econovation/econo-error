@@ -27,20 +27,18 @@ const LoginPage = () => {
       );
       console.log("response", response);
       console.log("response.data", response.data);
-      if (response.data.data.code === "201") {
+
+      if (response.data.code === "201") {
         localStorage.setItem("slackToken", response.data.data.accessToken);
         navigate("/");
       } else {
-        setError(response.data.data.message || "Login failed");
-        console.log(response.data.data.code);
-        console.error("Login failed:", response.data.data);
+        setError(response.data.message || "로그인 실패");
+        console.log(response.data.code);
+        console.error("로그인 실패:", response.data);
       }
     } catch (error) {
-      setError("Authentication failed. Please try again.");
-      console.error(
-        "Error during Slack authentication:",
-        error.response || error
-      );
+      setError("인증에 실패했습니다. 다시 시도해주세요.");
+      console.error("Slack 인증 중 오류 발생:", error.response || error);
     } finally {
       setIsLoading(false);
     }
