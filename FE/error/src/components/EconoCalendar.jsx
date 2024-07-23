@@ -26,12 +26,9 @@ const EconoCalendar = ({ isLoggedIn, setIsLoggedIn }) => {
     const uri = isUserLoggedIn
       ? "/api/calendar/all"
       : "/api/calendar/all/public";
-    const config = isUserLoggedIn
-      ? { headers: { Authorization: `Bearer ${storedToken}` } }
-      : {};
 
     axios
-      .get(uri, config)
+      .get(uri, { headers: { Authorization: `Bearer ${storedToken}` } })
       .then((res) => {
         const fetchedEvents = res.data.data.map((event) => ({
           title: event.eventName,
