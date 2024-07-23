@@ -24,12 +24,12 @@ const FilterCreateModal = ({
       filterName: filterTitle,
       filterColor: filterColor,
     };
-    //axios.post("/api/filter", newFilter).then((res) => {
-    addNewFilter(newFilter);
-    setFilterTitle("");
-    setFilterColor("");
-    onRequestClose();
-    //});
+    axios.post("/api/filter", newFilter).then((res) => {
+      addNewFilter(newFilter);
+      setFilterTitle("");
+      setFilterColor("");
+      onRequestClose();
+    });
   };
 
   return (

@@ -32,7 +32,7 @@ const MainPage = () => {
 
   useEffect(() => {
     axios
-      .get("/api/calendar/filter/all")
+      .get("/api/filter")
       .then((res) => {
         const fetchedFilter = res.data.data.map((filter) => ({
           filterId: filter.filterId,
