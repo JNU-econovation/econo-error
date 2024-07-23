@@ -7,11 +7,14 @@ const ProfilePage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const storedToken = localStorage.getItem("slackToken");
 
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/images");
+        const response = await axios.get("http://localhost:8080/api/images", {
+          headers: { Authorization: `Bearer ${storedToken}` },
+        });
         setImages(response.data);
         setIsLoading(false);
       } catch (error) {

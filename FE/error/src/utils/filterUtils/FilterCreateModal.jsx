@@ -15,7 +15,7 @@ const FilterCreateModal = ({
 }) => {
   const [filterTitle, setFilterTitle] = useState("");
   const [filterColor, setFilterColor] = useState("");
-
+  const storedToken = localStorage.getItem("slackToken");
   const handleTitleChange = (event) => {
     setFilterTitle(event.target.value);
   };
@@ -24,12 +24,17 @@ const FilterCreateModal = ({
       filterName: filterTitle,
       filterColor: filterColor,
     };
-    axios.post("/api/filter", newFilter).then((res) => {
-      addNewFilter(newFilter);
-      setFilterTitle("");
-      setFilterColor("");
-      onRequestClose();
-    });
+    axios
+      .post("/api/filter", newFilter, {
+        headers: { Authorization: `Bearer ${storedToken}` },
+      })
+      .then((res) => {
+        console.log(res);
+        addNewFilter(newFilter);
+        setFilterTitle("");
+        setFilterColor("");
+        onRequestClose();
+      });
   };
 
   return (

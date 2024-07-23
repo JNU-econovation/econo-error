@@ -29,6 +29,7 @@ const CreateModal = ({
   const [eventEndTime, setEventEndTime] = useState("00:00");
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const storedToken = localStorage.getItem("slackToken");
 
   useEffect(() => {
     if (isOpen && selectedDate) {
@@ -160,15 +161,23 @@ const CreateModal = ({
       },
     };
 
-    axios.post("/api/calendar", data).then((res) => {
-      createDate(
-        eventName,
-        res.data.data.eventId,
-        eventStartDate,
-        eventEndDate
-      );
-      onRequestClose();
-    });
+    axios
+      .post(
+        "/api/calendar",
+        {
+          headers: { Authorization: `Bearer ${storedToken}` },
+        },
+        data
+      )
+      .then((res) => {
+        createDate(
+          eventName,
+          res.data.data.eventId,
+          eventStartDate,
+          eventEndDate
+        );
+        onRequestClose();
+      });
   };
 
   return (

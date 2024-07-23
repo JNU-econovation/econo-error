@@ -11,7 +11,6 @@ const MainPage = () => {
   const [filterIndividualLists, setFilterIndividualLists] = useState([]);
   const [filterGroupLists, setFilterGroupLists] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   useEffect(() => {
     const token = localStorage.getItem("slackToken");
     setIsLoggedIn(!!token);
@@ -29,11 +28,15 @@ const MainPage = () => {
       filterIndividualLists.filter((filter) => filter.filterId !== newFilter)
     );
   };
+  const storedToken = localStorage.getItem("slackToken");
 
   useEffect(() => {
     axios
-      .get("/api/filter")
+      .get("/api/filter", {
+        headers: { Authorization: `Bearer ${storedToken}` },
+      })
       .then((res) => {
+        console.log(res);
         const fetchedFilter = res.data.data.map((filter) => ({
           filterId: filter.filterId,
           filterName: filter.filterName,
