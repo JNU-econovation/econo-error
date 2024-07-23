@@ -16,6 +16,7 @@ const FilterModify = ({ filterName, filterID }) => {
     setClickPosition({ x: rect.left, y: rect.top });
     setShowModal(true);
   };
+  const storedToken = localStorage.getItem("slackToken");
 
   const handleTitleChange = (event) => {
     setFilterTitle(event.target.value);
@@ -26,10 +27,18 @@ const FilterModify = ({ filterName, filterID }) => {
       filterName: filterTitle,
       filterColor: filterColor,
     };
-    axios.post("/api/calendar/filter/" + filterID, modifyFilter).then((res) => {
-      setShowModal(false);
-      window.location.reload();
-    });
+    axios
+      .post(
+        "/api/calendar/filter/" + filterID,
+        {
+          headers: { Authorization: `Bearer ${storedToken}` },
+        },
+        modifyFilter
+      )
+      .then((res) => {
+        setShowModal(false);
+        window.location.reload();
+      });
   };
 
   const customStyles = {
