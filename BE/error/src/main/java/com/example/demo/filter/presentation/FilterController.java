@@ -25,6 +25,7 @@ public class FilterController {
     private final CreateFilterUsecase createFilterUsecase;
     private final GetAllFilterUsecase getAllFilterUsecase;
 
+
     @PostMapping
     public ApiResponse<ApiResponseBody.SuccessBody<CreateFilterResponse>> createFilter(
             @RequestBody CreateFilterRequest request) {
@@ -32,10 +33,10 @@ public class FilterController {
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.CREATE);
     }
 
+
     @GetMapping
     public ApiResponse<ApiResponseBody.SuccessBody<List<AllFilterResponse>>> getFilter() {
         List<AllFilterResponse> response = getAllFilterUsecase.getFilter();
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
     }
-
 }
