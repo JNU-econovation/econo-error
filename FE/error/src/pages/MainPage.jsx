@@ -39,46 +39,37 @@ const MainPage = () => {
           filterName: filter.filterName,
           filterColor: filter.filterColor,
         }));
-        /*[
-        {
-          filterId: 1,
-          filterName: 'hi',
-          filterColor: 'pink'
-        },
-        {
-          filterId: 2,
-          filterName: 'hi',
-          filterColor: 'pink'
-        }
-      ]*/
         setFilterIndividualLists(fetchedFilter);
       })
       .catch((err) => {
         console.log("Error fetching events:", err);
       });
   }, []);
+
   return (
     <div>
       <CalendarPage>
         <SideBar>
           <Logo>ERROR</Logo>
           <LineBox />
-          <ProfileBar />
-          <FilterFrame>
-            <PublicFilter />
-            {isLoggedIn && (
-              <>
-                <GroupFilter
-                  filterLists={filterGroupLists}
-                  addNewFilter={addNewGroupFilter}
-                />
-                <IndividualFilter
-                  filterLists={filterIndividualLists}
-                  addNewFilter={addNewIndividualFilter}
-                />
-              </>
-            )}
-          </FilterFrame>
+          <ScrollableContent>
+            <ProfileBar />
+            <FilterFrame>
+              <PublicFilter />
+              {isLoggedIn && (
+                <>
+                  <GroupFilter
+                    filterLists={filterGroupLists}
+                    addNewFilter={addNewGroupFilter}
+                  />
+                  <IndividualFilter
+                    filterLists={filterIndividualLists}
+                    addNewFilter={addNewIndividualFilter}
+                  />
+                </>
+              )}
+            </FilterFrame>
+          </ScrollableContent>
         </SideBar>
         <EconoCalendar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       </CalendarPage>
@@ -92,6 +83,8 @@ const SideBar = styled.div`
   width: 15.625rem;
   height: 98.1vh;
   margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
 `;
 
 const CalendarPage = styled.div`
@@ -104,7 +97,7 @@ const LineBox = styled.div`
   height: 1.25rem;
   border: 1px solid #ddd;
   border-right: none;
-  margin-top: 1.63em;
+  margin-top: 0.65rem;
 `;
 
 const Logo = styled.div`
@@ -114,6 +107,36 @@ const Logo = styled.div`
   margin-top: 0.3rem;
   color: #ff9999;
   margin-bottom: 1rem;
+`;
+
+const ScrollableContent = styled.div`
+  flex-grow: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* 기본적으로 스크롤바를 숨김 */
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+
+  /* 호버 시 스크롤바 표시 */
+  &:hover {
+    scrollbar-color: #c6c6c6 transparent;
+  }
+
+  /* Webkit 브라우저 (Chrome, Safari 등)를 위한 스타일 */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 20px;
+    border: 3px solid transparent;
+  }
 `;
 
 const FilterFrame = styled.div`
