@@ -3,10 +3,16 @@ import styled from "styled-components";
 import axios from "axios";
 
 const FilterDelete = ({ filterID, updateDeleteFilter }) => {
+  const storedToken = localStorage.getItem("slackToken");
+
   const handleDelete = () => {
-    axios.delete("/api/filter/" + filterID).then(() => {
-      updateDeleteFilter(filterID);
-    });
+    axios
+      .delete("/api/filter/" + filterID, {
+        headers: { Authorization: `Bearer ${storedToken}` },
+      })
+      .then(() => {
+        updateDeleteFilter(filterID);
+      });
   };
   return (
     <>

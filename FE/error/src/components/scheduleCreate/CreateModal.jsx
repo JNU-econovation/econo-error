@@ -174,15 +174,23 @@ const CreateModal = ({
       filterName: selectedFilter.filter,
     };
 
-    axios.post("/api/calendar", data).then((res) => {
-      createDate(
-        eventName,
-        res.data.data.eventId,
-        eventStartDate,
-        eventEndDate
-      );
-      onRequestClose();
-    });
+    axios
+      .post(
+        "/api/calendar",
+        {
+          headers: { Authorization: `Bearer ${storedToken}` },
+        },
+        data
+      )
+      .then((res) => {
+        createDate(
+          eventName,
+          res.data.data.eventId,
+          eventStartDate,
+          eventEndDate
+        );
+        onRequestClose();
+      });
   };
 
   return (
