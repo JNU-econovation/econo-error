@@ -17,6 +17,11 @@ const MainPage = () => {
   const addNewGroupFilter = (newGroupFilter) => {
     setFilterGroupLists([...filterGroupLists, newGroupFilter]);
   };
+  const updateDeleteFilter = (newFilter) => {
+    setFilterIndividualLists(
+      filterIndividualLists.filter((filter) => filter.filterId !== newFilter)
+    );
+  };
 
   useEffect(() => {
     axios
@@ -61,6 +66,7 @@ const MainPage = () => {
             <IndividualFilter
               filterLists={filterIndividualLists}
               addNewFilter={addNewIndividualFilter}
+              updateDeleteFilter={updateDeleteFilter}
             />
           </FilterFrame>
         </SideBar>

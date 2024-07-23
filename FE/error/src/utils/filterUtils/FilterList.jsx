@@ -3,7 +3,7 @@ import ScheduleToggle from "./ScheduleToggle";
 import FilterModify from "./FilterModify";
 import FilterDelete from "./FilterDelete";
 
-const FilterList = ({ filterLists }) => {
+const FilterList = ({ filterLists, updateDeleteFilter }) => {
   return (
     <StyledFilterListFrame>
       {filterLists.map((filterList, index) => (
@@ -13,10 +13,13 @@ const FilterList = ({ filterLists }) => {
             {filterList.filterName}
           </StyledTitle>
           <StyledDetail>
-            <FilterDelete />
+            <FilterDelete
+              filterID={filterList.filterId}
+              updateDeleteFilter={updateDeleteFilter}
+            />
             <FilterModify
               filterName={filterList.filterName}
-              filterID={filterList.id}
+              filterID={filterList.filterId}
             />
           </StyledDetail>
         </StyledScheduleType>
