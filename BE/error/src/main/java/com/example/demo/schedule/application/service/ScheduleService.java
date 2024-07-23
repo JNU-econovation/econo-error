@@ -11,10 +11,7 @@ import com.example.demo.schedule.persistence.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.WeekFields;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -30,7 +27,8 @@ public class ScheduleService implements CreateScheduleUsecase,
                                         GetMonthScheduleUsecase,
                                         UpdateScheduleUsecase,
                                         DeleteScheduleUsecase,
-                                        GetWeekScheduleUsecase {
+                                        GetWeekScheduleUsecase,
+                                        GetAllScheduleUsecase {
 
 
     private final ScheduleRequestConverter requestConverter;
@@ -42,18 +40,18 @@ public class ScheduleService implements CreateScheduleUsecase,
     @Override
     @Transactional
     public CreateScheduleResponse create(final CreateScheduleRequest request){
-
         ScheduleModel model = requestConverter.from(request);
         Long saveId = createSchedule(model);
-
         return responseConverter.from(saveId);
     }
+
 
     private Long createSchedule(ScheduleModel model) {
         ScheduleEntity entity = entityConverter.toEntity(model);
         ScheduleEntity save = scheduleRepository.save(entity);
         return save.getEventId();
     }
+
 
     @Override
     @Transactional
@@ -63,9 +61,9 @@ public class ScheduleService implements CreateScheduleUsecase,
         ScheduleModel model = findSchedule(eventId);
         ScheduleModel requestModel = requestConverter.from(eventId, request);
         updateSchedule(model, requestModel);
-
         return responseConverter.fromUpdate(model.getEventId());
     }
+
 
     @Override
     @Transactional
@@ -82,30 +80,38 @@ public class ScheduleService implements CreateScheduleUsecase,
     }
 
 
-
-
     @Override
     public SpecificScheduleResopnse getSpecificSchedule(final Long eventId) {
         ScheduleModel model = findSchedule(eventId);
         return responseConverter.from(model);
-
     }
 
 
     private ScheduleModel findSchedule(final Long eventId) {
         return scheduleRepository
                 .findById(eventId)
-                .map(entityConverter::from) //여기서 왜 Optional로 감싸야 하는지 그런데 또 왜 orElseThrow를 던지면 optional로 안감싸도 되는건지?
+                .map(entityConverter::from) //TODO
                 .orElseThrow(() -> new NoSuchElementException("no found eventId :" + eventId));
     }
 
+    @Override
+    public List<AllCalendarResponse> getAllSchedule() {
+        List<ScheduleModel> model = filterEntitiesByAll();
+        return responseConverter.toAllModel(model);
+    }
 
+
+    private List<ScheduleModel> filterEntitiesByAll() {
+        Stream<ScheduleEntity> entities = scheduleRepository.streamAll();
+        return entities
+                .map(entityConverter::from)
+                .collect(Collectors.toList());
+    }
 
 
     @Override
     public List<YearCalendarResponse> getYearSchedule(final int year) {
         List<ScheduleModel> model = filterEntitiesByYear(year);
-
         return responseConverter.toYearModel(model);
     }
 
@@ -124,6 +130,7 @@ public class ScheduleService implements CreateScheduleUsecase,
         return responseConverter.toMonthModel(model);
     }
 
+
     private List<ScheduleModel> filterEntitiesByMonth(final int year, final int month) {
         Stream<ScheduleEntity> entities = scheduleRepository.streamAll();
         return entities
@@ -132,13 +139,14 @@ public class ScheduleService implements CreateScheduleUsecase,
                 .collect(Collectors.toList());
     }
 
+
     @Override
     public List<WeekCalendarResponse> getWeekSchedule(final int year, final int month, final int day) {
         LocalDate wantFindWeek = LocalDate.of(year, month, day);
         List<ScheduleModel> model = filterEntitiesByWeek(wantFindWeek);
-
         return responseConverter.toWeekModel(model);
     }
+
 
     private List<ScheduleModel> filterEntitiesByWeek(final LocalDate wantFindWeek) {
 
@@ -149,9 +157,5 @@ public class ScheduleService implements CreateScheduleUsecase,
                 .map(entityConverter::from)
                 .collect(Collectors.toList());
     }
-
-
-
-
 }
 

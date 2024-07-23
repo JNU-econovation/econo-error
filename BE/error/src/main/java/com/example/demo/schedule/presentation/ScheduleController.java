@@ -8,6 +8,7 @@ import com.example.demo.schedule.application.dto.*;
 import com.example.demo.schedule.application.usecase.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class ScheduleController {
     private final UpdateScheduleUsecase updateScheduleUsecase;
     private final DeleteScheduleUsecase deleteScheduleUsecase;
     private final GetWeekScheduleUsecase getWeekScheduleUsecase;
+    private final GetAllScheduleUsecase getAllScheduleUsecase;
 
 
     @PostMapping
@@ -34,12 +36,25 @@ public class ScheduleController {
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.CREATE);
     }
 
+
     @GetMapping("/{eventId}")
-    public ApiResponse<SuccessBody<SpecificScheduleResopnse>> getSpecificCalendar (
+    public ApiResponse<SuccessBody<SpecificScheduleResopnse>> getSpecificCalendar(
             @PathVariable("eventId") Long eventId
     ) {
         SpecificScheduleResopnse response = getSpecificScheduleUsecase.getSpecificSchedule(eventId);
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
+    }
+
+    @GetMapping("public/all")
+    public ApiResponse<SuccessBody<List<AllCalendarResponse>>> getTestAll() {
+        List<AllCalendarResponse> response = getAllScheduleUsecase.getAllSchedule();
+        return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GETALL);
+    }
+
+    @GetMapping("all")
+    public ApiResponse<SuccessBody<List<AllCalendarResponse>>> getAllCalendar() {
+        List<AllCalendarResponse> response = getAllScheduleUsecase.getAllSchedule();
+        return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GETALL);
     }
 
 

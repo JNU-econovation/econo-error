@@ -33,6 +33,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry
                 .addMapping("/api/**")
                 .allowedOriginPatterns(patterns)
+                .allowedHeaders("*")
                 .allowedMethods(ALLOWED_METHOD_NAMES.split(","))
                 .exposedHeaders("Authorization", "Set-Cookie")
                 .allowCredentials(true)
