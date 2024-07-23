@@ -26,7 +26,7 @@ public class LoginConfig implements WebMvcConfigurer {
         registry
                 .addInterceptor(memberAuthInterceptor())
                 .addPathPatterns("/api/**")
-                .excludePathPatterns("/api/auth/**", "/api/calendar/public/**");
+                .excludePathPatterns("/api/auth/**", "/api/calendar/public/**", "/api/filter");
         registry
                 .addInterceptor(reissueAuthInterceptor())
                 .addPathPatterns("/auth/reissue")
