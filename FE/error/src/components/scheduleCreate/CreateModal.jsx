@@ -29,6 +29,7 @@ const CreateModal = ({
   const [eventEndTime, setEventEndTime] = useState("00:00");
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [privateFilters, setPrivateFilters] = useState([]);
 
   useEffect(() => {
     if (isOpen && selectedDate) {
@@ -38,15 +39,31 @@ const CreateModal = ({
       setEventInfo("");
       setEventPlace("");
       setEventMemo("");
-      setEventStartTime("00:00"); // 초기화 추가
-      setEventEndTime("00:00"); // 초기화 추가
-      setNewStartDate(selectedDate + "T00:00"); // 수정
-      setNewEndDate(selectedDate + "T00:00"); // 수정
-
+      setEventStartTime("00:00");
+      setEventEndTime("00:00");
+      setNewStartDate(selectedDate + "T00:00");
+      setNewEndDate(selectedDate + "T00:00");
       setSelectedFilter(null);
       setActiveDropdown(null);
+
+      fetchFilters();
     }
   }, [isOpen, selectedDate]);
+
+  const storedToken = localStorage.getItem("slackToken");
+
+  const fetchFilters = async () => {
+    try {
+      const response = await axios.get("/api/filter", {
+        headers: { Authorization: `Bearer ${storedToken}` },
+      });
+      if (response.data && response.data.data) {
+        setPrivateFilters(response.data.data);
+      }
+    } catch (error) {
+      console.error("필터 정보를 가져오는 데 실패했습니다:", error);
+    }
+  };
 
   const isFilterSelected = () => {
     return selectedFilter && selectedFilter.category && selectedFilter.filter;
@@ -82,7 +99,6 @@ const CreateModal = ({
     setEventStartTime(time);
     setNewStartDate(`${StartDate}T${time}`);
 
-    // 시작 시간이 종료 시간보다 늦을 경우, 종료 시간을 시작 시간과 같게 설정
     if (StartDate === EndDate && time > eventEndTime) {
       setEventEndTime(time);
       setNewEndDate(`${EndDate}T${time}`);
@@ -91,7 +107,6 @@ const CreateModal = ({
 
   const handleEndTimeSelect = (time) => {
     if (StartDate === EndDate && time < eventStartTime) {
-      // 종료 시간이 시작 시간보다 이를 경우, 시작 시간을 종료 시간과 같게 설정
       setEventStartTime(time);
       setNewStartDate(`${StartDate}T${time}`);
     }
@@ -122,11 +137,11 @@ const CreateModal = ({
       return selectedFilter.filter;
     }
     switch (category) {
-      case "econo":
+      case "public":
         return "에코노";
       case "group":
         return "그룹";
-      case "personal":
+      case "private":
         return "개인";
       default:
         return "";
@@ -146,7 +161,7 @@ const CreateModal = ({
 
   const saveData = () => {
     if (!eventName || !isFilterSelected()) {
-      return; // 추가적인 안전장치
+      return;
     }
 
     const data = {
@@ -155,20 +170,27 @@ const CreateModal = ({
       eventEndDate: eventEndDate,
       eventPlace: eventPlace,
       eventInfo: eventMemo,
-      eventCategory: {
-        [selectedFilter.category]: selectedFilter.filter,
-      },
+      scheduleType: selectedFilter.category,
+      filterName: selectedFilter.filter,
     };
 
-    axios.post("/api/calendar", data).then((res) => {
-      createDate(
-        eventName,
-        res.data.data.eventId,
-        eventStartDate,
-        eventEndDate
-      );
-      onRequestClose();
-    });
+    axios
+      .post(
+        "/api/calendar",
+        {
+          headers: { Authorization: `Bearer ${storedToken}` },
+        },
+        data
+      )
+      .then((res) => {
+        createDate(
+          eventName,
+          res.data.data.eventId,
+          eventStartDate,
+          eventEndDate
+        );
+        onRequestClose();
+      });
   };
 
   return (
@@ -191,7 +213,7 @@ const CreateModal = ({
           <IconWrapper>
             <FaWindowRestore />
           </IconWrapper>
-          {["econo", "group", "personal"].map((category) => (
+          {["public", "group", "private"].map((category) => (
             <DropdownContainer key={category}>
               <Button
                 content={getButtonContent(category)}
@@ -202,7 +224,7 @@ const CreateModal = ({
               />
               {activeDropdown === category && (
                 <DropdownMenu>
-                  {category === "econo" && (
+                  {category === "public" && (
                     <>
                       <DropdownItem
                         onClick={() => handleFilterSelect(category, "공식행사")}
@@ -220,38 +242,29 @@ const CreateModal = ({
                     <>
                       <DropdownItem
                         onClick={() =>
-                          handleFilterSelect(category, "그룹필터1")
+                          handleFilterSelect(category, "28기 신입모집 TF")
                         }
                       >
-                        그룹필터1
+                        28기 신입모집 TF
                       </DropdownItem>
                       <DropdownItem
-                        onClick={() =>
-                          handleFilterSelect(category, "그룹필터2")
-                        }
+                        onClick={() => handleFilterSelect(category, "행사부")}
                       >
-                        그룹필터2
+                        행사부
                       </DropdownItem>
                     </>
                   )}
-                  {category === "personal" && (
-                    <>
+                  {category === "private" &&
+                    privateFilters.map((filter) => (
                       <DropdownItem
+                        key={filter.filterId}
                         onClick={() =>
-                          handleFilterSelect(category, "개인필터1")
+                          handleFilterSelect(category, filter.filterName)
                         }
                       >
-                        개인필터1
+                        {filter.filterName}
                       </DropdownItem>
-                      <DropdownItem
-                        onClick={() =>
-                          handleFilterSelect(category, "개인필터2")
-                        }
-                      >
-                        개인필터2
-                      </DropdownItem>
-                    </>
-                  )}
+                    ))}
                 </DropdownMenu>
               )}
             </DropdownContainer>

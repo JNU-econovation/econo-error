@@ -10,6 +10,7 @@ const CalendarModify = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const selectID = location.state.selectID;
+  const storedToken = localStorage.getItem("slackToken");
 
   const [modifyName, setModifyName] = useState("");
   const [modifyStartDate, setModifyStartDate] = useState("");
@@ -75,7 +76,13 @@ const CalendarModify = () => {
       eventPlace: modifyPlace,
     };
     axios
-      .put("/api/calendar/" + selectID, eventData)
+      .put(
+        "/api/calendar/" + selectID,
+        {
+          headers: { Authorization: `Bearer ${storedToken}` },
+        },
+        eventData
+      )
       .then((res) => {
         goBack();
       })

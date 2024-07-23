@@ -5,6 +5,7 @@ import Modal from "react-modal";
 import "./CreateFilterModal.css";
 import GroupFilterCreateModal from "../../components/SideBar/groupFilter/GroupFilterCreateModal";
 import FilterColorSelect from "./FilterColorSelect";
+import axios from "axios";
 
 const FilterCreateModal = ({
   isOpen,
@@ -14,20 +15,28 @@ const FilterCreateModal = ({
 }) => {
   const [filterTitle, setFilterTitle] = useState("");
   const [filterColor, setFilterColor] = useState("");
-
+  const storedToken = localStorage.getItem("slackToken");
   const handleTitleChange = (event) => {
     setFilterTitle(event.target.value);
   };
   const handleCreateFilter = () => {
     const newFilter = {
-      title: filterTitle,
-      color: filterColor,
+      filterName: filterTitle,
+      filterColor: filterColor,
     };
-    addNewFilter(newFilter);
-    setFilterTitle("");
-    setFilterColor("");
-    onRequestClose();
+    axios
+      .post("/api/filter", newFilter, {
+        headers: { Authorization: `Bearer ${storedToken}` },
+      })
+      .then((res) => {
+        console.log(res);
+        addNewFilter(newFilter);
+        setFilterTitle("");
+        setFilterColor("");
+        onRequestClose();
+      });
   };
+
   return (
     <>
       <Modal

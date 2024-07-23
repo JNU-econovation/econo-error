@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import axios from "../utils/axiosConfig"; // 수정된 부분
+import axios from "axios";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -23,12 +23,11 @@ const LoginPage = () => {
     setError(null);
     try {
       const response = await axios.post(
-        `/auth/login/slack?type=slack&code=${authCode}&redirect_uri=${redirectUri}`
+        `https://error.econo-calendar.com:8080/api/auth/login/slack?type=slack&code=${authCode}&redirect_uri=https://econo-calendar.com/login`
       );
 
       if (response.data.code === "201") {
         localStorage.setItem("slackToken", response.data.data.accessToken);
-        localStorage.setItem("refreshToken", response.data.data.refreshToken); // 수정된 부분
         navigate("/");
       } else {
         setError(response.data.message || "로그인 실패");
