@@ -5,6 +5,7 @@ import ProfileBar from "../components/SideBar/ProfileBar";
 import PublicFilter from "../components/SideBar/publicFilter/PublicFilter";
 import IndividualFilter from "../components/SideBar/individualFilter/IndividualFilter";
 import GroupFilter from "../components/SideBar/groupFilter/GroupFilter";
+import axios from "axios";
 
 const MainPage = () => {
   const [filterIndividualLists, setFilterIndividualLists] = useState([]);
@@ -23,7 +24,39 @@ const MainPage = () => {
   const addNewGroupFilter = (newGroupFilter) => {
     setFilterGroupLists([...filterGroupLists, newGroupFilter]);
   };
+  const updateDeleteFilter = (newFilter) => {
+    setFilterIndividualLists(
+      filterIndividualLists.filter((filter) => filter.filterId !== newFilter)
+    );
+  };
 
+  useEffect(() => {
+    axios
+      .get("/api/calendar/filter/all")
+      .then((res) => {
+        const fetchedFilter = res.data.data.map((filter) => ({
+          filterId: filter.filterId,
+          filterName: filter.filterName,
+          filterColor: filter.filterColor,
+        }));
+        /*[
+        {
+          filterId: 1,
+          filterName: 'hi',
+          filterColor: 'pink'
+        },
+        {
+          filterId: 2,
+          filterName: 'hi',
+          filterColor: 'pink'
+        }
+      ]*/
+        setFilterIndividualLists(fetchedFilter);
+      })
+      .catch((err) => {
+        console.log("Error fetching events:", err);
+      });
+  }, []);
   return (
     <div>
       <CalendarPage>
