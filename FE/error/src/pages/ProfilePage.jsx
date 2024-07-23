@@ -1,16 +1,47 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FaRandom } from "react-icons/fa";
+import axios from "axios"; // axios를 import 합니다.
 
 const ProfilePage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
-  const [images, setImages] = useState(
-    Array(16).fill("https://via.placeholder.com/200")
-  );
+  const [images, setImages] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/images");
+        setImages(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Failed to fetch images:", error);
+        if (error.response) {
+          // 서버 응답이 2xx 범위를 벗어난 상태 코드를 반환한 경우
+          console.error(error.response.data);
+          console.error(error.response.status);
+          console.error(error.response.headers);
+        } else if (error.request) {
+          // 요청이 이루어졌으나 응답을 받지 못한 경우
+          console.error(error.request);
+        } else {
+          // 요청을 설정하는 중에 오류가 발생한 경우
+          console.error("Error", error.message);
+        }
+        setIsLoading(false);
+      }
+    };
+
+    fetchImages();
+  }, []);
 
   const selectImage = (index) => {
     setSelectedImage(index);
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
