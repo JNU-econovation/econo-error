@@ -1,6 +1,7 @@
 package com.example.demo.image;
 
 import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +20,8 @@ public class ImageController {
     }
 
     @GetMapping
-    public List<String> getProfileImages (){
-        List<String> profileImageList = imageService.getFileList("image0");
+    public List<Map<String, Object>> getProfileImages (){
+        List<Map<String, Object>> profileImageList = imageService.getFileList("styleganresult2");
         return profileImageList;
     }
-
 }
