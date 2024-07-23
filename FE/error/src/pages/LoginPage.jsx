@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import axios from "../utils/axiosConfig"; // 수정된 부분
+import axios from "../axiosConfig";
 
 const LoginPage = () => {
   const navigate = useNavigate();

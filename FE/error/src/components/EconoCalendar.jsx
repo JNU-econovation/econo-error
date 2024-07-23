@@ -292,7 +292,6 @@ const CalendarContainer = styled.div`
     background-color: #fff;
     border-color: #cbcbcb;
     color: #595959;
-    margin-right: 0.7rem;
   }
   .fc-event-title-container {
     height: 1.3rem;
