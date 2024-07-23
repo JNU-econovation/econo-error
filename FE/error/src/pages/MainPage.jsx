@@ -89,7 +89,7 @@ const MainPage = () => {
 export default MainPage;
 
 const SideBar = styled.div`
-  width: 250px;
+  width: 15.625rem;
   height: 98.1vh;
   margin-top: 1rem;
 `;
