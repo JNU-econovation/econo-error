@@ -25,7 +25,7 @@ const EconoCalendar = ({ isLoggedIn, setIsLoggedIn }) => {
 
     const uri = isUserLoggedIn
       ? "/api/calendar/all"
-      : "/api/calendar/public/all";
+      : "/api/calendar/all/public";
     const config = isUserLoggedIn
       ? { headers: { Authorization: `Bearer ${storedToken}` } }
       : {};
@@ -292,6 +292,7 @@ const CalendarContainer = styled.div`
     background-color: #fff;
     border-color: #cbcbcb;
     color: #595959;
+    margin-right: 1rem;
   }
   .fc-event-title-container {
     height: 1.3rem;
@@ -299,5 +300,8 @@ const CalendarContainer = styled.div`
     align-items: center;
     font-size: 0.95rem;
     margin-left: 0.3rem;
+  }
+  .fc-direction-ltr .fc-toolbar > * > :not(:first-child) {
+    margin-left: 0.5rem;
   }
 `;
