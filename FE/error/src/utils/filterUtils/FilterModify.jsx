@@ -1,5 +1,4 @@
 import { AiOutlineMore } from "react-icons/ai";
-import { IoClose } from "react-icons/io5";
 import styled from "styled-components";
 import Modal from "react-modal";
 import { useState } from "react";
