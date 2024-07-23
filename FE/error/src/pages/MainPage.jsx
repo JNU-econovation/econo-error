@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import EconoCalendar from "../components/EconoCalendar";
 import ProfileBar from "../components/SideBar/ProfileBar";
@@ -10,10 +10,17 @@ import axios from "axios";
 const MainPage = () => {
   const [filterIndividualLists, setFilterIndividualLists] = useState([]);
   const [filterGroupLists, setFilterGroupLists] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("slackToken");
+    setIsLoggedIn(!!token);
+  }, []);
 
   const addNewIndividualFilter = (newIndividualFilter) => {
     setFilterIndividualLists([...filterIndividualLists, newIndividualFilter]);
   };
+
   const addNewGroupFilter = (newGroupFilter) => {
     setFilterGroupLists([...filterGroupLists, newGroupFilter]);
   };
@@ -59,18 +66,21 @@ const MainPage = () => {
           <ProfileBar />
           <FilterFrame>
             <PublicFilter />
-            <GroupFilter
-              filterLists={filterGroupLists}
-              addNewFilter={addNewGroupFilter}
-            />
-            <IndividualFilter
-              filterLists={filterIndividualLists}
-              addNewFilter={addNewIndividualFilter}
-              updateDeleteFilter={updateDeleteFilter}
-            />
+            {isLoggedIn && (
+              <>
+                <GroupFilter
+                  filterLists={filterGroupLists}
+                  addNewFilter={addNewGroupFilter}
+                />
+                <IndividualFilter
+                  filterLists={filterIndividualLists}
+                  addNewFilter={addNewIndividualFilter}
+                />
+              </>
+            )}
           </FilterFrame>
         </SideBar>
-        <EconoCalendar />
+        <EconoCalendar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       </CalendarPage>
     </div>
   );

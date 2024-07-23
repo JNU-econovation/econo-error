@@ -1,43 +1,51 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import axios from "axios";
+import axios from "../axiosConfig";
 
 const LoginPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const code = searchParams.get("code");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const redirectUri = "https://econo-calendar.com/login";
 
   useEffect(() => {
     if (code) {
       handleSlackAuth(code);
-      localStorage.setItem("slackCode", code);
-      navigate("/");
     }
-  }, [code, navigate]);
+  }, [code]);
 
   const handleSlackAuth = async (authCode) => {
     setIsLoading(true);
+    setError(null);
     try {
-      const response = await axios.post("/api/auth/login/slack", authCode);
+      const response = await axios.post(
+        `/auth/login/slack?type=slack&code=${authCode}&redirect_uri=${redirectUri}`
+      );
 
-      if (response.data.success) {
-        localStorage.setItem("slackToken", response.data.token);
+      if (response.data.code === "201") {
+        localStorage.setItem("slackToken", response.data.data.accessToken);
+        localStorage.setItem("refreshToken", response.data.data.refreshToken); // 수정된 부분
+        navigate("/");
       } else {
-        console.error("Login failed:", response.data.message);
-        // 여기에 에러 처리 로직 추가 (예: 사용자에게 알림)
+        setError(response.data.message || "로그인 실패");
+        console.error("로그인 실패:", response.data);
       }
     } catch (error) {
-      console.error("Error during Slack authentication:", error);
-      // 여기에 에러 처리 로직 추가 (예: 사용자에게 알림)
+      setError("인증에 실패했습니다. 다시 시도해주세요.");
+      console.error("Slack 인증 중 오류 발생:", error.response || error);
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleOnLogin = () => {
-    const slackAuthUrl = `https://econovation-2018.slack.com/oauth?client_id=437291124342.7141431332214&scope=incoming-webhook&user_scope=&redirect_uri=&state=&granular_bot_scope=0&single_channel=0&install_redirect=&tracked=1&team=`;
+    const slackAuthUrl = `https://econovation-2018.slack.com/oauth?client_id=437291124342.7141431332214&scope=chat%3Awrite%2Cchat%3Awrite.customize%2Cchat%3Awrite.public%2Cemoji%3Aread%2Cfiles%3Awrite%2Cincoming-webhook&user_scope=chat%3Awrite%2Cusers.profile%3Aread&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}&state=&granular_bot_scope=1&single_channel=0&install_redirect=&tracked=1&team=`;
     window.location.href = slackAuthUrl;
   };
 
@@ -57,6 +65,7 @@ const LoginPage = () => {
           <br />
           공식 일정만 조회 가능합니다.
         </StyledSubTitle>
+        {error && <div style={{ color: "red" }}>{error}</div>}
         <StyledSlackButton onClick={handleOnLogin}>
           <StyledSlackImage src="Slack.png" alt="Slack logo" />
           슬랙으로 로그인

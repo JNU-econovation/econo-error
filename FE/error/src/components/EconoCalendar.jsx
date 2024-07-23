@@ -8,41 +8,30 @@ import axios from "axios";
 import CreateModal from "./scheduleCreate/CreateModal";
 import CheckCalendar from "./scheduleCheck/CheckCalendar";
 
-const EconoCalendar = () => {
+const EconoCalendar = ({ isLoggedIn, setIsLoggedIn }) => {
   const [events, setEvents] = useState([]);
   const [selectID, setSelectID] = useState("");
   const [checkModalIsOpen, setCheckModalIsOpen] = useState(false);
   const [createModalIsOpen, setCreateModalIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
-
-  const handleDelete = () => {
-    toast("일정이 삭제되었습니다", {
-      style: {
-        backgroundColor: "#535353",
-        color: "#fff",
-      },
-    });
-  };
-  const handleEventClick = (info) => {
-    setSelectID(info.event._def.publicId);
-    setCheckModalIsOpen(true);
-  };
-  const handleDateClick = (arg) => {
-    setSelectedDate(arg.dateStr);
-    setCreateModalIsOpen(true);
-  };
-
-  const getCurrentDate = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = ("0" + (today.getMonth() + 1)).slice(-2);
-    const day = ("0" + today.getDate()).slice(-2);
-    return `${year}-${month}-${day}`;
-  };
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
+    const storedToken = localStorage.getItem("slackToken");
+    setToken(storedToken);
+
+    const isUserLoggedIn = !!storedToken;
+    setIsLoggedIn(isUserLoggedIn);
+
+    const uri = isUserLoggedIn
+      ? "/api/calendar/all"
+      : "/api/calendar/public/all";
+    const config = isUserLoggedIn
+      ? { headers: { Authorization: `Bearer ${storedToken}` } }
+      : {};
+
     axios
-      .get("/api/calendar/all")
+      .get(uri, config)
       .then((res) => {
         const fetchedEvents = res.data.data.map((event) => ({
           title: event.eventName,
@@ -58,6 +47,35 @@ const EconoCalendar = () => {
       });
   }, []);
 
+  const handleDelete = () => {
+    toast("일정이 삭제되었습니다", {
+      style: {
+        backgroundColor: "#535353",
+        color: "#fff",
+      },
+    });
+  };
+
+  const handleEventClick = (info) => {
+    setSelectID(info.event._def.publicId);
+    setCheckModalIsOpen(true);
+  };
+
+  const handleDateClick = (arg) => {
+    if (isLoggedIn) {
+      setSelectedDate(arg.dateStr);
+      setCreateModalIsOpen(true);
+    }
+  };
+
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = ("0" + (today.getMonth() + 1)).slice(-2);
+    const day = ("0" + today.getDate()).slice(-2);
+    return `${year}-${month}-${day}`;
+  };
+
   const handleUpdateData = (newData) => {
     setEvents((preEvents) => [...preEvents, newData]);
   };
@@ -65,6 +83,24 @@ const EconoCalendar = () => {
   const handleUpdateDeleteData = (newData) => {
     setEvents(events.filter((event) => event.id !== parseInt(newData)));
   };
+
+  const handleLoginLogout = () => {
+    if (isLoggedIn) {
+      localStorage.removeItem("slackToken");
+      setIsLoggedIn(false);
+      setToken(null);
+      // } else {
+      //   const newToken = "dummyToken" + Math.random().toString(36).substr(2, 9); // 임의의 토큰 생성
+      //   localStorage.setItem("slackToken", newToken);
+      //   setToken(newToken);
+      //   setIsLoggedIn(true);
+      // }
+      //TODO: 추후 아래 코드로 변경
+    } else {
+      window.location.href = "/login";
+    }
+  };
+
   return (
     <>
       <CalendarContainer>
@@ -78,18 +114,18 @@ const EconoCalendar = () => {
             return "+" + num + "개 더보기";
           }}
           customButtons={{
-            createDateButton: {
-              text: "일정 생성",
-              click: function () {
-                setSelectedDate(getCurrentDate());
-                setCreateModalIsOpen(true);
+            ...(isLoggedIn && {
+              createDateButton: {
+                text: "일정 생성",
+                click: function () {
+                  setSelectedDate(getCurrentDate());
+                  setCreateModalIsOpen(true);
+                },
               },
-            },
-            loginButtons: {
-              text: "로그인",
-              click: function () {
-                window.location.href = "/login";
-              },
+            }),
+            loginLogoutButton: {
+              text: isLoggedIn ? "로그아웃" : "로그인",
+              click: handleLoginLogout,
             },
           }}
           views={{
@@ -100,7 +136,9 @@ const EconoCalendar = () => {
           headerToolbar={{
             left: "today prev title next",
             center: "",
-            right: "loginButtons,createDateButton",
+            right: isLoggedIn
+              ? "loginLogoutButton createDateButton"
+              : "loginLogoutButton",
           }}
           events={events}
           eventDisplay={"block"}
@@ -250,11 +288,10 @@ const CalendarContainer = styled.div`
     margin-right: 1rem;
   }
 
-  .fc-loginButtons-button {
+  .fc-loginLogoutButton-button {
     background-color: #fff;
     border-color: #cbcbcb;
     color: #595959;
-    margin-right: 0.7rem;
   }
   .fc-event-title-container {
     height: 1.3rem;
