@@ -21,6 +21,7 @@ const CheckCalendar = ({
   handleUpdateDeleteData,
 }) => {
   const [event, setEvent] = useState({});
+  const storedToken = localStorage.getItem("slackToken");
 
   function createDate(title, startDate, endDate, place, info, type, color) {
     const specificEvent = {
@@ -42,17 +43,21 @@ const CheckCalendar = ({
       return;
     }
 
-    axios.get("/api/calendar/" + selectID).then((res) => {
-      createDate(
-        res.data.data.eventName,
-        res.data.data.eventStartDate,
-        res.data.data.eventEndDate,
-        res.data.data.eventPlace,
-        res.data.data.eventInfo,
-        res.data.data.eventType,
-        res.data.data.filterColor
-      );
-    });
+    axios
+      .get("/api/calendar/" + selectID, {
+        headers: { Authorization: `Bearer ${storedToken}` },
+      })
+      .then((res) => {
+        createDate(
+          res.data.data.eventName,
+          res.data.data.eventStartDate,
+          res.data.data.eventEndDate,
+          res.data.data.eventPlace,
+          res.data.data.eventInfo,
+          res.data.data.eventType,
+          res.data.data.filterColor
+        );
+      });
   }, [selectID]);
 
   function date(startDate, endDate) {
