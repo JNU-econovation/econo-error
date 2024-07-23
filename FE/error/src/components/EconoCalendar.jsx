@@ -14,11 +14,9 @@ const EconoCalendar = ({ isLoggedIn, setIsLoggedIn }) => {
   const [checkModalIsOpen, setCheckModalIsOpen] = useState(false);
   const [createModalIsOpen, setCreateModalIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
-  const [token, setToken] = useState(null);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("slackToken");
-    setToken(storedToken);
 
     const isUserLoggedIn = !!storedToken;
     setIsLoggedIn(isUserLoggedIn);
