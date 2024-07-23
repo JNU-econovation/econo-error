@@ -24,7 +24,7 @@ const FilterCreateModal = ({
       filterName: filterTitle,
       filterColor: filterColor,
     };
-    //axios.post("/api/calendar/filter", newFilter).then((res) => {
+    //axios.post("/api/filter", newFilter).then((res) => {
     addNewFilter(newFilter);
     setFilterTitle("");
     setFilterColor("");
