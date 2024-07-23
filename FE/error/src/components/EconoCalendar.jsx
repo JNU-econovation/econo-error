@@ -14,7 +14,7 @@ const EconoCalendar = ({ isLoggedIn, setIsLoggedIn }) => {
   const [checkModalIsOpen, setCheckModalIsOpen] = useState(false);
   const [createModalIsOpen, setCreateModalIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
-
+  const [token, setToken] = useState(null);
   useEffect(() => {
     const storedToken = localStorage.getItem("slackToken");
 
@@ -87,16 +87,16 @@ const EconoCalendar = ({ isLoggedIn, setIsLoggedIn }) => {
       localStorage.removeItem("slackToken");
       setIsLoggedIn(false);
       setToken(null);
+      // } else {
+      //   const newToken = "dummyToken" + Math.random().toString(36).substr(2, 9); // 임의의 토큰 생성
+      //   localStorage.setItem("slackToken", newToken);
+      //   setToken(newToken);
+      //   setIsLoggedIn(true);
+      // }
+      //TODO: 추후 아래 코드로 변경
     } else {
-      const newToken = "dummyToken" + Math.random().toString(36).substr(2, 9); // 임의의 토큰 생성
-      localStorage.setItem("slackToken", newToken);
-      setToken(newToken);
-      setIsLoggedIn(true);
+      window.location.href = "/login";
     }
-    //TODO: 추후 아래 코드로 변경
-    // } else {
-    //   window.location.href = "/login";
-    // }
   };
 
   return (
