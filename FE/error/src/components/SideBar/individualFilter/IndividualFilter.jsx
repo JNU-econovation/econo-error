@@ -6,7 +6,11 @@ import styled from "styled-components";
 import FilterCreateModal from "../../../utils/filterUtils/FilterCreateModal";
 import FilterList from "../../../utils/filterUtils/FilterList";
 
-const IndividualFilter = ({ filterLists, addNewFilter }) => {
+const IndividualFilter = ({
+  filterLists,
+  addNewFilter,
+  updateDeleteFilter,
+}) => {
   const [individualFilterIsOpen, setindividualFilterIsOpen] = useState(false);
   const [filterListsIsOpen, setFilterListsIsOpen] = useState(true);
   const createIndividualFilter = () => {
@@ -16,6 +20,7 @@ const IndividualFilter = ({ filterLists, addNewFilter }) => {
   const handleArrowDown = () => {
     setFilterListsIsOpen(!filterListsIsOpen);
   };
+
   return (
     <>
       <StyledIndividualFilterFrame>
@@ -60,7 +65,12 @@ const IndividualFilter = ({ filterLists, addNewFilter }) => {
           />
         </StyledDetailIcon>
       </StyledIndividualFilterFrame>
-      {filterListsIsOpen && <FilterList filterLists={filterLists} />}
+      {filterListsIsOpen && (
+        <FilterList
+          filterLists={filterLists}
+          updateDeleteFilter={updateDeleteFilter}
+        />
+      )}
     </>
   );
 };
