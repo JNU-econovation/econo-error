@@ -18,6 +18,7 @@ public class AllPublicCalendarResponse {
     private String eventPlace;
     private String eventInfo;
     private String scheduleType;
+    private Long filterId;
     private String filterName;
     private String filterColor;
 }
