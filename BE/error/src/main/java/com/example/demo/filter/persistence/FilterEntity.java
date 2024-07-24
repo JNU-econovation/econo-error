@@ -8,8 +8,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @Entity
 @SuperBuilder(toBuilder = true)
@@ -18,7 +18,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class FilterEntity extends BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Long filterId;
 

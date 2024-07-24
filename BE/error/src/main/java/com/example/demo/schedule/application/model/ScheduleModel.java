@@ -2,6 +2,8 @@ package com.example.demo.schedule.application.model;
 
 
 import com.example.demo.common.support.AbstractModel;
+import com.example.demo.filter.application.model.FilterModel;
+import com.example.demo.filter.persistence.FilterEntity;
 import com.example.demo.schedule.persistence.ScheduleType;
 import lombok.*;
 
@@ -20,6 +22,9 @@ public class ScheduleModel implements AbstractModel {
     private LocalDateTime eventEndDate;
     private String eventInfo;
     private String eventPlace;
+    private String scheduleType;
+    private FilterEntity filter;
+
 
     public ScheduleModel update(ScheduleModel requestModel) {
 
@@ -31,4 +36,6 @@ public class ScheduleModel implements AbstractModel {
 
         return this;
     }
+
+
 }

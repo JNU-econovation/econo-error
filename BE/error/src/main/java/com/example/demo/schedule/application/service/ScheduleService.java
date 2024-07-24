@@ -1,5 +1,7 @@
 package com.example.demo.schedule.application.service;
 
+import com.example.demo.filter.application.model.FilterModel;
+import com.example.demo.filter.persistence.FilterEntity;
 import com.example.demo.schedule.application.dto.*;
 import com.example.demo.schedule.application.model.ScheduleModel;
 import com.example.demo.schedule.application.model.converter.ScheduleEntityConverter;
@@ -8,6 +10,7 @@ import com.example.demo.schedule.application.model.converter.ScheduleResponseCon
 import com.example.demo.schedule.application.usecase.*;
 import com.example.demo.schedule.persistence.ScheduleEntity;
 import com.example.demo.schedule.persistence.ScheduleRepository;
+import com.example.demo.schedule.persistence.ScheduleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,14 +25,26 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ScheduleService implements CreateScheduleUsecase,
-                                        GetSpecificScheduleUsecase,
-                                        GetYearScheduleUsecase,
-                                        GetMonthScheduleUsecase,
-                                        UpdateScheduleUsecase,
-                                        DeleteScheduleUsecase,
-                                        GetWeekScheduleUsecase,
-                                        GetAllScheduleUsecase {
+        GetSpecificScheduleUsecase,
+        GetYearScheduleUsecase,
+        GetMonthScheduleUsecase,
+        UpdateScheduleUsecase,
+        DeleteScheduleUsecase,
+        GetWeekScheduleUsecase,
+        GetAllScheduleUsecase
+        //GetAllPrivateScheduleUsecase,
+        //GetAllPublicScheduleUsecase
+        {
 
+    @Override
+    public List<MonthCalendarResponse> getMonthSchedule(int year, int month) {
+        return null;
+    }
+
+    @Override
+    public List<YearCalendarResponse> getYearSchedule(int year) {
+        return null;
+    }
 
     private final ScheduleRequestConverter requestConverter;
     private final ScheduleEntityConverter entityConverter;
@@ -39,12 +54,11 @@ public class ScheduleService implements CreateScheduleUsecase,
 
     @Override
     @Transactional
-    public CreateScheduleResponse create(final CreateScheduleRequest request){
+    public CreateScheduleResponse create(final CreateScheduleRequest request) {
         ScheduleModel model = requestConverter.from(request);
         Long saveId = createSchedule(model);
         return responseConverter.from(saveId);
     }
-
 
     private Long createSchedule(ScheduleModel model) {
         ScheduleEntity entity = entityConverter.toEntity(model);
@@ -100,6 +114,32 @@ public class ScheduleService implements CreateScheduleUsecase,
         return responseConverter.toAllModel(model);
     }
 
+    @Override
+    public List<AllPublicCalendarResponse> getPublicSchedule() {
+        List<ScheduleModel> model = filterPublic();
+        return responseConverter.toPublicModel(model);
+    }
+
+    private List<ScheduleModel> filterPublic() {
+        Stream<ScheduleEntity> entity = scheduleRepository.streamAllPublic();
+        return entity
+                .map(entityConverter::from)
+                .collect(Collectors.toList());
+    }
+
+
+    public List<AllPrivateCalendarResponse> getPrivateSchedule() {
+        List<ScheduleModel> model = filterPrivate();
+        return responseConverter.toPrivateModel(model);
+    }
+
+    private List<ScheduleModel> filterPrivate() {
+        Stream<ScheduleEntity> entity = scheduleRepository.streamAllPrivate();
+        return entity
+                .map(entityConverter::from)
+                .collect(Collectors.toList());
+    }
+
 
     private List<ScheduleModel> filterEntitiesByAll() {
         Stream<ScheduleEntity> entities = scheduleRepository.streamAll();
@@ -109,26 +149,6 @@ public class ScheduleService implements CreateScheduleUsecase,
     }
 
 
-    @Override
-    public List<YearCalendarResponse> getYearSchedule(final int year) {
-        List<ScheduleModel> model = filterEntitiesByYear(year);
-        return responseConverter.toYearModel(model);
-    }
-
-    private List<ScheduleModel> filterEntitiesByYear(final int year) {
-        Stream<ScheduleEntity> entities = scheduleRepository.streamAll();
-        return entities
-                .filter(entity -> entity.getEventStartDate().getYear() == year)
-                .map(entityConverter::from)
-                .collect(Collectors.toList());
-    }
-
-
-    @Override
-    public List<MonthCalendarResponse> getMonthSchedule(final int year, final int month) {
-        List<ScheduleModel> model = filterEntitiesByMonth(year, month);
-        return responseConverter.toMonthModel(model);
-    }
 
 
     private List<ScheduleModel> filterEntitiesByMonth(final int year, final int month) {
