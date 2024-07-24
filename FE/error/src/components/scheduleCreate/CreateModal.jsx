@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { format, addDays, compareAsc, parseISO } from "date-fns";
+import { format, addDays } from "date-fns";
 import axios from "axios";
 import Modal from "react-modal";
 import styled from "styled-components";
@@ -66,7 +66,7 @@ const CreateModal = ({
   };
 
   const isFilterSelected = () => {
-    return selectedFilter && selectedFilter.category && selectedFilter.filter;
+    return selectedFilter && selectedFilter.category && selectedFilter.filterId;
   };
 
   const handleTitleChange = (event) => {
@@ -128,13 +128,13 @@ const CreateModal = ({
   };
 
   const handleFilterSelect = (category, filter) => {
-    setSelectedFilter({ category, filter });
+    setSelectedFilter({ category, ...filter });
     setActiveDropdown(null);
   };
 
   const getButtonContent = (category) => {
     if (selectedFilter && selectedFilter.category === category) {
-      return selectedFilter.filter;
+      return selectedFilter.filterName;
     }
     switch (category) {
       case "public":
@@ -170,18 +170,16 @@ const CreateModal = ({
       eventEndDate: eventEndDate,
       eventPlace: eventPlace,
       eventInfo: eventMemo,
-      scheduleType: selectedFilter.category,
-      filterName: selectedFilter.filter,
+      scheduleType: selectedFilter.category.toUpperCase(),
+      filter: {
+        filterId: selectedFilter.filterId,
+      },
     };
 
     axios
-      .post(
-        "/api/calendar",
-        {
-          headers: { Authorization: `Bearer ${storedToken}` },
-        },
-        data
-      )
+      .post("/api/calendar", data, {
+        headers: { Authorization: `Bearer ${storedToken}` },
+      })
       .then((res) => {
         createDate(
           eventName,
@@ -227,12 +225,22 @@ const CreateModal = ({
                   {category === "public" && (
                     <>
                       <DropdownItem
-                        onClick={() => handleFilterSelect(category, "공식행사")}
+                        onClick={() =>
+                          handleFilterSelect(category, {
+                            filterId: "public1",
+                            filterName: "공식행사",
+                          })
+                        }
                       >
                         공식행사
                       </DropdownItem>
                       <DropdownItem
-                        onClick={() => handleFilterSelect(category, "주간발표")}
+                        onClick={() =>
+                          handleFilterSelect(category, {
+                            filterId: "public2",
+                            filterName: "주간발표",
+                          })
+                        }
                       >
                         주간발표
                       </DropdownItem>
@@ -242,13 +250,21 @@ const CreateModal = ({
                     <>
                       <DropdownItem
                         onClick={() =>
-                          handleFilterSelect(category, "28기 신입모집 TF")
+                          handleFilterSelect(category, {
+                            filterId: "group1",
+                            filterName: "28기 신입모집 TF",
+                          })
                         }
                       >
                         28기 신입모집 TF
                       </DropdownItem>
                       <DropdownItem
-                        onClick={() => handleFilterSelect(category, "행사부")}
+                        onClick={() =>
+                          handleFilterSelect(category, {
+                            filterId: "group2",
+                            filterName: "행사부",
+                          })
+                        }
                       >
                         행사부
                       </DropdownItem>
@@ -258,9 +274,7 @@ const CreateModal = ({
                     privateFilters.map((filter) => (
                       <DropdownItem
                         key={filter.filterId}
-                        onClick={() =>
-                          handleFilterSelect(category, filter.filterName)
-                        }
+                        onClick={() => handleFilterSelect(category, filter)}
                       >
                         {filter.filterName}
                       </DropdownItem>
