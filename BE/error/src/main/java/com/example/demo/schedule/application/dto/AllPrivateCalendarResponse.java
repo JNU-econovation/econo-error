@@ -18,6 +18,7 @@ public class AllPrivateCalendarResponse {
     private String eventInfo;
     private String eventScope;
     private String scheduleType;
+    private Long filterId;
     private String filterName;
     private String filterColor;
 }
