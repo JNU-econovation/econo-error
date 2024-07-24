@@ -1,6 +1,8 @@
 package com.example.demo.schedule.persistence;
 
 import com.example.demo.common.persistence.BaseEntity;
+import com.example.demo.filter.application.model.FilterModel;
+import com.example.demo.filter.persistence.FilterEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -9,8 +11,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @Entity
 @SuperBuilder(toBuilder = true)
@@ -28,6 +30,7 @@ public class ScheduleEntity extends BaseEntity {
 
     @Column(nullable = false)
     private LocalDateTime eventStartDate;
+
     private LocalDateTime eventEndDate;
 
     @Column(nullable = false)
@@ -37,7 +40,12 @@ public class ScheduleEntity extends BaseEntity {
     private String eventPlace;
 
     //@Enumerated(EnumType.STRING)
-    //@Column(nullable = false)
-    //private ScheduleType scheduleTypeType;
+    @Column(nullable = false)
+    private String scheduleType;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "filter_id")
+    private FilterEntity filter;
+
 
 }
