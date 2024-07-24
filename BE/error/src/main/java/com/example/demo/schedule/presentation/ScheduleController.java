@@ -45,9 +45,15 @@ public class ScheduleController {
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
     }
 
-    @GetMapping("public/all")
-    public ApiResponse<SuccessBody<List<AllCalendarResponse>>> getTestAll() {
-        List<AllCalendarResponse> response = getAllScheduleUsecase.getAllSchedule();
+    @GetMapping("all/public")
+    public ApiResponse<SuccessBody<List<AllPublicCalendarResponse>>> getPublic() {
+        List<AllPublicCalendarResponse> response = getAllScheduleUsecase.getPublicSchedule();
+        return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GETALL);
+    }
+
+    @GetMapping("all/private")
+    public ApiResponse<SuccessBody<List<AllPrivateCalendarResponse>>> getPrivate() {
+        List<AllPrivateCalendarResponse> response = getAllScheduleUsecase.getPrivateSchedule();
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GETALL);
     }
 
