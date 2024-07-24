@@ -97,7 +97,7 @@ const CalendarPage = styled.div`
 
 const LineBox = styled.div`
   width: 100%;
-  height: 1.5rem;
+  height: 1.25rem;
   border: 1px solid #ddd;
   border-right: none;
   margin-top: 0.65rem;
