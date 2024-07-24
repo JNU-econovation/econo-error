@@ -7,9 +7,15 @@ const DeleteEvent = ({
   onRequestClose,
   handleUpdateDeleteData,
 }) => {
+  const storedToken = localStorage.getItem("slackToken");
+
   const calendarDelete = () => {
     axios
-      .delete("/api/calendar/" + selectID)
+      .delete(`/api/calendar/${selectID}`, {
+        headers: {
+          Authorization: `Bearer ${storedToken}`,
+        },
+      })
       .then(() => {
         handleUpdateDeleteData(selectID);
         handleDelete();

@@ -1,15 +1,46 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FaRandom } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
-  const [images, setImages] = useState(
-    Array(16).fill("https://via.placeholder.com/200")
-  );
+  const navigate = useNavigate();
+  const images = [
+    "seed0011.png",
+    "seed0014.png",
+    "seed0065.png",
+    "seed0141.png",
+    "seed0154.png",
+    "seed0182.png",
+    "seed0256.png",
+    "seed0291.png",
+    "seed0298.png",
+    "seed0365.png",
+    "seed0419.png",
+    "seed0460.png",
+    "seed0301.png",
+    "seed0461.png",
+    "seed0877.png",
+    "seed0882.png",
+  ];
+
+  useEffect(() => {
+    const savedImage = localStorage.getItem("profileImage");
+    if (savedImage) {
+      setSelectedImage(images.indexOf(savedImage));
+    }
+  }, []);
 
   const selectImage = (index) => {
     setSelectedImage(index);
+  };
+
+  const handleSave = () => {
+    if (selectedImage !== null) {
+      localStorage.setItem("profileImage", images[selectedImage]);
+    }
+    navigate("/"); // MainPage로 이동
   };
 
   return (
@@ -19,8 +50,8 @@ const ProfilePage = () => {
         <ProfilePicture
           src={
             selectedImage !== null
-              ? images[selectedImage]
-              : "https://via.placeholder.com/200"
+              ? `/${images[selectedImage]}`
+              : "/Profile.png"
           }
           alt="Profile"
         />
@@ -37,13 +68,13 @@ const ProfilePage = () => {
               onClick={() => selectImage(index)}
               selected={selectedImage === index}
             >
-              {image && <Image src={image} alt={`option-${index}`} />}
+              <Image src={`/${image}`} alt={`option-${index}`} />
             </ImageContainer>
           ))}
         </ImageGrid>
         <ButtonContainer>
-          <CancleButton>취소</CancleButton>
-          <SaveButton>저장</SaveButton>
+          <CancleButton onClick={() => navigate("/")}>취소</CancleButton>
+          <SaveButton onClick={handleSave}>저장</SaveButton>
         </ButtonContainer>
       </Container>
     </>
@@ -127,6 +158,7 @@ const ButtonContainer = styled.div`
   display: flex;
   align-self: flex-end;
   gap: 0.8rem;
+  margin-top: 0.5rem;
 `;
 
 const CancleButton = styled.button`
