@@ -1,11 +1,19 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { HiPencil } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 
 const ProfileBar = () => {
   const [isHovered, setIsHovered] = useState(false);
+  const [profileImage, setProfileImage] = useState("Profile.png");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const savedImage = localStorage.getItem("profileImage");
+    if (savedImage) {
+      setProfileImage(savedImage);
+    }
+  }, []);
 
   const handleProfileClick = () => {
     navigate("/profile");
@@ -18,7 +26,8 @@ const ProfileBar = () => {
         onMouseLeave={() => setIsHovered(false)}
         onClick={handleProfileClick}
       >
-        <ProfileImage src="seed0838.png" alt="Profile" />
+        <ProfileImage src={`/${profileImage}`} alt="Profile" />
+        {/* <ProfileImage src={`/Profile.png`} alt="Profile" /> */}
         {isHovered && (
           <EditIconOverlay>
             <HiPencil />
@@ -48,11 +57,12 @@ const ProfileImageContainer = styled.div`
 const ProfileImage = styled.img`
   margin-top: 1.25rem;
   width: 13rem;
+  height: 13rem;
 `;
 
 const EditIconOverlay = styled.div`
   position: absolute;
-  top: 1rem;
+  top: 1.5rem;
   left: 0;
   right: 0;
   bottom: 0;
