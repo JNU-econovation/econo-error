@@ -35,7 +35,8 @@ public class FilterService implements
 
 
     @Override
-    public CreateFilterResponse createFilter(CreateFilterRequest request) {
+    @Transactional
+    public CreateFilterResponse createFilter(final CreateFilterRequest request) {
         FilterModel model = requestConverter.from(request);
         FilterEntity entity = entityConverter.toEntity(model);
         FilterEntity save = filterRepository.save(entity);
