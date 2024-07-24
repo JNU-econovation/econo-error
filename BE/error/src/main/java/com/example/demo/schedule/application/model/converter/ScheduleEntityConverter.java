@@ -1,6 +1,9 @@
 package com.example.demo.schedule.application.model.converter;
 
 import com.example.demo.common.support.converter.AbstractEntityConverter;
+import com.example.demo.filter.application.model.FilterModel;
+import com.example.demo.filter.persistence.FilterEntity;
+import com.example.demo.schedule.application.dto.CreateScheduleRequest;
 import com.example.demo.schedule.application.model.ScheduleModel;
 import com.example.demo.schedule.persistence.ScheduleEntity;
 import org.springframework.stereotype.Component;
@@ -15,8 +18,10 @@ public class ScheduleEntityConverter implements AbstractEntityConverter<Schedule
                 .eventName(source.getEventName())
                 .eventStartDate(source.getEventStartDate())
                 .eventEndDate(source.getEventEndDate())
-                .eventPlace(source.getEventPlace())
                 .eventInfo(source.getEventInfo())
+                .eventPlace(source.getEventPlace())
+                .scheduleType(source.getScheduleType())
+                .filter(source.getFilter())
                 .build();
     }
 
@@ -27,8 +32,12 @@ public class ScheduleEntityConverter implements AbstractEntityConverter<Schedule
                 .eventName(source.getEventName())
                 .eventStartDate(source.getEventStartDate())
                 .eventEndDate(source.getEventEndDate())
-                .eventPlace(source.getEventPlace())
                 .eventInfo(source.getEventInfo())
+                .eventPlace(source.getEventPlace())
+                .scheduleType(source.getScheduleType())
+                .filter(source.getFilter())
                 .build();
     }
+
+
 }

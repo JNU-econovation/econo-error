@@ -1,28 +1,23 @@
 package com.example.demo.schedule.application.dto;
 
-import com.example.demo.common.support.dto.AbstractDto;
-import com.example.demo.filter.application.model.FilterModel;
 import com.example.demo.filter.persistence.FilterEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class CreateScheduleRequest implements AbstractDto {
-
+public class AllPublicCalendarResponse {
     private Long eventId;
     private String eventName;
-    private LocalDateTime eventStartDate;
-    private LocalDateTime eventEndDate;
-    private String eventInfo;
+    private String eventStartDate;
+    private String eventEndDate;
     private String eventPlace;
+    private String eventInfo;
     private String scheduleType;
-    private FilterEntity filter;
-
+    private String filterName;
+    private String filterColor;
 }
