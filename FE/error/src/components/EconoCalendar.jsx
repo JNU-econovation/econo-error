@@ -1,48 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import styled from "styled-components";
 import interactionPlugin from "@fullcalendar/interaction";
-import axios from "axios";
 import CreateModal from "./scheduleCreate/CreateModal";
 import CheckCalendar from "./scheduleCheck/CheckCalendar";
 
-const EconoCalendar = ({ isLoggedIn, setIsLoggedIn }) => {
-  const [events, setEvents] = useState([]);
+const EconoCalendar = ({
+  isLoggedIn,
+  setIsLoggedIn,
+  setEvents,
+  events,
+  setToken,
+}) => {
   const [selectID, setSelectID] = useState("");
   const [checkModalIsOpen, setCheckModalIsOpen] = useState(false);
   const [createModalIsOpen, setCreateModalIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState("");
-  const [token, setToken] = useState(null);
-
-  useEffect(() => {
-    const storedToken = localStorage.getItem("slackToken");
-    setToken(storedToken);
-
-    const isUserLoggedIn = !!storedToken;
-    setIsLoggedIn(isUserLoggedIn);
-
-    const uri = isUserLoggedIn
-      ? "/api/calendar/all"
-      : "/api/calendar/all/public";
-
-    axios
-      .get(uri, { headers: { Authorization: `Bearer ${storedToken}` } })
-      .then((res) => {
-        const fetchedEvents = res.data.data.map((event) => ({
-          title: event.eventName,
-          id: event.eventId,
-          start: event.eventStartDate.split("T")[0],
-          end: event.eventEndDate.split("T")[0],
-          color: "#FFC0CB",
-        }));
-        setEvents(fetchedEvents);
-      })
-      .catch((error) => {
-        console.error("Error fetching events:", error);
-      });
-  }, []);
 
   const handleDelete = () => {
     toast("일정이 삭제되었습니다", {

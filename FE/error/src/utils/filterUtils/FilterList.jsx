@@ -3,13 +3,18 @@ import ScheduleToggle from "./ScheduleToggle";
 import FilterModify from "./FilterModify";
 import FilterDelete from "./FilterDelete";
 
-const FilterList = ({ filterLists, updateDeleteFilter }) => {
+const FilterList = ({ filterLists, updateDeleteFilter, onFilterChange }) => {
   return (
     <StyledFilterListFrame>
       {filterLists.map((filterList, index) => (
         <StyledScheduleType key={index}>
           <StyledTitle>
-            <ScheduleToggle color={filterList.filterColor} />
+            <ScheduleToggle
+              key={filterList.id}
+              color={filterList.filterColor}
+              id={filterList.filterId}
+              onToggle={onFilterChange}
+            />
             {filterList.filterName}
           </StyledTitle>
           <StyledDetail>
