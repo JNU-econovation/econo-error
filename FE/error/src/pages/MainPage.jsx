@@ -11,6 +11,39 @@ const MainPage = () => {
   const [filterIndividualLists, setFilterIndividualLists] = useState([]);
   const [filterGroupLists, setFilterGroupLists] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [events, setEvents] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
+  const [activeFilters, setActiveFilters] = useState([]);
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("slackToken");
+    setToken(storedToken);
+
+    const isUserLoggedIn = !!storedToken;
+    setIsLoggedIn(isUserLoggedIn);
+
+    const uri = isUserLoggedIn
+      ? "/api/calendar/all/private"
+      : "/api/calendar/all/public";
+
+    axios
+      .get(uri, { headers: { Authorization: `Bearer ${storedToken}` } })
+      .then((res) => {
+        const fetchedEvents = res.data.data.map((event) => ({
+          title: event.eventName,
+          id: event.eventId,
+          start: event.eventStartDate.split("T")[0],
+          end: event.eventEndDate.split("T")[0],
+          color: event.filterColor,
+        }));
+        setEvents(fetchedEvents);
+      })
+      .catch((error) => {
+        console.error("Error fetching events:", error);
+      });
+  }, []);
+
   useEffect(() => {
     const token = localStorage.getItem("slackToken");
     setIsLoggedIn(!!token);
