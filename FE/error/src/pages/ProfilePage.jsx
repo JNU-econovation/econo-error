@@ -1,50 +1,47 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FaRandom } from "react-icons/fa";
-import axios from "axios"; // axios를 import 합니다.
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
-  const [images, setImages] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const storedToken = localStorage.getItem("slackToken");
+  const navigate = useNavigate();
+  const images = [
+    "seed0011.png",
+    "seed0014.png",
+    "seed0065.png",
+    "seed0141.png",
+    "seed0154.png",
+    "seed0182.png",
+    "seed0256.png",
+    "seed0291.png",
+    "seed0298.png",
+    "seed0365.png",
+    "seed0419.png",
+    "seed0460.png",
+    "seed0301.png",
+    "seed0461.png",
+    "seed0877.png",
+    "seed0882.png",
+  ];
 
   useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const response = await axios.get("http://localhost:8080/api/images", {
-          headers: { Authorization: `Bearer ${storedToken}` },
-        });
-        setImages(response.data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Failed to fetch images:", error);
-        if (error.response) {
-          // 서버 응답이 2xx 범위를 벗어난 상태 코드를 반환한 경우
-          console.error(error.response.data);
-          console.error(error.response.status);
-          console.error(error.response.headers);
-        } else if (error.request) {
-          // 요청이 이루어졌으나 응답을 받지 못한 경우
-          console.error(error.request);
-        } else {
-          // 요청을 설정하는 중에 오류가 발생한 경우
-          console.error("Error", error.message);
-        }
-        setIsLoading(false);
-      }
-    };
-
-    fetchImages();
+    const savedImage = localStorage.getItem("profileImage");
+    if (savedImage) {
+      setSelectedImage(images.indexOf(savedImage));
+    }
   }, []);
 
   const selectImage = (index) => {
     setSelectedImage(index);
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  const handleSave = () => {
+    if (selectedImage !== null) {
+      localStorage.setItem("profileImage", images[selectedImage]);
+    }
+    navigate("/"); // MainPage로 이동
+  };
 
   return (
     <>
@@ -53,8 +50,8 @@ const ProfilePage = () => {
         <ProfilePicture
           src={
             selectedImage !== null
-              ? images[selectedImage]
-              : "https://via.placeholder.com/200"
+              ? `/${images[selectedImage]}`
+              : "/Profile.png"
           }
           alt="Profile"
         />
@@ -71,13 +68,13 @@ const ProfilePage = () => {
               onClick={() => selectImage(index)}
               selected={selectedImage === index}
             >
-              {image && <Image src={image} alt={`option-${index}`} />}
+              <Image src={`/${image}`} alt={`option-${index}`} />
             </ImageContainer>
           ))}
         </ImageGrid>
         <ButtonContainer>
-          <CancleButton>취소</CancleButton>
-          <SaveButton>저장</SaveButton>
+          <CancleButton onClick={() => navigate("/")}>취소</CancleButton>
+          <SaveButton onClick={handleSave}>저장</SaveButton>
         </ButtonContainer>
       </Container>
     </>
@@ -161,6 +158,7 @@ const ButtonContainer = styled.div`
   display: flex;
   align-self: flex-end;
   gap: 0.8rem;
+  margin-top: 0.5rem;
 `;
 
 const CancleButton = styled.button`
