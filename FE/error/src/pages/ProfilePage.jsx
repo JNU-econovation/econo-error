@@ -95,7 +95,6 @@ const Header = styled.div`
   width: 52%;
   padding: 2rem 4rem 0 4rem;
   justify-content: space-between;
-  margin-bottom: 2rem;
 `;
 
 const Title = styled.h1`
@@ -159,7 +158,7 @@ const ButtonContainer = styled.div`
   display: flex;
   align-self: flex-end;
   gap: 0.8rem;
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
 `;
 
 const CancleButton = styled.button`
