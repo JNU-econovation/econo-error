@@ -16,6 +16,12 @@ import java.util.stream.Stream;
 public interface ScheduleRepository extends JpaRepository<ScheduleEntity, Long> {
     @Query("select p from ScheduleEntity p") Stream<ScheduleEntity> streamAll();
 
+    @Query("SELECT s FROM ScheduleEntity s WHERE s.scheduleType = 'PUBLIC'")
+    Stream<ScheduleEntity> streamAllPublic();
+
+    @Query("SELECT s FROM ScheduleEntity s WHERE s.scheduleType = 'PRIVATE'")
+    Stream<ScheduleEntity> streamAllPrivate();
+
     @Query("SELECT p.eventId, p.eventName, p.eventStartDate, p.createdDate FROM ScheduleEntity p")
     List<ScheduleModel> getYearCalendar();
 }
