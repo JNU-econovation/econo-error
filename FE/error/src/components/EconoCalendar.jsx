@@ -24,7 +24,7 @@ const EconoCalendar = ({ isLoggedIn, setIsLoggedIn }) => {
     setIsLoggedIn(isUserLoggedIn);
 
     const uri = isUserLoggedIn
-      ? "/api/calendar/all"
+      ? "/api/calendar/all/private"
       : "/api/calendar/all/public";
 
     axios
