@@ -12,8 +12,8 @@ const MainPage = () => {
   const [filterGroupLists, setFilterGroupLists] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [events, setEvents] = useState([]);
-  const [filteredEvents, setFilteredEvents] = useState([]);
-  const [activeFilters, setActiveFilters] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]); //현재 필터링된 이벤트 목록 저장
+  const [activeFilters, setActiveFilters] = useState([]); //현재 활서화된 필터들을 추적
   const [token, setToken] = useState(null);
 
   useEffect(() => {
@@ -43,6 +43,29 @@ const MainPage = () => {
         console.error("Error fetching events:", error);
       });
   }, []);
+
+  const handleFilterChange = (filterId, filterName, isChecked) => {
+    // 필터 감지하여 배열에 업데이트
+    setActiveFilters((prevFilters) => {
+      if (isChecked) {
+        return [...prevFilters, { id: filterId, name: filterName }];
+      } else {
+        return prevFilters.filter((filter) => filter.id !== filterId);
+      }
+    });
+
+    // filteredEvents 업데이트
+    setFilteredEvents((prevFilteredEvents) => {
+      if (isChecked) {
+        const newEvents = events.filter((event) => event.filterId === filterId);
+        return [...prevFilteredEvents, ...newEvents];
+      } else {
+        return prevFilteredEvents.filter(
+          (event) => event.filterId !== filterId
+        );
+      }
+    });
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("slackToken");
@@ -101,6 +124,7 @@ const MainPage = () => {
                   <IndividualFilter
                     filterLists={filterIndividualLists}
                     addNewFilter={addNewIndividualFilter}
+                    onFilterChange={handleFilterChange}
                   />
                 </>
               )}

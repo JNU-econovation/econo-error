@@ -10,6 +10,7 @@ const IndividualFilter = ({
   filterLists,
   addNewFilter,
   updateDeleteFilter,
+  onFilterChange,
 }) => {
   const [individualFilterIsOpen, setindividualFilterIsOpen] = useState(false);
   const [filterListsIsOpen, setFilterListsIsOpen] = useState(true);
