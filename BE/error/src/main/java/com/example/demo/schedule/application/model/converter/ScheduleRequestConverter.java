@@ -1,6 +1,7 @@
 package com.example.demo.schedule.application.model.converter;
 
 import com.example.demo.common.support.converter.AbstractDtoConverter;
+import com.example.demo.filter.persistence.FilterEntity;
 import com.example.demo.schedule.application.dto.CreateScheduleRequest;
 import com.example.demo.schedule.application.dto.UpdateScheduleRequest;
 import com.example.demo.schedule.application.model.ScheduleModel;
@@ -17,6 +18,8 @@ public class ScheduleRequestConverter implements AbstractDtoConverter<CreateSche
                 .eventEndDate(source.getEventEndDate())
                 .eventInfo(source.getEventInfo())
                 .eventPlace(source.getEventPlace())
+                .scheduleType(source.getScheduleType())
+                .filter(source.getFilter())
                 .build();
     }
 

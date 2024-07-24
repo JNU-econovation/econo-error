@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
 public class ScheduleResponseConverter {
@@ -34,6 +36,17 @@ public class ScheduleResponseConverter {
                 .eventPlace(model.getEventPlace())
                 .build();
     }
+
+//    public interface CalendarResponseConverter<R extends CalendarResponse> {
+//        List<R> toModel(List<ScheduleModel> models);
+//    }
+//
+//    public <T extends CalendarResponse> List<T> toModel(List<ScheduleModel> models, Function<ScheduleModel, T> responseBuilder) {
+//        return models.stream()
+//                .map(responseBuilder)
+//                .collect(Collectors.toList());
+//    }
+
 
     public List<YearCalendarResponse> toYearModel(List<ScheduleModel> models) {
 
@@ -62,6 +75,52 @@ public class ScheduleResponseConverter {
         }
         return response;
     }
+
+    public List<AllPublicCalendarResponse> toPublicModel(List<ScheduleModel> models) {
+        return models.stream()
+                .map(this::toPublicCalendarResponse)
+                .collect(Collectors.toList());
+    }
+
+    private AllPublicCalendarResponse toPublicCalendarResponse(ScheduleModel model) {
+        return AllPublicCalendarResponse.builder()
+                .eventId(model.getEventId())
+                .eventName(model.getEventName())
+                .eventStartDate(model.getEventStartDate().toString())
+                .eventEndDate(model.getEventEndDate().toString())
+                .eventPlace(model.getEventPlace())
+                .eventInfo(model.getEventInfo())
+                .scheduleType(model.getScheduleType())
+                .filterName(model.getFilter() != null ? model.getFilter().getFilterName() : null)
+                .filterColor(model.getFilter() != null ? model.getFilter().getFilterColor() : null)
+                .build();
+    }
+
+
+
+
+    public List<AllPrivateCalendarResponse> toPrivateModel(List<ScheduleModel> models) {
+        return models.stream()
+                .map(this::toPrivateCalendarResponse)
+                .collect(Collectors.toList());
+    }
+
+    private AllPrivateCalendarResponse toPrivateCalendarResponse(ScheduleModel model) {
+        return AllPrivateCalendarResponse.builder()
+                .eventId(model.getEventId())
+                .eventName(model.getEventName())
+                .eventStartDate(model.getEventStartDate().toString())
+                .eventEndDate(model.getEventEndDate().toString())
+                .eventPlace(model.getEventPlace())
+                .eventInfo(model.getEventInfo())
+                .scheduleType(model.getScheduleType())
+                .filterName(model.getFilter() != null ? model.getFilter().getFilterName() : null)
+                .filterColor(model.getFilter() != null ? model.getFilter().getFilterColor() : null)
+                .build();
+    }
+
+
+
 
     public List<MonthCalendarResponse> toMonthModel(List<ScheduleModel> models) {
 
