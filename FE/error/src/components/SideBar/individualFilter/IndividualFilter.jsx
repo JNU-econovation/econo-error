@@ -70,6 +70,7 @@ const IndividualFilter = ({
         <FilterList
           filterLists={filterLists}
           updateDeleteFilter={updateDeleteFilter}
+          onFilterChange={onFilterChange}
         />
       )}
     </>

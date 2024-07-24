@@ -1,11 +1,13 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-const ScheduleToggle = ({ color }) => {
+const ScheduleToggle = ({ color, id, onToggle }) => {
   const [clicked, setClicked] = useState(true);
-
   const handleOnClick = () => {
-    setClicked(!clicked);
+    const newClickedState = !clicked;
+    setClicked(newClickedState);
+
+    onToggle(id, newClickedState);
   };
 
   return (

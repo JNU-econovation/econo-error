@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import EconoCalendar from "../components/EconoCalendar";
 import ProfileBar from "../components/SideBar/ProfileBar";
@@ -12,9 +12,14 @@ const MainPage = () => {
   const [filterGroupLists, setFilterGroupLists] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [events, setEvents] = useState([]);
-  const [filteredEvents, setFilteredEvents] = useState([]); //현재 필터링된 이벤트 목록 저장
-  const [activeFilters, setActiveFilters] = useState([]); //현재 활서화된 필터들을 추적
+  const [activeFilters, setActiveFilters] = useState(new Set());
   const [token, setToken] = useState(null);
+
+  // 필터링된 이벤트를 계산
+  const filteredEvents = useMemo(() => {
+    if (activeFilters.size === 0) return events;
+    return events.filter((event) => activeFilters.has(event.filterId));
+  }, [events, activeFilters]);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("slackToken");
@@ -36,34 +41,26 @@ const MainPage = () => {
           start: event.eventStartDate.split("T")[0],
           end: event.eventEndDate.split("T")[0],
           color: event.filterColor,
+          filterId: event.filterId,
         }));
         setEvents(fetchedEvents);
+        // 모든 필터를 초기에 활성화
+        setActiveFilters(new Set(fetchedEvents.map((event) => event.filterId)));
       })
       .catch((error) => {
         console.error("Error fetching events:", error);
       });
   }, []);
 
-  const handleFilterChange = (filterId, filterName, isChecked) => {
-    // 필터 감지하여 배열에 업데이트
+  const handleFilterChange = (filterId, isChecked) => {
     setActiveFilters((prevFilters) => {
+      const newFilters = new Set(prevFilters);
       if (isChecked) {
-        return [...prevFilters, { id: filterId, name: filterName }];
+        newFilters.add(filterId);
       } else {
-        return prevFilters.filter((filter) => filter.id !== filterId);
+        newFilters.delete(filterId);
       }
-    });
-
-    // filteredEvents 업데이트
-    setFilteredEvents((prevFilteredEvents) => {
-      if (isChecked) {
-        const newEvents = events.filter((event) => event.filterId === filterId);
-        return [...prevFilteredEvents, ...newEvents];
-      } else {
-        return prevFilteredEvents.filter(
-          (event) => event.filterId !== filterId
-        );
-      }
+      return newFilters;
     });
   };
 
@@ -79,29 +76,39 @@ const MainPage = () => {
   const addNewGroupFilter = (newGroupFilter) => {
     setFilterGroupLists([...filterGroupLists, newGroupFilter]);
   };
+
   const updateDeleteFilter = (newFilter) => {
     setFilterIndividualLists(
       filterIndividualLists.filter((filter) => filter.filterId !== newFilter)
     );
+    // 삭제된 필터를 activeFilters에서도 제거
+    setActiveFilters((prevFilters) => {
+      const newFilters = new Set(prevFilters);
+      newFilters.delete(newFilter);
+      return newFilters;
+    });
   };
-  const storedToken = localStorage.getItem("slackToken");
 
   useEffect(() => {
+    const storedToken = localStorage.getItem("slackToken");
     axios
       .get("/api/filter", {
         headers: { Authorization: `Bearer ${storedToken}` },
       })
       .then((res) => {
-        console.log(res);
         const fetchedFilter = res.data.data.map((filter) => ({
           filterId: filter.filterId,
           filterName: filter.filterName,
           filterColor: filter.filterColor,
         }));
         setFilterIndividualLists(fetchedFilter);
+        // 모든 개인 필터를 초기에 활성화
+        setActiveFilters(
+          new Set(fetchedFilter.map((filter) => filter.filterId))
+        );
       })
       .catch((err) => {
-        console.log("Error fetching events:", err);
+        console.log("Error fetching filters:", err);
       });
   }, []);
 
@@ -131,13 +138,21 @@ const MainPage = () => {
             </FilterFrame>
           </ScrollableContent>
         </SideBar>
-        <EconoCalendar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+        <EconoCalendar
+          isLoggedIn={isLoggedIn}
+          setIsLoggedIn={setIsLoggedIn}
+          events={filteredEvents}
+          setEvents={setEvents}
+          setToken={setToken}
+        />
       </CalendarPage>
     </div>
   );
 };
 
 export default MainPage;
+
+// ... 나머지 styled-components 코드는 그대로 유지
 
 const SideBar = styled.div`
   width: 15.625rem;
