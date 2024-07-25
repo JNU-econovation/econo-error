@@ -121,8 +121,6 @@ public class ScheduleResponseConverter {
                 .filterColor(model.getFilter() != null ? model.getFilter().getFilterColor() : null)
                 .build();
     }
-    
-    
 
 
     public List<MonthCalendarResponse> toMonthModel(List<ScheduleModel> models) {
