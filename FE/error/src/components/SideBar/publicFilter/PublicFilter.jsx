@@ -1,13 +1,7 @@
 import styled from "styled-components";
 import ScheduleToggle from "../../../utils/filterUtils/ScheduleToggle";
-import FilterList from "../../../utils/filterUtils/FilterList";
-import FilterCreateModal from "../../../utils/filterUtils/FilterCreateModal";
-import { useState } from "react";
-const PublicFilter = ({ filterLists, addNewFilter }) => {
-  const [individualFilterIsOpen, setindividualFilterIsOpen] = useState(false);
-  const createIndividualFilter = () => {
-    setindividualFilterIsOpen(true);
-  };
+
+const PublicFilter = () => {
   return (
     <StyledPublicFilterFrame>
       <div
@@ -18,21 +12,13 @@ const PublicFilter = ({ filterLists, addNewFilter }) => {
       >
         <div style={{ fontSize: "1.1rem" }}>에코노 캘린더</div>
       </div>
-      <button onClick={createIndividualFilter}>hi</button>
       <StyledSceduleType>
-        <FilterCreateModal
-          isOpen={individualFilterIsOpen}
-          onRequestClose={() => setindividualFilterIsOpen(false)}
-          filterModalType={"individual"}
-          addNewFilter={addNewFilter}
-        />
-        <FilterList filterLists={filterLists} />
-        {/* <ScheduleToggle color={"#ff5b5b"} />
+        <ScheduleToggle color={"#ff5b5b"} />
         공식행사
       </StyledSceduleType>
       <StyledSceduleType>
         <ScheduleToggle color={"#63ABFF"} />
-        주간발표 */}
+        주간발표
       </StyledSceduleType>
     </StyledPublicFilterFrame>
   );

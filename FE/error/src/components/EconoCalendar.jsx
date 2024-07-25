@@ -8,6 +8,7 @@ import CreateModal from "./scheduleCreate/CreateModal";
 import CheckCalendar from "./scheduleCheck/CheckCalendar";
 
 const EconoCalendar = ({
+  updateDeleteFilter,
   isLoggedIn,
   setIsLoggedIn,
   setEvents,

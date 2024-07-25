@@ -135,6 +135,7 @@ const MainPage = () => {
                     filterLists={filterIndividualLists}
                     addNewFilter={addNewIndividualFilter}
                     onFilterChange={handleFilterChange}
+                    updateDeleteFilter={updateDeleteFilter}
                   />
                 </>
               )}
