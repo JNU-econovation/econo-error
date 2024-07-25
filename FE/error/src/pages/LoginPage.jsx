@@ -49,7 +49,11 @@ const LoginPage = () => {
   };
 
   if (isLoading) {
-    return <div>로그인 중...</div>;
+    return (
+      <LoadingContainer>
+        <LoadingImage src="/image79.png" alt="Loading" />
+      </LoadingContainer>
+    );
   }
 
   return (
@@ -127,4 +131,21 @@ const StyledCharacter = styled.img`
   position: absolute;
   top: 25%;
   left: 60%;
+`;
+
+const LoadingContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+`;
+
+const LoadingImage = styled.img`
+  width: 100px;
+  height: auto;
 `;
