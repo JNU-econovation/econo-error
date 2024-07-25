@@ -10,4 +10,5 @@ import java.util.stream.Stream;
 @Repository
 public interface FilterRepository extends JpaRepository<FilterEntity, Long> {
     @Query("select p from FilterEntity p") Stream<FilterEntity> streamAll();
+
 }
