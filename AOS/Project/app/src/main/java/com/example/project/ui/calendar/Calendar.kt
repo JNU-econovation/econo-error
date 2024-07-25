@@ -4,7 +4,12 @@ package com.example.project.ui.calendar
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -40,7 +45,9 @@ fun Calendar(calendarViewModel: CalendarViewModel = viewModel(), selectionMode: 
     val localDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
     val today = LocalDate(localDateTime.year, localDateTime.monthNumber, localDateTime.dayOfMonth)
     val month = localDateTime.monthNumber
-     Box(modifier = Modifier) {
+     Box(modifier = Modifier.padding(horizontal = 15.dp)
+//         .border(1.dp, Color(0x66ff9999), RoundedCornerShape(5.dp))
+         .background(Color.White)) {
         Kalendar(currentDay = today , kalendarType = KalendarType.Firey,
         modifier = Modifier,
         showLabel = true,

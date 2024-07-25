@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.project.data.api.errorApi
 import com.example.project.data.entity.EventInfo
 import com.example.project.data.remote.EventRequest
+import com.example.project.ui.filter.FilterViewModel
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,6 +24,8 @@ class HomeViewModel: ViewModel() {
         _uiState.value = uiState.value.copy(day = day)
     }
 
+
+
     fun updateName(name: String){
         _uiState.value = uiState.value.copy(name=name)
     }
@@ -32,20 +35,31 @@ class HomeViewModel: ViewModel() {
     fun updateInfo(info: String){
         _uiState.value = uiState.value.copy(info=info)
     }
-    fun updateStartTime(startTime: String){
-        _uiState.value = uiState.value.copy(startTime = startTime)
-    }
-    fun updateEndTime(endTime: String){
-        _uiState.value=uiState.value.copy(endTime=endTime)
+//    fun updateStartTime(startTime: String){
+//        _uiState.value = uiState.value.copy(startHour = startTime)
+//    }
+//    fun updateEndTime(endTime: String){
+//        _uiState.value=uiState.value.copy(endHour =endTime)
+//    }
+
+    fun updateScope(scope: String){
+        _uiState.value = uiState.value.copy(scope=scope)
     }
 
 
     fun createTogglePopup() {
-
         _uiState.value = if (uiState.value.createPopupState == CreateState.Normal) {
             HomeUiState(createPopupState = CreateState.PopupShown)
         } else {
             HomeUiState(createPopupState = CreateState.Normal)
+        }
+    }
+
+    fun popFilter() {
+        _uiState.value = if (uiState.value.filterState == FilterState.Normal) {
+            HomeUiState(filterState = FilterState.BSShown)
+        } else {
+            HomeUiState(filterState = FilterState.Normal)
         }
     }
 

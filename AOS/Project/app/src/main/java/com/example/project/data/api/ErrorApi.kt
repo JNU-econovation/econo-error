@@ -1,11 +1,15 @@
 package com.example.project.data.api
 
+import com.example.project.MyApplication
 import com.example.project.data.remote.CommonResponse
 import com.example.project.data.remote.EventRequest
 import com.example.project.data.remote.EventResponse
+import com.example.project.data.remote.FilterResponse
+import com.example.project.data.remote.LoginResponse
 import com.example.project.data.remote.MonthEventResponse
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import okhttp3.Interceptor
 import okhttp3.JavaNetCookieJar
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -18,6 +22,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 import java.net.CookieManager
 import java.text.DateFormat
 
@@ -26,7 +31,7 @@ private const val BASE_URL =
     "https://error.econo-calendar.com:8080/api/"
 
 val client: OkHttpClient = OkHttpClient.Builder()
-//    .addInterceptor(AppInterceptor())
+    .addInterceptor(AppInterceptor())
     .cookieJar(JavaNetCookieJar(CookieManager()))
     .addInterceptor(HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
@@ -43,27 +48,25 @@ val retrofit: Retrofit = Retrofit.Builder()
 
 
 
+class AppInterceptor : Interceptor {
 
-//class AppInterceptor : Interceptor {
-//    @Throws(IOException::class)
-//    override fun intercept(chain: Interceptor.Chain): Response = with(chain) {
-////        val accessToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJJZCI6MSwibWVtYmVyUm9sZSI6IltST0xFX1VTRVJdIiwiaWF0IjoxNzA1MTMzMjI1LCJleHAiOjE3MDcyOTMyMjV9.UVd3n1O508y54CC0dvVry30lgS3Zxoo7UynyNAggTd0"
-////        val refreshToken = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJJZCI6MSwibWVtYmVyUm9sZSI6IltST0xFX1VTRVJdIiwiaWF0IjoxNzA1MTMzMjI1LCJleHAiOjE3MDcyOTMyMjV9.UVd3n1O508y54CC0dvVry30lgS3Zxoo7UynyNAggTd0"
-//        val original = chain.request()
-//
-//        if (original.url.encodedPath.equals("/v1/members", true)
-//            && original.method.equals("POST", true) ) {
-//            chain.proceed(original)
-//        } else {
-//            chain.proceed(original.newBuilder().apply {
-//                addHeader("Authorization", "Bearer ${MyApplication.prefs.getAToken()}")
-//            }.build())
-//        }
-//    }
-//}
+    override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
+        val original = chain.request()
+
+        val token = MyApplication.prefs.getAToken()
+        val requestBuilder = original.newBuilder()
+
+        // 토큰이 있으면 Authorization 헤더에 추가
+        if (token.isNotEmpty()) {
+            requestBuilder.addHeader("Authorization", "Bearer $token")
+        }
+
+        return chain.proceed(requestBuilder.build())
+    }
+}
 
 
-interface ErrorApi {
+interface ErrorAPI {
 
 
     @GET("calendar/{eventId}")
@@ -71,9 +74,8 @@ interface ErrorApi {
         @Path("eventId") eventId: Int,
     ): Response<EventResponse>
 
-    @GET("calendar/all/{today}")
+    @GET("calendar/all")
     suspend fun getAllEvent(
-        @Path("today") today: String,
     ): Response<MonthEventResponse>
 
 
@@ -93,6 +95,19 @@ interface ErrorApi {
         @Body event: EventRequest
     ): Response<CommonResponse>
 
+    @POST("auth/login/slack")
+    suspend fun loginWithSlack(
+        @Query("code") code: String,
+        @Query("redirect_uri") redirectUri:String,
+    ): Response<LoginResponse>
+
+
+    @GET("filter")
+    suspend fun getFilters(
+
+    ): Response<FilterResponse>
+
+
 //    @GET("calendar/{today}")
 //    suspend fun getYearEvent(
 //        @Query("period") period: String,
@@ -101,6 +116,6 @@ interface ErrorApi {
 
 }
 
-val errorApi: ErrorApi by lazy {
-    retrofit.create(ErrorApi::class.java)
+val errorApi: ErrorAPI by lazy {
+    retrofit.create(ErrorAPI::class.java)
 }

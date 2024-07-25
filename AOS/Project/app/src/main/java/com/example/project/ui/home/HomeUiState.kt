@@ -18,17 +18,21 @@ data class HomeUiState(
     val name: String = "",
     val place: String = "",
     val info:String = "",
-    val startTime:String= "",
-    val endTime:String="",
+    val startHour:String= "",
+    val startMinute:String= "",
+    val endHour:String="",
+    val endMinute:String="",
+    val scope: String = "",
 
     val eventInfo: EventInfo = EventInfo( 0,"","","","",""),
 
     val int: Int = 0,
-    val createPopupState: CreateState = CreateState.PopupShown,
+    val createPopupState: CreateState = CreateState.Normal,
 
 
-    val eventPopupState: EventState = EventState.Normal
+    val eventPopupState: EventState = EventState.Normal,
 
+    val filterState: FilterState = FilterState.Normal
 
 )
 
@@ -40,4 +44,8 @@ sealed interface CreateState {
 sealed interface EventState {
     object Normal : EventState
     object PopupShown : EventState
+}
+sealed interface FilterState{
+    object Normal : FilterState
+    object BSShown : FilterState
 }

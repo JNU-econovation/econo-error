@@ -6,4 +6,10 @@ data class EventRequest (
     val eventEndDate: String,
     val eventInfo: String,
     val eventPlace: String,
-)
+    val scheduleType: String,
+    val filter: filterId,
+){
+    data class filterId(
+        val filterId: Int=12
+    )
+}

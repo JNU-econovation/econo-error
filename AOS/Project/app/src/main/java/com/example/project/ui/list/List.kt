@@ -6,8 +6,10 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -23,21 +25,26 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.project.data.entity.Event
 import com.example.project.ui.home.HomeViewModel
 import com.example.project.ui.calendar.CalendarViewModel
 import com.example.project.ui.home.DateComparer
-import com.example.project.ui.home.TimeModifier
+import com.example.project.ui.home.timeModifier
+import com.example.project.ui.navigation.NavItem
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun List(calendarViewModel: CalendarViewModel = viewModel(), listViewModel: ListViewModel = viewModel(), homeViewModel: HomeViewModel= viewModel()) {
+fun List(calendarViewModel: CalendarViewModel = viewModel(), listViewModel: ListViewModel = viewModel(), homeViewModel: HomeViewModel= viewModel(), navController: NavHostController = rememberNavController()) {
     val listUiState by listViewModel.uiState.collectAsState()
     val calendarUiState by calendarViewModel.uiState.collectAsState()
     val events = listUiState.events
@@ -53,13 +60,18 @@ fun List(calendarViewModel: CalendarViewModel = viewModel(), listViewModel: List
 
     Log.d("이벤트", "${day}")
 
-    Column() {
+    Column {
         Text(
             "${day} 일정", fontWeight = FontWeight.Bold,
-            color = Color.Black,
-            fontSize = 20.sp,
-            modifier = Modifier.padding(16.dp)
+            color = Color(0xFFff9999),
+            fontSize = 15.sp,
+            textDecoration = TextDecoration.Underline,
+            modifier = Modifier
+                .padding(horizontal = 20.dp, vertical = 10.dp)
+
         )
+
+
 
         LazyColumn(events = events, day = day)
     }
@@ -73,21 +85,38 @@ fun List(calendarViewModel: CalendarViewModel = viewModel(), listViewModel: List
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun LazyColumn(events: List<Event>, day:String) {
+    var count =0
 
     LazyColumn {
+
         items(events) { item ->
             Log.d("자른 날짜", "${item.eventStartDate.slice(0..9)}")
-            Log.d("자른 day","${day}")
-            Log.d("같은지","${item.eventStartDate.slice(0..9) == day}")
+            Log.d("자른 day", "${day}")
+            Log.d("같은지", "${item.eventStartDate.slice(0..9) == day}")
             when {
                 DateComparer(day, item.eventStartDate, item.eventEndDate)
-                 ->  ListContent(event = item)
+                -> ListContent(event = item)
+
                 else -> {
-                    Log.d("이벤트", "없음")
+                    count++
+                    Log.d("카운트", "${count}")
+                }
+            }
+            if (count == events.size) {
+                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = androidx.compose.ui.Alignment.Center) {
+                    Text(text = "오늘은\n일정이 없습니다.",
+                        textAlign = TextAlign.Center,
+                        fontSize = 18.sp,
+                        modifier = Modifier.padding(30.dp),
+                    fontStyle = FontStyle.Italic,
+                        textDecoration = TextDecoration.Underline
+                    )
                 }
             }
         }
+
     }
+
 
     // day가 변경될 때마다 호출되는 함수
     LaunchedEffect(day) {
@@ -111,7 +140,7 @@ fun ListContent(event: Event, listViewModel: ListViewModel= viewModel(), homeVie
                 Log.d("클릭", "${event.eventId}")
             }
             .height(70.dp)
-            .padding(horizontal = 10.dp, vertical = 5.dp))
+            .padding(horizontal = 15.dp, vertical = 5.dp))
         {
             Canvas(modifier = Modifier
                 .width(5.dp)
@@ -128,11 +157,14 @@ fun ListContent(event: Event, listViewModel: ListViewModel= viewModel(), homeVie
                         color = Color.White, shape = RoundedCornerShape(10.dp)
                     )
             ) {
-                Text(text = "${event.eventName}", fontSize = 20.sp)
+                Text(text = "${event.eventName}", fontSize = 19.sp)
+                Spacer(modifier = Modifier.weight(1f))
 
                     Text(
-                        text = "⏳ ${TimeModifier(event.eventStartDate)} ~ ${TimeModifier(event.eventEndDate)}", fontSize = 13.sp,
-                        modifier = Modifier.fillMaxWidth().padding(5.dp),
+                        text = "⏳ ${timeModifier(event.eventStartDate)} ~ ${timeModifier(event.eventEndDate)}", fontSize = 12.sp,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(5.dp),
                         textAlign = TextAlign.End
                     )
 //                    Text(

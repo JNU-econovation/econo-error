@@ -49,11 +49,11 @@ class ListViewModel: ViewModel() {
             try {
                 Log.d("홈오", "나옴")
 
-                val instant = Clock.System.now()
-                val localDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
-                val todayString = "${localDateTime.year}-${localDateTime.monthNumber}-${localDateTime.dayOfMonth}"
-                Log.d("월별 일정 get 상태코드", "${todayString}")
-                val response = errorApi.getAllEvent(todayString)
+//                val instant = Clock.System.now()
+//                val localDateTime = instant.toLocalDateTime(TimeZone.currentSystemDefault())
+//                val todayString = "${localDateTime.year}-${localDateTime.monthNumber}-${localDateTime.dayOfMonth}"
+//                Log.d("월별 일정 get 상태코드", "${todayString}")
+                val response = errorApi.getAllEvent()
                 Log.d("월별 일정 get 상태코드", "${response}")
                 when (response.code()) {
                     200 -> {
