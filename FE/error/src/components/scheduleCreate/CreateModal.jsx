@@ -188,6 +188,7 @@ const CreateModal = ({
           eventEndDate
         );
         onRequestClose();
+        window.location.reload();
       });
   };
 
