@@ -188,6 +188,7 @@ const CreateModal = ({
           eventEndDate
         );
         onRequestClose();
+        window.location.reload();
       });
   };
 
@@ -368,6 +369,9 @@ const SaveButton = styled.button`
 
   &:disabled {
     cursor: default;
+  }
+  &:hover {
+    background-color: #f5f5f5;
   }
 `;
 

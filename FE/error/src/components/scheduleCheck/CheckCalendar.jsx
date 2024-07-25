@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { GoPencil } from "react-icons/go";
 import { IoClose } from "react-icons/io5";
 import { MdOutlineLocationOn } from "react-icons/md";
@@ -36,29 +36,27 @@ const CheckCalendar = ({
     setEvent(specificEvent);
   }
 
-  const isMount = useRef(false);
   useEffect(() => {
-    if (!isMount.current) {
-      isMount.current = true;
-      return;
-    }
+    if (isOpen && selectID) {
+      setEvent({}); // 새로운 데이터 로딩 전에 event 상태 초기화
 
-    axios
-      .get("/api/calendar/" + selectID, {
-        headers: { Authorization: `Bearer ${storedToken}` },
-      })
-      .then((res) => {
-        createDate(
-          res.data.data.eventName,
-          res.data.data.eventStartDate,
-          res.data.data.eventEndDate,
-          res.data.data.eventPlace,
-          res.data.data.eventInfo,
-          res.data.data.eventType,
-          res.data.data.filterColor
-        );
-      });
-  }, [selectID]);
+      axios
+        .get("/api/calendar/" + selectID, {
+          headers: { Authorization: `Bearer ${storedToken}` },
+        })
+        .then((res) => {
+          createDate(
+            res.data.data.eventName,
+            res.data.data.eventStartDate,
+            res.data.data.eventEndDate,
+            res.data.data.eventPlace,
+            res.data.data.eventInfo,
+            res.data.data.eventType,
+            res.data.data.filterColor
+          );
+        });
+    }
+  }, [selectID, isOpen, storedToken]);
 
   function date(startDate, endDate) {
     if (!startDate && !endDate) return "날짜 정보 없음";
@@ -75,15 +73,20 @@ const CheckCalendar = ({
       } ${endDate.split("T")[1]}`;
   }
 
+  const handleRequestClose = () => {
+    setEvent({});
+    onRequestClose();
+  };
+
   return (
     <Modal
       isOpen={isOpen}
-      onRequestClose={onRequestClose}
+      onRequestClose={handleRequestClose}
       className="CheckModal"
       overlayClassName="overlay"
     >
       <ModalBar>
-        <button onClick={onRequestClose}>
+        <button onClick={handleRequestClose}>
           <IoClose size="2rem" color="rgb(95, 99, 104)" />
         </button>
         <StyledModifyIcon>
@@ -97,7 +100,7 @@ const CheckCalendar = ({
           events={events}
           selectID={selectID}
           handleDelete={handleDelete}
-          onRequestClose={onRequestClose}
+          onRequestClose={handleRequestClose}
           handleUpdateDeleteData={handleUpdateDeleteData}
         />
       </ModalBar>
