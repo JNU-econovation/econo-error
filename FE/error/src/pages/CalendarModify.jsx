@@ -1,16 +1,16 @@
-import styled from "styled-components";
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import axios from "axios";
-import TimeSelect from "../components/TimeSelect";
-import ReactQuill from "react-quill";
+import { useLocation, useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import ReactQuill from "react-quill";
+import axios from "axios";
+import TimeSelect from "../utils/TimeSelect";
 
 const CalendarModify = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const selectID = location.state.selectID;
+  const storedToken = localStorage.getItem("slackToken");
 
   const [modifyName, setModifyName] = useState("");
   const [modifyStartDate, setModifyStartDate] = useState("");
@@ -48,10 +48,7 @@ const CalendarModify = () => {
   };
 
   useEffect(() => {
-    const instance = axios.create({
-      baseURL: `${import.meta.env.VITE_ERROR_API}`,
-    });
-    instance.get("/api/calendar/" + selectID).then((res) => {
+    axios.get("/api/calendar/" + selectID).then((res) => {
       const event = res.data.data;
       const title = event.eventName;
       const startDate = event.eventStartDate.split("T")[0];
@@ -71,10 +68,6 @@ const CalendarModify = () => {
   }, [selectID]);
 
   const modifyData = () => {
-    const instance = axios.create({
-      baseURL: `${import.meta.env.VITE_ERROR_API}`,
-    });
-
     const eventData = {
       eventName: modifyName,
       eventStartDate: modifyStartDate + "T" + modifyStartTime,
@@ -82,11 +75,15 @@ const CalendarModify = () => {
       eventInfo: modifyInfo,
       eventPlace: modifyPlace,
     };
-
-    instance
-      .put("/api/calendar/" + selectID, eventData)
+    axios
+      .put(
+        "/api/calendar/" + selectID,
+        {
+          headers: { Authorization: `Bearer ${storedToken}` },
+        },
+        eventData
+      )
       .then((res) => {
-        console.log(res.data);
         goBack();
       })
       .catch((error) => {

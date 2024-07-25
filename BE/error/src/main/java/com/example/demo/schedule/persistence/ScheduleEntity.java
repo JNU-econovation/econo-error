@@ -1,6 +1,8 @@
 package com.example.demo.schedule.persistence;
 
 import com.example.demo.common.persistence.BaseEntity;
+import com.example.demo.filter.application.model.FilterModel;
+import com.example.demo.filter.persistence.FilterEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -9,14 +11,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @Entity
-@SuperBuilder(toBuilder = true) // TODO what is the superbuilder??
+@SuperBuilder(toBuilder = true)
 @Table(name = "Schedule")
 @EntityListeners(AuditingEntityListener.class)
-public class ScheduleEntity extends BaseEntity { // ScheduleEntity에서 BaseEntity를 extends하지 않으면 왜 ScheduleEntityConverter 여기서 에러가 발생했는지 애하가 잘 안가네
+public class ScheduleEntity extends BaseEntity {
 
     @Id
     @GeneratedValue
@@ -28,6 +30,7 @@ public class ScheduleEntity extends BaseEntity { // ScheduleEntity에서 BaseEnt
 
     @Column(nullable = false)
     private LocalDateTime eventStartDate;
+
     private LocalDateTime eventEndDate;
 
     @Column(nullable = false)
@@ -37,7 +40,12 @@ public class ScheduleEntity extends BaseEntity { // ScheduleEntity에서 BaseEnt
     private String eventPlace;
 
     //@Enumerated(EnumType.STRING)
-    //@Column(nullable = false)
-    //private ScheduleType scheduleTypeType;
+    @Column(nullable = false)
+    private String scheduleType;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "filter_id")
+    private FilterEntity filter;
+
 
 }
