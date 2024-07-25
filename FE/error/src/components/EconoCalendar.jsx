@@ -61,6 +61,7 @@ const EconoCalendar = ({
       localStorage.removeItem("slackToken");
       setIsLoggedIn(false);
       setToken(null);
+      window.location.reload();
       // } else {
       //   const newToken = "dummyToken" + Math.random().toString(36).substr(2, 9); // 임의의 토큰 생성
       //   localStorage.setItem("slackToken", newToken);
