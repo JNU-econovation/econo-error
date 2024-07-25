@@ -370,6 +370,9 @@ const SaveButton = styled.button`
   &:disabled {
     cursor: default;
   }
+  &:hover {
+    background-color: #f5f5f5;
+  }
 `;
 
 const EditorBox = styled.div`
