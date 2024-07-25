@@ -8,6 +8,7 @@ import com.example.demo.filter.application.dto.AllFilterResponse;
 import com.example.demo.filter.application.dto.CreateFilterRequest;
 import com.example.demo.filter.application.dto.CreateFilterResponse;
 import com.example.demo.filter.application.usecase.CreateFilterUsecase;
+import com.example.demo.filter.application.usecase.DeleteFilterUsecase;
 import com.example.demo.filter.application.usecase.GetAllFilterUsecase;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class FilterController {
 
     private final CreateFilterUsecase createFilterUsecase;
     private final GetAllFilterUsecase getAllFilterUsecase;
+    private final DeleteFilterUsecase deleteFilterUsecase;
 
     @PostMapping
     public ApiResponse<ApiResponseBody.SuccessBody<CreateFilterResponse>> createFilter(
@@ -36,6 +38,14 @@ public class FilterController {
     public ApiResponse<ApiResponseBody.SuccessBody<List<AllFilterResponse>>> getFilter() {
         List<AllFilterResponse> response = getAllFilterUsecase.getFilter();
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
+    }
+
+    @DeleteMapping("/{filterId}")
+    public ApiResponse<ApiResponseBody.SuccessBody<Void>> delete(
+            @PathVariable("filterId") Long filterId
+    ) {
+        deleteFilterUsecase.delete(filterId);
+        return ApiResponseGenerator.success(HttpStatus.OK, MessageCode.DELETE);
     }
 
 }
