@@ -40,7 +40,7 @@ const ProfilePage = () => {
     if (selectedImage !== null) {
       localStorage.setItem("profileImage", images[selectedImage]);
     }
-    navigate("/"); // MainPage로 이동
+    navigate("/");
   };
 
   return (
