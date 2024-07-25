@@ -18,4 +18,5 @@ public class SpecificScheduleResopnse {
     private String eventStartDate;
     private String eventEndDate;
     private String eventPlace;
+    private String filterColor;
 }
