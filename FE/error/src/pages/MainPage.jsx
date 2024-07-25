@@ -121,7 +121,10 @@ const MainPage = () => {
           <ScrollableContent>
             <ProfileBar />
             <FilterFrame>
-              <PublicFilter />
+              <PublicFilter
+                filterLists={filterGroupLists}
+                addNewFilter={addNewGroupFilter}
+              />
               {isLoggedIn && (
                 <>
                   <GroupFilter
