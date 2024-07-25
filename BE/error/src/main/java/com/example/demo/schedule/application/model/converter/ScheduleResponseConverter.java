@@ -34,6 +34,7 @@ public class ScheduleResponseConverter {
                 .eventEndDate(String.valueOf(LocalDateTime.parse(model.getEventEndDate().toString(), formatter)))
                 .eventInfo(model.getEventInfo())
                 .eventPlace(model.getEventPlace())
+                .filterColor(model.getFilter() != null ? model.getFilter().getFilterColor() : null)
                 .build();
     }
 
