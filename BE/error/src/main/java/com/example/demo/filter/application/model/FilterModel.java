@@ -12,4 +12,11 @@ public class FilterModel implements AbstractModel {
     private Long filterId;
     private String filterName;
     private String filterColor;
+
+    public FilterModel update(FilterModel requestModel) {
+        filterName = requestModel.getFilterName();
+        filterColor = requestModel.filterColor;
+
+        return this;
+    }
 }

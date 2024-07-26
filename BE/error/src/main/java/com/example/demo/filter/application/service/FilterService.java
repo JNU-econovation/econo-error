@@ -1,14 +1,13 @@
 package com.example.demo.filter.application.service;
 
-import com.example.demo.filter.application.dto.AllFilterResponse;
-import com.example.demo.filter.application.dto.CreateFilterRequest;
-import com.example.demo.filter.application.dto.CreateFilterResponse;
+import com.example.demo.filter.application.dto.*;
 import com.example.demo.filter.application.model.FilterModel;
 import com.example.demo.filter.application.model.converter.FilterEntityConverter;
 import com.example.demo.filter.application.model.converter.FilterRequestConverter;
 import com.example.demo.filter.application.model.converter.FilterResponseConverter;
 import com.example.demo.filter.application.usecase.DeleteFilterUsecase;
 import com.example.demo.filter.application.usecase.GetAllFilterUsecase;
+import com.example.demo.filter.application.usecase.UpdateFilterUsecase;
 import com.example.demo.filter.persistence.FilterEntity;
 import com.example.demo.filter.persistence.FilterRepository;
 import com.example.demo.filter.application.usecase.CreateFilterUsecase;
@@ -28,7 +27,8 @@ import java.util.stream.Stream;
 public class FilterService implements
                                     CreateFilterUsecase,
                                     GetAllFilterUsecase,
-                                    DeleteFilterUsecase {
+                                    DeleteFilterUsecase,
+                                    UpdateFilterUsecase {
 
     private final FilterRepository filterRepository;
     private final FilterRequestConverter requestConverter;
@@ -72,4 +72,19 @@ public class FilterService implements
                 .orElseThrow(() -> new NoSuchElementException("no found eventId :" + filterId));
     }
 
+    @Override
+    @Transactional
+    public UpdateFilteResponse update(Long filterId, UpdateFilterRequest request) {
+        FilterModel model = findFilter(filterId);
+        FilterModel requestModel = requestConverter.from(filterId, request);
+        updateFilter(model, requestModel);
+
+        return responseConverter.fromUpdate(model.getFilterId());
+    }
+
+    private void updateFilter(FilterModel model, FilterModel requestModel) {
+        FilterModel update = model.update(requestModel);
+        FilterEntity entity = entityConverter.toEntity(update);
+        filterRepository.save(entity);
+    }
 }
