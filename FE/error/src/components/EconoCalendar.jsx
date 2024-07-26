@@ -70,16 +70,16 @@ const EconoCalendar = ({
       //   setIsLoggedIn(true);
       // }
       //TODO: 추후 아래 코드로 변경
+      // } else {
+      //   const newToken = "dummyToken" + Math.random().toString(36).substr(2, 9); // 임의의 토큰 생성
+      //   localStorage.setItem("slackToken", newToken);
+      //   setToken(newToken);
+      //   setIsLoggedIn(true);
+      // }
+      //TODO: 추후 아래 코드로 변경
     } else {
-      const newToken = "dummyToken" + Math.random().toString(36).substr(2, 9); // 임의의 토큰 생성
-      localStorage.setItem("slackToken", newToken);
-      setToken(newToken);
-      setIsLoggedIn(true);
+      window.location.href = "/login";
     }
-    //TODO: 추후 아래 코드로 변경
-    // } else {
-    //   window.location.href = "/login";
-    // }
   };
 
   return (
