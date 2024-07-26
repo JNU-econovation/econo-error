@@ -28,8 +28,8 @@ const FilterModify = ({ filterName, filterID }) => {
       filterColor: filterColor,
     };
     axios
-      .post(
-        "/api/calendar/filter/" + filterID,
+      .put(
+        "/api/filter/" + filterID,
         {
           headers: { Authorization: `Bearer ${storedToken}` },
         },
