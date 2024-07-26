@@ -51,7 +51,7 @@ const LoginPage = () => {
   if (isLoading) {
     return (
       <LoadingContainer>
-        <LoadingImage src="/image79.png" alt="Loading" />
+        <LoadingImage src="/image80.png" alt="Loading" />
       </LoadingContainer>
     );
   }
