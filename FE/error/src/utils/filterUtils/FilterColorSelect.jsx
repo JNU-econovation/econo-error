@@ -16,7 +16,7 @@ const FilterColorSelect = ({ setFilterColor }) => {
       "#D6EFD8",
       "#FF968A",
       "#D4BDAC",
-      "#FFC8A2",
+      "#ffd4b5",
       "#AAEF98",
     ];
 
