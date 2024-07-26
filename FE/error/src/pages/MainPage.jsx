@@ -121,7 +121,10 @@ const MainPage = () => {
           <ScrollableContent>
             <ProfileBar />
             <FilterFrame>
-              <PublicFilter />
+              <PublicFilter
+                filterLists={filterGroupLists}
+                addNewFilter={addNewGroupFilter}
+              />
               {isLoggedIn && (
                 <>
                   <GroupFilter
@@ -132,6 +135,7 @@ const MainPage = () => {
                     filterLists={filterIndividualLists}
                     addNewFilter={addNewIndividualFilter}
                     onFilterChange={handleFilterChange}
+                    updateDeleteFilter={updateDeleteFilter}
                   />
                 </>
               )}
