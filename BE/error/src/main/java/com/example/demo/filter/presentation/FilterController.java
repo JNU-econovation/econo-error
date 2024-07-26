@@ -27,6 +27,7 @@ public class FilterController {
     private final DeleteFilterUsecase deleteFilterUsecase;
     private final UpdateFilterUsecase updateFilterUsecase;
 
+
     @PostMapping
     public ApiResponse<ApiResponseBody.SuccessBody<CreateFilterResponse>> createFilter(
             @RequestBody CreateFilterRequest request) {
@@ -34,11 +35,13 @@ public class FilterController {
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.CREATE);
     }
 
+
     @GetMapping
     public ApiResponse<ApiResponseBody.SuccessBody<List<AllFilterResponse>>> getFilter() {
         List<AllFilterResponse> response = getAllFilterUsecase.getFilter();
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
     }
+
 
     @DeleteMapping("/{filterId}")
     public ApiResponse<ApiResponseBody.SuccessBody<Void>> delete(
