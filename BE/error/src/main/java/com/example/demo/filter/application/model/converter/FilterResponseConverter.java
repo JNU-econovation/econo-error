@@ -3,6 +3,7 @@ package com.example.demo.filter.application.model.converter;
 
 import com.example.demo.filter.application.dto.AllFilterResponse;
 import com.example.demo.filter.application.dto.CreateFilterResponse;
+import com.example.demo.filter.application.dto.UpdateFilteResponse;
 import com.example.demo.filter.application.model.FilterModel;
 import com.example.demo.schedule.application.dto.AllCalendarResponse;
 import com.example.demo.schedule.application.model.ScheduleModel;
@@ -32,6 +33,10 @@ public class FilterResponseConverter {
             response.add(filter);
         }
         return response;
+    }
+
+    public UpdateFilteResponse fromUpdate(Long filterId) {
+        return UpdateFilteResponse.builder().filterId(filterId).build();
     }
 
 }
