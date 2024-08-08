@@ -3,7 +3,7 @@ import { IoClose } from "react-icons/io5";
 import styled from "styled-components";
 import Modal from "react-modal";
 import "./CreateFilterModal.css";
-import GroupFilterCreateModal from "../../components/SideBar/groupFilter/GroupFilterCreateModal";
+import GroupFilterCreateModal from "../SideBar/groupFilter/GroupFilterCreateModal";
 import FilterColorSelect from "./FilterColorSelect";
 import axios from "axios";
 
