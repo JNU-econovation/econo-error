@@ -1,8 +1,7 @@
-import { useState } from "react";
 import Select from "react-select";
 
 let hour = [];
-for (let i = 0; i < 24; i++) {
+for (let i = 0; i < 48; i++) {
   let op = {};
   let hourPart = i / 2;
   let minutePart = i % 2 === 0 ? "00" : "30";

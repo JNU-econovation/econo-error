@@ -12,11 +12,11 @@ const FilterColorSelect = ({ setFilterColor }) => {
       "#CBAACB",
       "#FED7C3",
       "#789BDE",
-      "#55CBCD",
-      "#FFC0CB",
+      "#DEAC80",
+      "#D6EFD8",
       "#FF968A",
-      "#7367F0",
-      "#FFC8A2",
+      "#D4BDAC",
+      "#ffd4b5",
       "#AAEF98",
     ];
 

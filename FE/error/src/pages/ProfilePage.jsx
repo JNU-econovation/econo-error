@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import styled from "styled-components";
 import { FaRandom } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import * as S from "../styles/ProfilePage.js";
 
 const ProfilePage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -40,14 +40,14 @@ const ProfilePage = () => {
     if (selectedImage !== null) {
       localStorage.setItem("profileImage", images[selectedImage]);
     }
-    navigate("/"); // MainPage로 이동
+    navigate("/");
   };
 
   return (
     <>
-      <Header>
-        <Title>프로필 선택</Title>
-        <ProfilePicture
+      <S.HeaderContainer>
+        <S.TitleBox>프로필 선택</S.TitleBox>
+        <S.ProfilePicture
           src={
             selectedImage !== null
               ? `/${images[selectedImage]}`
@@ -55,115 +55,30 @@ const ProfilePage = () => {
           }
           alt="Profile"
         />
-      </Header>
-      <Container>
-        <ImageShuffle>
+      </S.HeaderContainer>
+      <S.Container>
+        <S.ImageShuffle>
           <FaRandom />
-          <RandomButton>랜덤 이미지 생성</RandomButton>
-        </ImageShuffle>
-        <ImageGrid>
+          <S.RandomButton>랜덤 이미지 생성</S.RandomButton>
+        </S.ImageShuffle>
+        <S.ImageGridItem>
           {images.map((image, index) => (
-            <ImageContainer
+            <S.ImageContainer
               key={index}
               onClick={() => selectImage(index)}
               selected={selectedImage === index}
             >
-              <Image src={`/${image}`} alt={`option-${index}`} />
-            </ImageContainer>
+              <S.Image src={`/${image}`} alt={`option-${index}`} />
+            </S.ImageContainer>
           ))}
-        </ImageGrid>
-        <ButtonContainer>
-          <CancleButton onClick={() => navigate("/")}>취소</CancleButton>
-          <SaveButton onClick={handleSave}>저장</SaveButton>
-        </ButtonContainer>
-      </Container>
+        </S.ImageGridItem>
+        <S.ButtonContainer>
+          <S.CancleButton onClick={() => navigate("/")}>취소</S.CancleButton>
+          <S.SaveButton onClick={handleSave}>저장</S.SaveButton>
+        </S.ButtonContainer>
+      </S.Container>
     </>
   );
 };
 
 export default ProfilePage;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 4rem;
-`;
-
-const Header = styled.div`
-  display: flex;
-  width: 52%;
-  padding: 2rem 4rem 0 4rem;
-  justify-content: space-between;
-`;
-
-const Title = styled.h1`
-  font-size: 2rem;
-  margin-right: 2rem; /* Space between title and profile picture */
-`;
-
-const ProfilePicture = styled.img`
-  display: flex;
-  justify-content: center;
-  width: 13rem;
-  height: 13rem;
-  border-radius: 50%;
-  margin-bottom: 1rem;
-`;
-
-const RandomButton = styled.div`
-  padding: 0 0.5rem;
-  cursor: pointer;
-  align-self: flex-start;
-`;
-
-const ImageGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-`;
-
-const ImageContainer = styled.div`
-  width: 9.8rem;
-  height: 9.8rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;
-
-const Image = styled.img`
-  max-width: 100%;
-  max-height: 100%;
-`;
-
-const SaveButton = styled.button`
-  padding: 0.5rem 4rem;
-  align-self: flex-end;
-  background-color: white;
-  border: 1px solid #cbcbcb;
-  border-radius: 4px;
-`;
-
-const ImageShuffle = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
-  align-self: flex-start;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  align-self: flex-end;
-  gap: 0.8rem;
-  margin-top: 0.5rem;
-`;
-
-const CancleButton = styled.button`
-  padding: 0.5rem 4rem;
-  background-color: white;
-  border: 1px solid #cbcbcb;
-  border-radius: 4px;
-`;

@@ -13,11 +13,11 @@ const PublicFilter = () => {
         <div style={{ fontSize: "1.1rem" }}>에코노 캘린더</div>
       </div>
       <StyledSceduleType>
-        <ScheduleToggle color={"#ff5b5b"} />
+        <ScheduleToggle color={"#FF968A"} />
         공식행사
       </StyledSceduleType>
       <StyledSceduleType>
-        <ScheduleToggle color={"#63ABFF"} />
+        <ScheduleToggle color={"#ffd4b5"} />
         주간발표
       </StyledSceduleType>
     </StyledPublicFilterFrame>

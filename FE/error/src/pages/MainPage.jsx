@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import EconoCalendar from "../components/EconoCalendar";
 import ProfileBar from "../components/SideBar/ProfileBar";
@@ -11,6 +11,59 @@ const MainPage = () => {
   const [filterIndividualLists, setFilterIndividualLists] = useState([]);
   const [filterGroupLists, setFilterGroupLists] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [events, setEvents] = useState([]);
+  const [activeFilters, setActiveFilters] = useState(new Set());
+  const [token, setToken] = useState(null);
+
+  // 필터링된 이벤트를 계산
+  const filteredEvents = useMemo(() => {
+    if (activeFilters.size === 0) return events;
+    return events.filter((event) => activeFilters.has(event.filterId));
+  }, [events, activeFilters]);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("slackToken");
+    setToken(storedToken);
+
+    const isUserLoggedIn = !!storedToken;
+    setIsLoggedIn(isUserLoggedIn);
+
+    const uri = isUserLoggedIn
+      ? "/api/calendar/all/private"
+      : "/api/calendar/all/public";
+
+    axios
+      .get(uri, { headers: { Authorization: `Bearer ${storedToken}` } })
+      .then((res) => {
+        const fetchedEvents = res.data.data.map((event) => ({
+          title: event.eventName,
+          id: event.eventId,
+          start: event.eventStartDate.split("T")[0],
+          end: event.eventEndDate.split("T")[0],
+          color: event.filterColor,
+          filterId: event.filterId,
+        }));
+        setEvents(fetchedEvents);
+        // 모든 필터를 초기에 활성화
+        setActiveFilters(new Set(fetchedEvents.map((event) => event.filterId)));
+      })
+      .catch((error) => {
+        console.error("Error fetching events:", error);
+      });
+  }, []);
+
+  const handleFilterChange = (filterId, isChecked) => {
+    setActiveFilters((prevFilters) => {
+      const newFilters = new Set(prevFilters);
+      if (isChecked) {
+        newFilters.add(filterId);
+      } else {
+        newFilters.delete(filterId);
+      }
+      return newFilters;
+    });
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("slackToken");
     setIsLoggedIn(!!token);
@@ -23,29 +76,39 @@ const MainPage = () => {
   const addNewGroupFilter = (newGroupFilter) => {
     setFilterGroupLists([...filterGroupLists, newGroupFilter]);
   };
+
   const updateDeleteFilter = (newFilter) => {
     setFilterIndividualLists(
       filterIndividualLists.filter((filter) => filter.filterId !== newFilter)
     );
+    // 삭제된 필터를 activeFilters에서도 제거
+    setActiveFilters((prevFilters) => {
+      const newFilters = new Set(prevFilters);
+      newFilters.delete(newFilter);
+      return newFilters;
+    });
   };
-  const storedToken = localStorage.getItem("slackToken");
 
   useEffect(() => {
+    const storedToken = localStorage.getItem("slackToken");
     axios
       .get("/api/filter", {
         headers: { Authorization: `Bearer ${storedToken}` },
       })
       .then((res) => {
-        console.log(res);
         const fetchedFilter = res.data.data.map((filter) => ({
           filterId: filter.filterId,
           filterName: filter.filterName,
           filterColor: filter.filterColor,
         }));
         setFilterIndividualLists(fetchedFilter);
+        // 모든 개인 필터를 초기에 활성화
+        setActiveFilters(
+          new Set(fetchedFilter.map((filter) => filter.filterId))
+        );
       })
       .catch((err) => {
-        console.log("Error fetching events:", err);
+        console.log("Error fetching filters:", err);
       });
   }, []);
 
@@ -58,7 +121,10 @@ const MainPage = () => {
           <ScrollableContent>
             <ProfileBar />
             <FilterFrame>
-              <PublicFilter />
+              <PublicFilter
+                filterLists={filterGroupLists}
+                addNewFilter={addNewGroupFilter}
+              />
               {isLoggedIn && (
                 <>
                   <GroupFilter
@@ -68,19 +134,29 @@ const MainPage = () => {
                   <IndividualFilter
                     filterLists={filterIndividualLists}
                     addNewFilter={addNewIndividualFilter}
+                    onFilterChange={handleFilterChange}
+                    updateDeleteFilter={updateDeleteFilter}
                   />
                 </>
               )}
             </FilterFrame>
           </ScrollableContent>
         </SideBar>
-        <EconoCalendar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+        <EconoCalendar
+          isLoggedIn={isLoggedIn}
+          setIsLoggedIn={setIsLoggedIn}
+          events={filteredEvents}
+          setEvents={setEvents}
+          setToken={setToken}
+        />
       </CalendarPage>
     </div>
   );
 };
 
 export default MainPage;
+
+// ... 나머지 styled-components 코드는 그대로 유지
 
 const SideBar = styled.div`
   width: 15.625rem;
@@ -97,7 +173,7 @@ const CalendarPage = styled.div`
 
 const LineBox = styled.div`
   width: 100%;
-  height: 1.5rem;
+  height: 1.25rem;
   border: 1px solid #ddd;
   border-right: none;
   margin-top: 0.65rem;
