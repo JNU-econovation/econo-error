@@ -156,8 +156,6 @@ const MainPage = () => {
 
 export default MainPage;
 
-// ... 나머지 styled-components 코드는 그대로 유지
-
 const SideBar = styled.div`
   width: 15.625rem;
   height: 98.1vh;
@@ -202,7 +200,6 @@ const ScrollableContent = styled.div`
     scrollbar-color: #c6c6c6 transparent;
   }
 
-  /* Webkit 브라우저 (Chrome, Safari 등)를 위한 스타일 */
   &::-webkit-scrollbar {
     width: 8px;
   }
