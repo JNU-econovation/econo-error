@@ -4,13 +4,10 @@ import { IoClose } from "react-icons/io5";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { AiOutlineBars } from "react-icons/ai";
 import { FaRegCalendar } from "react-icons/fa6";
-
 import { Link } from "react-router-dom";
-import Modal from "react-modal";
-import styled from "styled-components";
 import axios from "axios";
-import "./CheckCalendar.css";
 import DeleteEvent from "../DeleteEvent";
+import * as S from "../../styles/scheduleCheck/CheckCalendar";
 
 const CheckCalendar = ({
   isOpen,
@@ -79,23 +76,22 @@ const CheckCalendar = ({
   };
 
   return (
-    <Modal
+    <S.ModalLayout
       isOpen={isOpen}
       onRequestClose={handleRequestClose}
-      className="CheckModal"
       overlayClassName="overlay"
     >
-      <ModalBar>
+      <S.HeaderContainer>
         <button onClick={handleRequestClose}>
           <IoClose size="2rem" color="rgb(95, 99, 104)" />
         </button>
-        <StyledModifyIcon>
+        <S.ModifyIconWrapper>
           <Link to="/ModifyPage" state={{ selectID: selectID }}>
             <button>
               <GoPencil size="1.55rem" color="rgb(95, 99, 104)" />
             </button>
           </Link>
-        </StyledModifyIcon>
+        </S.ModifyIconWrapper>
         <DeleteEvent
           events={events}
           selectID={selectID}
@@ -103,110 +99,48 @@ const CheckCalendar = ({
           onRequestClose={handleRequestClose}
           handleUpdateDeleteData={handleUpdateDeleteData}
         />
-      </ModalBar>
-
-      <ModalContent>
-        <Title color={event.color}>
+      </S.HeaderContainer>
+      <S.DetailedInfoContainer>
+        <S.TitleBox color={event.color}>
           <span></span>
           <div>{event.title}</div>
-        </Title>
-        <Date>{date(event.startDate, event.endDate)}</Date>
+        </S.TitleBox>
+        <S.DateParagraph>
+          {date(event.startDate, event.endDate)}
+        </S.DateParagraph>
         {event.place && (
-          <StyledDetailIcon>
+          <S.DetailIconWrapper>
             <MdOutlineLocationOn
               size="1.6rem"
               color="rgb(95, 99, 104)"
               style={{ marginRight: "1.5rem" }}
             />
             <div>{event.place}</div>
-          </StyledDetailIcon>
+          </S.DetailIconWrapper>
         )}
         {event.info && (
-          <StyledDetailIcon>
+          <S.DetailIconWrapper>
             <AiOutlineBars
               size="1.6rem"
               color="rgb(95, 99, 104)"
               style={{ marginRight: "1.5rem" }}
             />
             <div> {event.info}</div>
-          </StyledDetailIcon>
+          </S.DetailIconWrapper>
         )}
         {event.type && (
-          <StyledDetailIcon>
+          <S.DetailIconWrapper>
             <FaRegCalendar
               size="1.5rem"
               color="rgb(95, 99, 104)"
               style={{ marginRight: "1.5rem" }}
             />
             <div> {event.type}</div>
-          </StyledDetailIcon>
+          </S.DetailIconWrapper>
         )}
-      </ModalContent>
-    </Modal>
+      </S.DetailedInfoContainer>
+    </S.ModalLayout>
   );
 };
 
 export default CheckCalendar;
-
-const StyledModifyIcon = styled.div`
-  margin-top: 0.22rem;
-  margin-left: 0.4rem;
-`;
-const ModalBar = styled.div`
-  padding-top: 0.5rem;
-  padding-left: 0.375rem;
-  padding-right: 0.375rem;
-  display: flex;
-  flex-direction: row-reverse;
-  outline: none;
-
-  button {
-    width: 3rem;
-    background-color: #fff;
-    border: none;
-    svg {
-      size: 5rem;
-    }
-  }
-`;
-
-const ModalContent = styled.div`
-  padding-right: 1.75rem;
-  padding-left: 1.75rem;
-  padding-bottom: 1rem;
-  p {
-    margin-top: 0.6rem;
-    margin-right: 0.6rem;
-  }
-`;
-
-const Title = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: 0.3rem;
-  span {
-    width: 1rem;
-    height: 1rem;
-    background-color: ${(props) => props.color || "#beb9ff"};
-    margin-right: 1.6rem;
-    border-radius: 0.3rem;
-  }
-  div {
-    font-size: 1.6rem;
-  }
-`;
-
-const Date = styled.p`
-  margin-left: 2.75rem;
-  margin-bottom: 1.8rem;
-`;
-const StyledDetailIcon = styled.div`
-  margin-top: 1.2rem;
-  margin-bottom: 1.2rem;
-
-  display: flex;
-  align-items: center;
-  div {
-    font-size: 1.1em;
-  }
-`;

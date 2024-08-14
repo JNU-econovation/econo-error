@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaRandom } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import * as S from "../styles/ProfilePage.js";
+import * as S from "../styles/pages/ProfilePage.js";
 
 const ProfilePage = () => {
   const [selectedImage, setSelectedImage] = useState(null);

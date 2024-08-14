@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
-
+import * as S from "../styles/pages/LoginPage";
 const LoginPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -50,102 +49,34 @@ const LoginPage = () => {
 
   if (isLoading) {
     return (
-      <LoadingContainer>
-        <LoadingImage src="/image80.png" alt="Loading" />
-      </LoadingContainer>
+      <S.LoadingContainer>
+        <S.LoadingImage src="/image80.png" alt="Loading" />
+      </S.LoadingContainer>
     );
   }
 
   return (
     <>
-      <StyledTextArea>
+      <S.WelcomeLoginContainer>
         <h2>
           에러 캘린더에 떨어질
           <br /> 준비 되셨나요?
         </h2>
-        <StyledSubTitle>
+        <S.InfoText>
           에코노베이션 회원이 아니신 경우 로그인이 불가하며
           <br />
           공식 일정만 조회 가능합니다.
-        </StyledSubTitle>
+        </S.InfoText>
         {error && <div style={{ color: "red" }}>{error}</div>}
-        <StyledSlackButton onClick={handleOnLogin}>
-          <StyledSlackImage src="Slack.png" alt="Slack logo" />
+        <S.SlackBtn onClick={handleOnLogin}>
+          <S.SlackImage src="Slack.png" alt="Slack logo" />
           슬랙으로 로그인
-        </StyledSlackButton>
-      </StyledTextArea>
-      <StyledBackground src="Background.png" alt="Background" />
-      <StyledCharacter src="Picture.png" alt="Character" />
+        </S.SlackBtn>
+      </S.WelcomeLoginContainer>
+      <S.BackgroundImg src="Background.png" alt="Background" />
+      <S.CharacterImg src="Picture.png" alt="Character" />
     </>
   );
 };
 
 export default LoginPage;
-
-const StyledTextArea = styled.div`
-  position: absolute;
-  top: 20%;
-  left: 15%;
-
-  h2 {
-    font-family: "Pretendard-bold";
-    font-size: 3rem;
-    font-weight: 900;
-    line-height: 3.7rem;
-  }
-  h3 {
-    line-height: 1.5rem;
-  }
-`;
-
-const StyledSlackButton = styled.button`
-  position: relative;
-  padding: 1rem 8.5rem 1rem 10.5rem;
-  border-radius: 1rem;
-  border: none;
-  background-color: #e1e1e1;
-  font-size: 1rem;
-  color: #6f6f6f;
-  font-weight: 700;
-  cursor: pointer;
-`;
-
-const StyledSlackImage = styled.img`
-  left: 8rem;
-  bottom: 0.9rem;
-  position: absolute;
-`;
-
-const StyledSubTitle = styled.h3`
-  margin-top: 1.7rem;
-  margin-bottom: 10rem;
-`;
-
-const StyledBackground = styled.img`
-  margin-left: 48%;
-  margin-top: 8%;
-  height: 35rem;
-`;
-
-const StyledCharacter = styled.img`
-  position: absolute;
-  top: 25%;
-  left: 60%;
-`;
-
-const LoadingContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(255, 255, 255, 0.8);
-`;
-
-const LoadingImage = styled.img`
-  width: 100px;
-  height: auto;
-`;

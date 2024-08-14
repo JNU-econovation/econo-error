@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
-import styled from "styled-components";
 import ReactQuill from "react-quill";
 import axios from "axios";
 import TimeSelect from "../components/common/TimeSelect";
-
+import * as S from "../styles/pages/CalendarModify";
 const CalendarModify = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -94,8 +93,8 @@ const CalendarModify = () => {
     navigate(-1);
   };
   return (
-    <Box>
-      <Header>
+    <S.Layout>
+      <S.HeaderContainer>
         <button
           onClick={goBack}
           style={{
@@ -106,14 +105,14 @@ const CalendarModify = () => {
         >
           <IoMdClose size="1.6rem" />
         </button>
-        <TitleInput
+        <S.TitleInput
           placeholder="제목"
           value={modifyName}
           onChange={handleTitleChange}
         />
-      </Header>
-      <ModifyFrame>
-        <DateRow>
+      </S.HeaderContainer>
+      <S.DetailInfoContainer>
+        <S.DateRowBox>
           <input
             type="date"
             value={modifyStartDate}
@@ -124,8 +123,8 @@ const CalendarModify = () => {
             value={modifyEndDate}
             onChange={handleEndDateChange}
           />
-        </DateRow>
-        <DateRow>
+        </S.DateRowBox>
+        <S.DateRowBox>
           <TimeSelect
             onTimeSelect={handleStartTimeSelect}
             value={modifyStartTime}
@@ -134,88 +133,25 @@ const CalendarModify = () => {
             onTimeSelect={handleEndTimeSelect}
             value={modifyEndTime}
           />
-        </DateRow>
-        <PlaceSelect
+        </S.DateRowBox>
+        <S.PlaceInput
           placeholder="위치 추가"
           value={modifyPlace}
           onChange={handlePlaceChange}
-        ></PlaceSelect>
-        <EditorBox>
+        ></S.PlaceInput>
+        <S.MemoWrapper>
           <ReactQuill
             placeholder={"설명 추가"}
             onChange={handleInfoChange}
             value={modifyInfo}
           />
-        </EditorBox>
+        </S.MemoWrapper>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <SaveButton onClick={modifyData}>저장</SaveButton>
+          <S.SaveBtn onClick={modifyData}>저장</S.SaveBtn>
         </div>
-      </ModifyFrame>
-    </Box>
+      </S.DetailInfoContainer>
+    </S.Layout>
   );
 };
 
 export default CalendarModify;
-
-const Box = styled.div`
-  width: 50rem;
-`;
-const ModifyFrame = styled.div`
-  margin-left: 4rem;
-`;
-const TitleInput = styled.input`
-  width: 100%;
-  height: 2rem;
-  margin-bottom: 2rem;
-  margin-top: 2rem;
-  margin-left: 0.7rem;
-  font-size: 1.5rem;
-  border: none;
-  border-bottom: 1px solid #495057;
-  outline: none;
-`;
-const Header = styled.div`
-  display: flex;
-  margin-left: 1rem;
-`;
-const SaveButton = styled.button`
-  width: 4rem;
-  height: 2rem;
-  border-radius: 0.25rem;
-  margin-top: 3rem;
-  border: 0.5px solid #858585;
-  outline: none;
-  cursor: pointer;
-  right: 0;
-  background-color: ${(props) => (props.disabled ? "#e0e0e0" : "white")};
-  color: ${(props) => (props.disabled ? "#9e9e9e" : "#3e3e3e")};
-  border: ${(props) => (props.disabled ? "none" : "0.5px solid #858585")};
-
-  &:disabled {
-    cursor: default;
-  }
-`;
-
-const EditorBox = styled.div`
-  .ql-editor {
-    height: 110px;
-    overflow-y: auto;
-  }
-  .ql-editor::before {
-    font-style: normal !important;
-    color: #999 !important;
-  }
-`;
-
-const PlaceSelect = styled.input`
-  border: none;
-  width: 100%;
-  outline: none;
-  margin: 1.1rem 0;
-`;
-
-const DateRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-`;
