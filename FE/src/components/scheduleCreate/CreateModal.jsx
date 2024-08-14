@@ -4,7 +4,7 @@ import axios from "axios";
 import Modal from "react-modal";
 import styled from "styled-components";
 import ReactQuill from "react-quill";
-import TimeSelect from "../../utils/TimeSelect";
+import TimeSelect from "../common/TimeSelect";
 import { PiTimer } from "react-icons/pi";
 import { IoLocationSharp, IoCloseOutline } from "react-icons/io5";
 import { FaWindowRestore } from "react-icons/fa";

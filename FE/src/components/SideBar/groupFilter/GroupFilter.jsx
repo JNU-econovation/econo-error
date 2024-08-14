@@ -3,42 +3,37 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 import styled from "styled-components";
-import FilterCreateModal from "../../../utils/filterUtils/FilterCreateModal";
-import FilterList from "../../../utils/filterUtils/FilterList";
+import FilterCreateModal from "../../common/FilterCreateModal";
+import FilterList from "../../common/FilterList";
 
-const IndividualFilter = ({
-  filterLists,
-  addNewFilter,
-  updateDeleteFilter,
-  onFilterChange,
-}) => {
-  const [individualFilterIsOpen, setindividualFilterIsOpen] = useState(false);
+const GroupFilter = ({ filterLists, addNewFilter }) => {
+  const [groupFilterIsOpen, setGroupFilterIsOpen] = useState(false);
   const [filterListsIsOpen, setFilterListsIsOpen] = useState(true);
-  const createIndividualFilter = () => {
-    setindividualFilterIsOpen(true);
-  };
 
+  const createGroupFilter = () => {
+    setGroupFilterIsOpen(true);
+  };
   const handleArrowDown = () => {
     setFilterListsIsOpen(!filterListsIsOpen);
   };
-
   return (
     <>
-      <StyledIndividualFilterFrame>
+      <StyledGroupFilterFrame>
         <StyledTextContainer>
           <span
             style={{
               color: "#333333",
+              marginBottom: "0.5rem",
               fontSize: "1.1rem",
             }}
           >
-            개인 캘린더
+            그룹 캘린더
           </span>
         </StyledTextContainer>
         <StyledDetailIcon>
-          <StyledIndividualFilterPlusBtn onClick={createIndividualFilter}>
+          <StyledGroupFilterPlusBtn onClick={createGroupFilter}>
             <AiOutlinePlus style={{ fontSize: "1.3rem" }} />
-          </StyledIndividualFilterPlusBtn>
+          </StyledGroupFilterPlusBtn>
           <StyledIndividualFilterArrowDownBtn onClick={handleArrowDown}>
             {filterListsIsOpen ? (
               <IoIosArrowDown
@@ -59,42 +54,34 @@ const IndividualFilter = ({
             )}
           </StyledIndividualFilterArrowDownBtn>
           <FilterCreateModal
-            isOpen={individualFilterIsOpen}
-            onRequestClose={() => setindividualFilterIsOpen(false)}
-            filterModalType={"individual"}
+            isOpen={groupFilterIsOpen}
+            onRequestClose={() => setGroupFilterIsOpen(false)}
+            filterModalType={"group"}
             addNewFilter={addNewFilter}
           />
         </StyledDetailIcon>
-      </StyledIndividualFilterFrame>
-      {filterListsIsOpen && (
-        <FilterList
-          filterLists={filterLists}
-          updateDeleteFilter={updateDeleteFilter}
-          onFilterChange={onFilterChange}
-        />
-      )}
+      </StyledGroupFilterFrame>
+      {filterListsIsOpen && <FilterList filterLists={filterLists} />}
     </>
   );
 };
 
-export default IndividualFilter;
+export default GroupFilter;
 
-const StyledIndividualFilterFrame = styled.div`
+const StyledGroupFilterFrame = styled.div`
   margin: 1.3rem;
   margin-bottom: 0.9rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
-const StyledTextContainer = styled.div`
-  /* 필요한 스타일이 있다면 여기에 추가 */
-`;
+const StyledTextContainer = styled.div``;
 const StyledDetailIcon = styled.div``;
-const StyledIndividualFilterPlusBtn = styled.button`
+
+const StyledGroupFilterPlusBtn = styled.button`
   background: none;
   border: none;
 `;
-
 const StyledIndividualFilterArrowDownBtn = styled.button`
   background: none;
   border: none;

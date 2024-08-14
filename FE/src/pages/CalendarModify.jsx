@@ -4,7 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import styled from "styled-components";
 import ReactQuill from "react-quill";
 import axios from "axios";
-import TimeSelect from "../utils/TimeSelect";
+import TimeSelect from "../components/common/TimeSelect";
 
 const CalendarModify = () => {
   const navigate = useNavigate();

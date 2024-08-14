@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
-import "../../../utils/filterUtils/CreateFilterModal.css";
+import "../../common/CreateFilterModal.css";
 
 const GroupFilterCreateModal = () => {
   const [addUserGroupModalIsOpen, setAddUserGroupModalIsOpen] = useState(false);
