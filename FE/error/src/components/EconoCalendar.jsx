@@ -1,16 +1,19 @@
+import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
 import styled from "styled-components";
-import { useEffect } from "react";
-import CreateModal from "./CreateModal";
-import { useState } from "react";
-import axios from "axios";
-import CheckCalendar from "./CheckModal/CheckCalendar";
-import toast, { Toaster } from "react-hot-toast";
+import interactionPlugin from "@fullcalendar/interaction";
+import CreateModal from "./scheduleCreate/CreateModal";
+import CheckCalendar from "./scheduleCheck/CheckCalendar";
 
-const EconoCalendar = () => {
-  const [events, setEvents] = useState([]);
+const EconoCalendar = ({
+  isLoggedIn,
+  setIsLoggedIn,
+  setEvents,
+  events,
+  setToken,
+}) => {
   const [selectID, setSelectID] = useState("");
   const [checkModalIsOpen, setCheckModalIsOpen] = useState(false);
   const [createModalIsOpen, setCreateModalIsOpen] = useState(false);
@@ -24,13 +27,17 @@ const EconoCalendar = () => {
       },
     });
   };
+
   const handleEventClick = (info) => {
     setSelectID(info.event._def.publicId);
     setCheckModalIsOpen(true);
   };
+
   const handleDateClick = (arg) => {
-    setSelectedDate(arg.dateStr);
-    setCreateModalIsOpen(true);
+    if (isLoggedIn) {
+      setSelectedDate(arg.dateStr);
+      setCreateModalIsOpen(true);
+    }
   };
 
   const getCurrentDate = () => {
@@ -41,24 +48,6 @@ const EconoCalendar = () => {
     return `${year}-${month}-${day}`;
   };
 
-  useEffect(() => {
-    axios
-      .get("/api/calendar/all/2024-04-05")
-      .then((res) => {
-        const fetchedEvents = res.data.data.map((event) => ({
-          title: event.eventName,
-          id: event.eventId,
-          start: event.eventStartDate.split("T")[0],
-          end: event.eventEndDate.split("T")[0],
-          color: "#ffc5bf",
-        }));
-        setEvents(fetchedEvents);
-      })
-      .catch((error) => {
-        console.error("Error fetching events:", error);
-      });
-  }, []);
-
   const handleUpdateData = (newData) => {
     setEvents((preEvents) => [...preEvents, newData]);
   };
@@ -66,6 +55,26 @@ const EconoCalendar = () => {
   const handleUpdateDeleteData = (newData) => {
     setEvents(events.filter((event) => event.id !== parseInt(newData)));
   };
+
+  const handleLoginLogout = () => {
+    if (isLoggedIn) {
+      localStorage.removeItem("slackToken");
+      setIsLoggedIn(false);
+      setToken(null);
+      window.location.reload();
+      // } else {
+      //   const newToken = "dummyToken" + Math.random().toString(36).substr(2, 9); // 임의의 토큰 생성
+      //   localStorage.setItem("slackToken", newToken);
+      //   setToken(newToken);
+      //   setIsLoggedIn(true);
+      // }
+      //TODO: 추후 아래 코드로 변경
+      //}
+    } else {
+      window.location.href = "/login";
+    }
+  };
+
   return (
     <>
       <CalendarContainer>
@@ -79,12 +88,18 @@ const EconoCalendar = () => {
             return "+" + num + "개 더보기";
           }}
           customButtons={{
-            createDateButton: {
-              text: "일정 생성",
-              click: function () {
-                setSelectedDate(getCurrentDate());
-                setCreateModalIsOpen(true);
+            ...(isLoggedIn && {
+              createDateButton: {
+                text: "일정 생성",
+                click: function () {
+                  setSelectedDate(getCurrentDate());
+                  setCreateModalIsOpen(true);
+                },
               },
+            }),
+            loginLogoutButton: {
+              text: isLoggedIn ? "로그아웃" : "로그인",
+              click: handleLoginLogout,
             },
           }}
           views={{
@@ -95,7 +110,9 @@ const EconoCalendar = () => {
           headerToolbar={{
             left: "today prev title next",
             center: "",
-            right: "createDateButton",
+            right: isLoggedIn
+              ? "loginLogoutButton createDateButton"
+              : "loginLogoutButton",
           }}
           events={events}
           eventDisplay={"block"}
@@ -225,7 +242,7 @@ const CalendarContainer = styled.div`
   }
   .fc-daygrid-day-number {
     margin-top: 0.3rem;
-    margin-left: -0.1rem;
+    margin-left: -0.06rem;
   }
   .fc-toolbar-title {
     margin-top: 0.2em;
@@ -243,5 +260,22 @@ const CalendarContainer = styled.div`
     border-color: #cbcbcb;
     color: #595959;
     margin-right: 1rem;
+  }
+
+  .fc-loginLogoutButton-button {
+    background-color: #fff;
+    border-color: #cbcbcb;
+    color: #595959;
+    margin-right: 1rem;
+  }
+  .fc-event-title-container {
+    height: 1.3rem;
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    margin-left: 0.3rem;
+  }
+  .fc-direction-ltr .fc-toolbar > * > :not(:first-child) {
+    margin-left: 0.5rem;
   }
 `;

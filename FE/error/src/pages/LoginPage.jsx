@@ -1,6 +1,61 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import axios from "axios";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const code = searchParams.get("code");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const redirectUri = "https://econo-calendar.com/login";
+
+  useEffect(() => {
+    if (code) {
+      handleSlackAuth(code);
+    }
+  }, [code]);
+
+  const handleSlackAuth = async (authCode) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await axios.post(
+        `https://error.econo-calendar.com:8080/api/auth/login/slack?type=slack&code=${authCode}&redirect_uri=https://econo-calendar.com/login`
+      );
+
+      if (response.data.code === "201") {
+        localStorage.setItem("slackToken", response.data.data.accessToken);
+        navigate("/");
+      } else {
+        setError(response.data.message || "로그인 실패");
+        console.error("로그인 실패:", response.data);
+      }
+    } catch (error) {
+      setError("인증에 실패했습니다. 다시 시도해주세요.");
+      console.error("Slack 인증 중 오류 발생:", error.response || error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleOnLogin = () => {
+    const slackAuthUrl = `https://econovation-2018.slack.com/oauth?client_id=437291124342.7141431332214&scope=chat%3Awrite%2Cchat%3Awrite.customize%2Cchat%3Awrite.public%2Cemoji%3Aread%2Cfiles%3Awrite%2Cincoming-webhook&user_scope=chat%3Awrite%2Cusers.profile%3Aread&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}&state=&granular_bot_scope=1&single_channel=0&install_redirect=&tracked=1&team=`;
+    window.location.href = slackAuthUrl;
+  };
+
+  if (isLoading) {
+    return (
+      <LoadingContainer>
+        <LoadingImage src="/image80.png" alt="Loading" />
+      </LoadingContainer>
+    );
+  }
+
   return (
     <>
       <StyledTextArea>
@@ -13,12 +68,14 @@ const LoginPage = () => {
           <br />
           공식 일정만 조회 가능합니다.
         </StyledSubTitle>
-        <StyledSlackButton>
-          <StyledSlackImage src="Slack.png"></StyledSlackImage>슬랙으로 로그인
+        {error && <div style={{ color: "red" }}>{error}</div>}
+        <StyledSlackButton onClick={handleOnLogin}>
+          <StyledSlackImage src="Slack.png" alt="Slack logo" />
+          슬랙으로 로그인
         </StyledSlackButton>
       </StyledTextArea>
-      <StyledBackground src="Background.png" />
-      <StyledCharacter src="Picture.png" />
+      <StyledBackground src="Background.png" alt="Background" />
+      <StyledCharacter src="Picture.png" alt="Character" />
     </>
   );
 };
@@ -74,4 +131,21 @@ const StyledCharacter = styled.img`
   position: absolute;
   top: 25%;
   left: 60%;
+`;
+
+const LoadingContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+`;
+
+const LoadingImage = styled.img`
+  width: 100px;
+  height: auto;
 `;

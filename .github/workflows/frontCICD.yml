@@ -1,0 +1,23 @@
+name: deploy
+on:
+  push:
+    branches: [ 'main' ]
+  workflow_dispathch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  SSH:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run scripts in server
+        uses: appleboy/ssh-action@master
+        with:
+          key: ${{ secrets.FRONT_EC2_SSH_KEY }}
+          host: ${{ secrets.FRONT_EC2_HOST }}
+          username: ${{ secrets.FRONT_EC2_USER }}
+          script: |
+            pwd
+            
+            
