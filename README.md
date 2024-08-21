@@ -2,6 +2,7 @@
 # econo scheduler, ERROR
 
 ### 동아리 공식 일정 소개와 회원들의 개인 일정 관리를 통합한 웹 및 모바일 어플리케이션
+
 <br/>
 
 ## 주요 기능
@@ -10,8 +11,9 @@
 |-------------------------------------------------------------------------------------------------------|-----------------------|
 
 ### 2️⃣ 메인페이지
-| <img src="https://github.com/user-attachments/assets/7d1df468-fcbb-4fdd-ad12-d3756509ca0b" width=300> | - 일정 조회 기능<br/>- 필터링 기능<br/>-AI 생성 사용자 프로필 이미지 |
+| <img src="https://github.com/user-attachments/assets/7d1df468-fcbb-4fdd-ad12-d3756509ca0b" width=300> | - 일정 생성 및 조회, 수정, 삭제<br/>- 필터링 기능<br/>-AI 생성 사용자 프로필 이미지 |
 |-------------------------------------------------------------------------------------------------------|------------------------------------------------|
+<br/>
 
 ## 문서
 
@@ -21,10 +23,14 @@
 <br/>
 **[💻 API 명세서 - swagger]()**
 
+<br/>
+
 # 404팀
 | [강하은](https://github.com/kanghaeun) (FE)                                                     | [곽민준](https://github.com/mlnwns) (FE)                                                         | [이도연](https://github.com/capDoYeonLee) (BE)                                                 | [임수미](https://github.com/LimSumi) (AOS)                                                                                | [서영우](https://github.com/westzeroright) (AI)                                                |
 |----------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
 | ![강하은](https://github.com/user-attachments/assets/cc783fa0-6387-4e24-8e65-43d6a10a6048) | ![곽민준](https://github.com/user-attachments/assets/fb733cec-f09d-42ae-ab74-2b7f60524c31) | ![이도연](https://github.com/user-attachments/assets/45a6694c-31cc-4e1c-9ad0-1f760689d69b) | ![임수민](https://github.com/user-attachments/assets/9da65b36-94fa-429e-8758-484794137a22) | ![서영우](https://github.com/user-attachments/assets/0723c64e-60c7-4462-bf6f-45a608b88b57) |
+
+<br/>
 
 ## 기술 스택
 | 분야            | 🛠️                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
@@ -34,11 +40,13 @@
 | AOS           | <img src="https://github.com/user-attachments/assets/8d926ece-a2ee-43b1-9f1d-66583602e20e" width=30 height=30> <img src="https://github.com/user-attachments/assets/1e51268e-efa9-4d65-82bb-46fe39b641c6" width=90 height=20> <img src="https://github.com/user-attachments/assets/029348c4-81ce-4d18-a72d-dd9b9c2a3f8b" width=30 height=30>                                                                                                                                                                                                                                                                                                                                                  |
 | AI            | <img src="https://github.com/user-attachments/assets/d96c31dd-32a9-483a-90fe-fe6644496068" width=70 height=20> <img src="https://github.com/user-attachments/assets/beb49ae1-04f4-4b86-ae08-2d856647b3ea" width=80 height=20> <img src="https://github.com/user-attachments/assets/d1093b07-3f43-49ad-bf0c-6ce07130f5af" width=30 height=30>                                                                                                                                                                                                                                                                                                                                                  |
 | Collaborative | <img src="https://img.shields.io/badge/Slack-4A154B?style=flat-square&logo=slack&logoColor=white"> <img src="https://img.shields.io/badge/Notion-000000?style=flat-square&logo=notion&logoColor=white"/> <img src="https://img.shields.io/badge/Figma-F24E1E?style=flat-square&logo=figma&logoColor=white"/> <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white"/>                                                                                                                                                                                                                                                                            |
+<br/>
 
 ## 목표
 
 ### 🙌🏻 실사용자 유치
 &nbsp; 에코노베이션 동아리 회원들을 서비스의 초기 실사용자로 설정하여, 사용자 인터뷰와 피드백을 적극적으로 반영함으로써 지속 가능한 서비스로 발전시키고자 합니다.
+
 ### ✨ 높은 완성도
 &nbsp; 반응형 디자인, 적합한 인프라 등을을 통해 높은 완성도를 갖춘 프로젝트를 목표로 하였습니다.
 
