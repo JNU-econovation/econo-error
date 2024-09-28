@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class ApiResponseBody {
     @Getter
     @AllArgsConstructor
-    public static class FailureBody implements Serializable { //직렬화를 왜 한거지?
+    public static class FailureBody implements Serializable {
         private String status;
         private String code;
         private String message;

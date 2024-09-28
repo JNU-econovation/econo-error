@@ -11,9 +11,20 @@ import com.example.demo.schedule.application.usecase.*;
 import com.example.demo.schedule.persistence.ScheduleEntity;
 import com.example.demo.schedule.persistence.ScheduleRepository;
 import com.example.demo.schedule.persistence.ScheduleType;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;
 import java.util.List;
@@ -50,19 +61,24 @@ public class ScheduleService implements CreateScheduleUsecase,
     private final ScheduleEntityConverter entityConverter;
     private final ScheduleRepository scheduleRepository;
     private final ScheduleResponseConverter responseConverter;
+    private final ModelMapper modelMapper;
 
 
     @Override
     @Transactional
     public CreateScheduleResponse create(final CreateScheduleRequest request) {
+
+        //ScheduleModel model = modelMapper.map(request, ScheduleModel.class);
         ScheduleModel model = requestConverter.from(request);
         Long saveId = createSchedule(model);
         return responseConverter.from(saveId);
     }
 
     private Long createSchedule(ScheduleModel model) {
+
         ScheduleEntity entity = entityConverter.toEntity(model);
         ScheduleEntity save = scheduleRepository.save(entity);
+        //Long memberId = save.getMember().getId();
         return save.getEventId();
     }
 
@@ -178,4 +194,3 @@ public class ScheduleService implements CreateScheduleUsecase,
                 .collect(Collectors.toList());
     }
 }
-

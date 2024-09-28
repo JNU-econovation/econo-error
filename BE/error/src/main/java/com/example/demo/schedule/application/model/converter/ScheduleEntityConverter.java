@@ -36,6 +36,7 @@ public class ScheduleEntityConverter implements AbstractEntityConverter<Schedule
                 .eventPlace(source.getEventPlace())
                 .scheduleType(source.getScheduleType())
                 .filter(source.getFilter())
+                .filter(source.getFilter())
                 .build();
     }
 

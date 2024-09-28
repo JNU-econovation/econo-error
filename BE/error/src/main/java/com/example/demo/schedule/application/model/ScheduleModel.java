@@ -1,6 +1,8 @@
 package com.example.demo.schedule.application.model;
 
 
+import com.example.demo.auth.application.support.Member;
+import com.example.demo.auth.persistence.MemberEntity;
 import com.example.demo.common.support.AbstractModel;
 import com.example.demo.filter.application.model.FilterModel;
 import com.example.demo.filter.persistence.FilterEntity;
@@ -24,6 +26,7 @@ public class ScheduleModel implements AbstractModel {
     private String eventPlace;
     private String scheduleType;
     private FilterEntity filter;
+    private MemberEntity member;
 
 
     public ScheduleModel update(ScheduleModel requestModel) {

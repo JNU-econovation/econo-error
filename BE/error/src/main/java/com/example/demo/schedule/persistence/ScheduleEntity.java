@@ -1,5 +1,6 @@
 package com.example.demo.schedule.persistence;
 
+import com.example.demo.auth.persistence.MemberEntity;
 import com.example.demo.common.persistence.BaseEntity;
 import com.example.demo.filter.application.model.FilterModel;
 import com.example.demo.filter.persistence.FilterEntity;
@@ -39,7 +40,6 @@ public class ScheduleEntity extends BaseEntity {
     @Column(nullable = false)
     private String eventPlace;
 
-    //@Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private String scheduleType;
 
@@ -47,5 +47,7 @@ public class ScheduleEntity extends BaseEntity {
     @JoinColumn(name = "filter_id")
     private FilterEntity filter;
 
-
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private MemberEntity member;
 }

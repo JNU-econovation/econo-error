@@ -1,5 +1,6 @@
 package com.example.demo.schedule.application.dto;
 
+import com.example.demo.auth.persistence.MemberEntity;
 import com.example.demo.common.support.dto.AbstractDto;
 import com.example.demo.filter.application.model.FilterModel;
 import com.example.demo.filter.persistence.FilterEntity;
@@ -24,5 +25,6 @@ public class CreateScheduleRequest implements AbstractDto {
     private String eventPlace;
     private String scheduleType;
     private FilterEntity filter;
+    private MemberEntity member;
 
 }
