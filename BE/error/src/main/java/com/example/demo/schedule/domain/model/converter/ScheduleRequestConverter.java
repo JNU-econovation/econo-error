@@ -1,18 +1,31 @@
 package com.example.demo.schedule.application.model.converter;
 
-import com.example.demo.common.support.converter.AbstractEntityConverter;
-import com.example.demo.filter.application.model.FilterModel;
+import com.example.demo.common.support.converter.AbstractDtoConverter;
 import com.example.demo.filter.persistence.FilterEntity;
 import com.example.demo.schedule.application.dto.CreateScheduleRequest;
+import com.example.demo.schedule.application.dto.UpdateScheduleRequest;
 import com.example.demo.schedule.application.model.ScheduleModel;
-import com.example.demo.schedule.persistence.ScheduleEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ScheduleEntityConverter implements AbstractEntityConverter<ScheduleEntity, ScheduleModel> {
+public class ScheduleRequestConverter implements AbstractDtoConverter<CreateScheduleRequest, ScheduleModel> {
 
     @Override
-    public ScheduleModel from(ScheduleEntity source) {
+    public ScheduleModel from(CreateScheduleRequest source) {
+        return ScheduleModel.builder()
+                .eventName(source.getEventName())
+                .eventStartDate(source.getEventStartDate())
+                .eventEndDate(source.getEventEndDate())
+                .eventInfo(source.getEventInfo())
+                .eventPlace(source.getEventPlace())
+                .scheduleType(source.getScheduleType())
+                .filter(source.getFilter())
+                .member(source.getMember())
+                .build();
+    }
+
+
+    public ScheduleModel from(Long eventId, UpdateScheduleRequest source) {
         return ScheduleModel.builder()
                 .eventId(source.getEventId())
                 .eventName(source.getEventName())
@@ -20,25 +33,6 @@ public class ScheduleEntityConverter implements AbstractEntityConverter<Schedule
                 .eventEndDate(source.getEventEndDate())
                 .eventInfo(source.getEventInfo())
                 .eventPlace(source.getEventPlace())
-                .scheduleType(source.getScheduleType())
-                .filter(source.getFilter())
                 .build();
     }
-
-    @Override
-    public ScheduleEntity toEntity(ScheduleModel source) {
-        return ScheduleEntity.builder()
-                .eventId(source.getEventId())
-                .eventName(source.getEventName())
-                .eventStartDate(source.getEventStartDate())
-                .eventEndDate(source.getEventEndDate())
-                .eventInfo(source.getEventInfo())
-                .eventPlace(source.getEventPlace())
-                .scheduleType(source.getScheduleType())
-                .filter(source.getFilter())
-                .filter(source.getFilter())
-                .build();
-    }
-
-
 }
