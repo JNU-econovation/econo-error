@@ -1,8 +1,8 @@
-package com.example.demo.schedule.domain.model.converter;
+package com.example.demo.schedule.infrastructure;
 
 import com.example.demo.common.support.converter.AbstractEntityConverter;
 import com.example.demo.schedule.domain.model.ScheduleModel;
-import com.example.demo.schedule.domain.ScheduleEntity;
+import com.example.demo.schedule.infrastructure.persistence.ScheduleEntity;
 import org.springframework.stereotype.Component;
 
 @Component

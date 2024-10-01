@@ -1,4 +1,4 @@
-package com.example.demo.schedule.infrastructure;
+package com.example.demo.schedule.infrastructure.persistence;
 
 import com.example.demo.auth.persistence.MemberEntity;
 import com.example.demo.common.persistence.BaseEntity;
