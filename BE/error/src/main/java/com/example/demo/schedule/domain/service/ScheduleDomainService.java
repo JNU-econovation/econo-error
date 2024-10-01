@@ -1,8 +1,8 @@
 package com.example.demo.schedule.domain.service;
 
 import com.example.demo.schedule.domain.model.ScheduleModel;
-import com.example.demo.schedule.domain.model.converter.ScheduleEntityConverter;
-import com.example.demo.schedule.domain.ScheduleEntity;
+import com.example.demo.schedule.infrastructure.ScheduleEntityConverter;
+import com.example.demo.schedule.infrastructure.persistence.ScheduleEntity;
 import com.example.demo.schedule.domain.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 
 @Component
 @RequiredArgsConstructor
-public class DomainService {
+public class ScheduleDomainService {
 
 
     private final ScheduleEntityConverter entityConverter;
