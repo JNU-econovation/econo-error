@@ -1,15 +1,13 @@
-package com.example.demo.schedule.application.model;
+package com.example.demo.schedule.domain.model;
 
 
-import com.example.demo.auth.application.support.Member;
 import com.example.demo.auth.persistence.MemberEntity;
 import com.example.demo.common.support.AbstractModel;
-import com.example.demo.filter.application.model.FilterModel;
 import com.example.demo.filter.persistence.FilterEntity;
-import com.example.demo.schedule.persistence.ScheduleType;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Getter
 @ToString
@@ -39,6 +37,4 @@ public class ScheduleModel implements AbstractModel {
 
         return this;
     }
-
-
 }
