@@ -1,10 +1,9 @@
-package com.example.demo.schedule.application.model.converter;
+package com.example.demo.schedule.domain.model.converter;
 
 import com.example.demo.common.support.converter.AbstractDtoConverter;
-import com.example.demo.filter.persistence.FilterEntity;
 import com.example.demo.schedule.application.dto.CreateScheduleRequest;
 import com.example.demo.schedule.application.dto.UpdateScheduleRequest;
-import com.example.demo.schedule.application.model.ScheduleModel;
+import com.example.demo.schedule.domain.model.ScheduleModel;
 import org.springframework.stereotype.Component;
 
 @Component

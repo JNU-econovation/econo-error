@@ -1,7 +1,7 @@
-package com.example.demo.schedule.application.model.converter;
+package com.example.demo.schedule.domain.model.converter;
 
 import com.example.demo.schedule.application.dto.*;
-import com.example.demo.schedule.application.model.ScheduleModel;
+import com.example.demo.schedule.domain.model.ScheduleModel;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
