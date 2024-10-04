@@ -49,9 +49,9 @@ public class AuthController {
     @Operation(
             summary = "로그인을 한다.",
             description = "PathVariable에 담긴 oauthServerType과 QuertParm인 redirect_url, code를 받아 액세스 토큰과 리프레시 토큰을 발급한다.")
-    @PostMapping("/login/{oauthServerType}")
+    @PostMapping("/login")
     ApiResponse<SuccessBody<TokenResponse>> login(
-            @PathVariable String oauthServerType,
+            @RequestParam ("type") String oauthServerType,
             @RequestParam("code") String code,
             @RequestParam("redirect_uri") String uri,
             HttpServletResponse httpResponse) {

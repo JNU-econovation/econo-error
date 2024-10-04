@@ -12,7 +12,6 @@ import com.example.demo.filter.application.usecase.UpdateFilterUsecase;
 import com.example.demo.filter.persistence.FilterEntity;
 import com.example.demo.filter.persistence.FilterRepository;
 import com.example.demo.filter.application.usecase.CreateFilterUsecase;
-import com.example.demo.schedule.application.model.ScheduleModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
