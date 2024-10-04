@@ -1,7 +1,5 @@
 package com.example.demo.schedule.application.dto;
 
-
-import com.example.demo.schedule.persistence.ScheduleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
