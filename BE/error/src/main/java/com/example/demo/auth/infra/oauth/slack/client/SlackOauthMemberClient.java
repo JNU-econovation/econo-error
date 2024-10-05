@@ -37,11 +37,6 @@ public class SlackOauthMemberClient implements OauthMemberClient {
     @Override
     public OauthMemberModel fetch(String code, String uri) {
 
-        System.out.println("client ID : " + oauthConfig.getClientId());
-        System.out.println("CODE :" + code);
-        System.out.println("Client Secret : " + oauthConfig.getClientSecret());
-        System.out.println("URI : " + uri);
-
         SlackToken slackToken =
                 execute(
                         slackApiClient::fetchToken,
