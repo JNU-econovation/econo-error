@@ -37,8 +37,4 @@ public class MemberEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private OauthServerType oauthServerType;
 
-//    @Column(name = ENTITY_PREFIX + "_active_status", nullable = false)
-//    @Enumerated(EnumType.STRING)
-//    @Builder.Default
-//    private ActiveStatus activeStatus = ActiveStatus.AM;
 }
