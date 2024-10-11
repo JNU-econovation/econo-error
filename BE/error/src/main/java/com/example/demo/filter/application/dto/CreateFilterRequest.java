@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class CreateFilterRequest implements AbstractDto {
-    private Long filterId;
     private String filterName;
     private String filterColor;
 }
