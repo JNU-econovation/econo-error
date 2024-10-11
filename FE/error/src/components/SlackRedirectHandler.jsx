@@ -17,7 +17,7 @@ const SlackRedirectHandler = () => {
     if (authorizationCode) {
       const sendCodeToServer = async () => {
         try {
-          const response = await fetch("/api/auth/login/slack", {
+          const response = await fetch("/api/auth/login", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
