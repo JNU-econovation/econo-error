@@ -20,7 +20,7 @@ public class FilterEntityConverter implements AbstractEntityConverter<FilterEnti
     @Override
     public FilterEntity toEntity(FilterModel source) {
         return FilterEntity.builder()
-                .filterId(source.getFilterId())
+                //.filterId(source.getFilterId())
                 .filterName(source.getFilterName())
                 .filterColor(source.getFilterColor())
                 .build();

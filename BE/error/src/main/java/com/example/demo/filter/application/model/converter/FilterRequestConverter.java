@@ -13,7 +13,7 @@ public class FilterRequestConverter implements AbstractDtoConverter<CreateFilter
     @Override
     public FilterModel from(CreateFilterRequest source) {
         return FilterModel.builder()
-                .filterId(source.getFilterId())
+                //.filterId(source.getFilterId())
                 .filterName(source.getFilterName())
                 .filterColor(source.getFilterColor())
                 .build();
