@@ -23,7 +23,7 @@ const LoginPage = () => {
     setError(null);
     try {
       const response = await axios.post(
-        `https://error.econo-calendar.com:8080/api/auth/login/slack?type=slack&code=${authCode}&redirect_uri=https://econo-calendar.com/login`
+        `https://error.econo-calendar.com:8080/api/auth/login?type=slack&code=${authCode}&redirect_uri=https://econo-calendar.com/login`
       );
 
       if (response.data.code === "201") {
