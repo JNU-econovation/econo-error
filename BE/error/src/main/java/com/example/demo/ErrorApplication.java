@@ -18,7 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableFeignClients(basePackages = "com.example.demo.auth.infra.oauth.slack.client")
 @OpenAPIDefinition(
 		servers = {
-				@Server(url="https://error.econo-calendar.com", description = "Default Server url")
+				@Server(url="https://error.econo-calendar.com:8080", description = "Default Server url")
 		}
 )
 public class ErrorApplication {
