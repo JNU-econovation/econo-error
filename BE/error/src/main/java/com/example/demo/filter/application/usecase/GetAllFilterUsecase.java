@@ -7,5 +7,5 @@ import com.example.demo.filter.application.dto.CreateFilterResponse;
 import java.util.List;
 
 public interface GetAllFilterUsecase {
-    List<AllFilterResponse> getFilter();
+    List<AllFilterResponse> getFilter(Long memberId);
 }

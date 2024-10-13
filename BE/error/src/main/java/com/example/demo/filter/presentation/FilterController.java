@@ -38,9 +38,11 @@ public class FilterController {
     }
 
 
-    @GetMapping
-    public ApiResponse<ApiResponseBody.SuccessBody<List<AllFilterResponse>>> getFilter() {
-        List<AllFilterResponse> response = getAllFilterUsecase.getFilter();
+    @GetMapping("/{memberId}")
+    public ApiResponse<ApiResponseBody.SuccessBody<List<AllFilterResponse>>> getFilter(
+            @PathVariable("memberId") Long memberId
+    ) {
+        List<AllFilterResponse> response = getAllFilterUsecase.getFilter(memberId);
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
     }
 

@@ -1,5 +1,6 @@
 package com.example.demo.filter.application.dto;
 
+import com.example.demo.auth.persistence.MemberEntity;
 import com.example.demo.common.support.dto.AbstractDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,4 +15,5 @@ public class AllFilterResponse implements AbstractDto {
     private Long filterId;
     private String filterName;
     private String filterColor;
+    private MemberEntity member;
 }

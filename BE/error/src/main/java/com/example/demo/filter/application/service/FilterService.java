@@ -47,14 +47,14 @@ public class FilterService implements
     }
 
     @Override
-    public List<AllFilterResponse> getFilter() {
+    public List<AllFilterResponse> getFilter(Long memberId) {
         // 필터를 조회할 때, 모든 데이터에서 param memberId와 같은 데이터만 조회하자
-        List<FilterModel> model = filterEntitiesByAll();
+        List<FilterModel> model = filterEntitiesByAll(memberId);
         return responseConverter.toAllModel(model);
     }
 
-    private List<FilterModel> filterEntitiesByAll() {
-        Stream<FilterEntity> entities = filterRepository.streamAll();
+    private List<FilterModel> filterEntitiesByAll(Long memberId) {
+        Stream<FilterEntity> entities = filterRepository.streamAll(memberId);
         return entities
                 .map(entityConverter::from)
                 .collect(Collectors.toList());
