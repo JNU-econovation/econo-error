@@ -1,7 +1,6 @@
 package com.example.demo.filter.persistence;
 
 import com.example.demo.auth.persistence.MemberEntity;
-import com.example.demo.auth.persistence.MemberModel;
 import com.example.demo.common.persistence.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
