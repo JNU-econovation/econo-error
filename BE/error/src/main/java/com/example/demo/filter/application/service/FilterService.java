@@ -37,9 +37,9 @@ public class FilterService implements
     private final FilterResponseConverter responseConverter;
 
 
-    @Override
+
     @Transactional
-    public CreateFilterResponse createFilter(final CreateFilterRequest request) {
+    public CreateFilterResponse createFilter(final CreateFilterRequest request, final Long memberId) {
         FilterModel model = requestConverter.from(request);
         FilterEntity entity = entityConverter.toEntity(model);
         FilterEntity save = filterRepository.save(entity);
@@ -48,6 +48,7 @@ public class FilterService implements
 
     @Override
     public List<AllFilterResponse> getFilter() {
+        // 필터를 조회할 때, 모든 데이터에서 param memberId와 같은 데이터만 조회하자
         List<FilterModel> model = filterEntitiesByAll();
         return responseConverter.toAllModel(model);
     }

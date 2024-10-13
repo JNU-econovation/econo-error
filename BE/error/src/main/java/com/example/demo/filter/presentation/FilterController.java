@@ -1,5 +1,6 @@
 package com.example.demo.filter.presentation;
 
+import com.example.demo.auth.application.support.Member;
 import com.example.demo.common.presentation.response.ApiResponse;
 import com.example.demo.common.presentation.response.ApiResponseBody;
 import com.example.demo.common.presentation.response.ApiResponseGenerator;
@@ -30,8 +31,9 @@ public class FilterController {
 
     @PostMapping
     public ApiResponse<ApiResponseBody.SuccessBody<CreateFilterResponse>> createFilter(
-            @RequestBody CreateFilterRequest request) {
-        CreateFilterResponse response = createFilterUsecase.createFilter(request);
+            @RequestBody CreateFilterRequest request,
+            Long memberId) {
+        CreateFilterResponse response = createFilterUsecase.createFilter(request, memberId);
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.CREATE);
     }
 
