@@ -2,6 +2,7 @@ package com.example.demo.auth.persistence;
 
 import com.example.demo.auth.application.model.OauthServerType;
 import com.example.demo.common.persistence.BaseEntity;
+import com.example.demo.filter.persistence.FilterEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,9 +37,4 @@ public class MemberEntity extends BaseEntity {
     @Column(name = ENTITY_PREFIX + "_oath_server_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private OauthServerType oauthServerType;
-
-//    @Column(name = ENTITY_PREFIX + "_active_status", nullable = false)
-//    @Enumerated(EnumType.STRING)
-//    @Builder.Default
-//    private ActiveStatus activeStatus = ActiveStatus.AM;
 }
