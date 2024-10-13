@@ -23,6 +23,7 @@ public class FilterEntityConverter implements AbstractEntityConverter<FilterEnti
                 //.filterId(source.getFilterId())
                 .filterName(source.getFilterName())
                 .filterColor(source.getFilterColor())
+                .member(source.getMember())
                 .build();
     }
 }
