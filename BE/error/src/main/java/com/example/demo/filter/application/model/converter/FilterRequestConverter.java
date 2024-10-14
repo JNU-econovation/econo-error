@@ -16,7 +16,7 @@ public class FilterRequestConverter implements AbstractDtoConverter<CreateFilter
                 //.filterId(source.getFilterId())
                 .filterName(source.getFilterName())
                 .filterColor(source.getFilterColor())
-                .member(source.getMember())
+                //.member(source.getMember())
                 .build();
     }
 
