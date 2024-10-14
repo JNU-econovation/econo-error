@@ -15,5 +15,5 @@ import lombok.NoArgsConstructor;
 public class CreateFilterRequest implements AbstractDto {
     private String filterName;
     private String filterColor;
-    private MemberEntity member;
+//    private MemberEntity member;
 }
