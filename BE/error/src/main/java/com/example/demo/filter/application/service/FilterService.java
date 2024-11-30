@@ -40,7 +40,7 @@ public class FilterService implements
 
     @Transactional
     public CreateFilterResponse createFilter(final CreateFilterRequest request, final Long memberId) {
-        FilterModel model = requestConverter.from(request);
+        FilterModel model = requestConverter.from(request, memberId);
         FilterEntity entity = entityConverter.toEntity(model);
         FilterEntity save = filterRepository.save(entity);
         return responseConverter.from(save.getFilterId());
@@ -72,6 +72,10 @@ public class FilterService implements
                 .findById(filterId)
                 .map(entityConverter::from)
                 .orElseThrow(() -> new NoSuchElementException("no found eventId :" + filterId));
+    }
+
+    private String findFilterColor(final Long filterId) {
+        return filterRepository.findFilterColor(filterId);
     }
 
     @Override

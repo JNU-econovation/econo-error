@@ -18,8 +18,10 @@ public class ScheduleRequestConverter implements AbstractDtoConverter<CreateSche
                 .eventInfo(source.getEventInfo())
                 .eventPlace(source.getEventPlace())
                 .scheduleType(source.getScheduleType())
-                .filter(source.getFilter())
-                .member(source.getMember())
+                //.filter(source.getFilter())
+                //.member(source.getMember())
+                .filterId(source.getFilterId())
+                .memberId(source.getMemberId())
                 .build();
     }
 

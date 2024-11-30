@@ -29,7 +29,10 @@ public class FilterEntity extends BaseEntity {
     @Column(nullable = false)
     private String filterColor;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private MemberEntity member;
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "member_id")
+//    private MemberEntity member;
+
+    @Column(nullable = false)
+    private Long memberId;
 }

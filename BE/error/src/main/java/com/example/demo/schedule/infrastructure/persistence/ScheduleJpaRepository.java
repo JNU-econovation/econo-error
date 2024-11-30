@@ -1,9 +1,15 @@
 package com.example.demo.schedule.infrastructure.persistence;
 
+import com.example.demo.filter.persistence.FilterEntity;
 import com.example.demo.schedule.domain.ScheduleRepository;
 import jakarta.persistence.EntityManager;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -26,6 +32,13 @@ public class ScheduleJpaRepository implements ScheduleRepository {
         }
     }
 
+    public List<ScheduleEntity> findWeekendPublicSchedule() {
+        List<ScheduleEntity> entity = em.createQuery("SELECT s FROM ScheduleEntity s \n" +
+                "WHERE s.scheduleType = 'PUBLIC' \n" +
+                "AND s.eventStartDate BETWEEN CURRENT_DATE AND CURRENT_DATE + 5\n", ScheduleEntity.class).getResultList();
+        return entity;
+    }
+
 
     public Stream<ScheduleEntity> streamAllPublic() {
         Stream<ScheduleEntity> entity = em.createQuery("SELECT s FROM ScheduleEntity s WHERE s.scheduleType = 'PUBLIC'", ScheduleEntity.class).getResultStream();
@@ -41,8 +54,8 @@ public class ScheduleJpaRepository implements ScheduleRepository {
 
     @Override
     public Optional<ScheduleEntity> findById(Long eventId) {
-        Optional<ScheduleEntity> schedule = em.createQuery("SELECT s FROM ScheduleEntity s WHERE s.eventId = eventId", ScheduleEntity.class)
-                .setParameter("evnetId", eventId)
+        Optional<ScheduleEntity> schedule = em.createQuery("SELECT s FROM ScheduleEntity s WHERE s.eventId =:eventId", ScheduleEntity.class)
+                .setParameter("eventId", eventId)
                 .getResultStream()
                 .findFirst();
         return schedule;
@@ -54,5 +67,15 @@ public class ScheduleJpaRepository implements ScheduleRepository {
         if (entity != null) {
             em.remove(entity);
         }
+    }
+
+
+    @Override
+    public String findFilterColor(Long filterId) {
+        return em.createQuery("SELECT f.filterColor FROM FilterEntity f WHERE f.filterId = :filterId", String.class)
+                .setParameter("filterId", filterId)
+                .getResultStream()
+                .findFirst() // 첫 번째 결과 가져오기
+                .orElse(null);
     }
 }

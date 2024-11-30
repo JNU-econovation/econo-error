@@ -17,14 +17,14 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 public class CreateScheduleRequest implements AbstractDto {
 
-    private Long eventId;
     private String eventName;
     private LocalDateTime eventStartDate;
     private LocalDateTime eventEndDate;
     private String eventInfo;
     private String eventPlace;
     private String scheduleType;
-    private FilterEntity filter;
-    private MemberEntity member;
-
+    //private FilterEntity filter;
+    //private MemberEntity member;
+    private Long filterId;
+    private Long memberId;
 }

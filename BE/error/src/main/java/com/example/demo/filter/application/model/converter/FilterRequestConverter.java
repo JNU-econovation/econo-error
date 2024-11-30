@@ -7,15 +7,15 @@ import com.example.demo.filter.application.model.FilterModel;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FilterRequestConverter implements AbstractDtoConverter<CreateFilterRequest, FilterModel> {
+public class FilterRequestConverter {
 
-
-    @Override
-    public FilterModel from(CreateFilterRequest source) {
+    public FilterModel from(CreateFilterRequest source, Long memberId) {
         return FilterModel.builder()
                 //.filterId(source.getFilterId())
                 .filterName(source.getFilterName())
                 .filterColor(source.getFilterColor())
+                .memberId(memberId)
+                //.member(memberId)
                 //.member(source.getMember())
                 .build();
     }

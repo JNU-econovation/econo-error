@@ -1,14 +1,20 @@
 package com.example.demo.schedule.application.service;
 
+import com.example.demo.filter.application.service.FilterService;
 import com.example.demo.schedule.application.dto.*;
 import com.example.demo.schedule.domain.model.ScheduleModel;
 import com.example.demo.schedule.domain.model.converter.ScheduleRequestConverter;
 import com.example.demo.schedule.domain.model.converter.ScheduleResponseConverter;
 import com.example.demo.schedule.domain.service.ScheduleDomainService;
+import com.example.demo.schedule.infrastructure.persistence.ScheduleEntity;
+import com.example.demo.schedule.infrastructure.persistence.ScheduleJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Service
@@ -19,6 +25,8 @@ public class ScheduleService {
     private final ScheduleRequestConverter requestConverter;
     private final ScheduleResponseConverter responseConverter;
     private final ScheduleDomainService domainService;
+    private final ScheduleJpaRepository scheduleJpaRepository;
+    private final FilterService filterService;
 
 
     @Transactional
@@ -47,7 +55,8 @@ public class ScheduleService {
 
     public SpecificScheduleResopnse getSpecificSchedule(final Long eventId) {
         ScheduleModel model = domainService.findSchedule(eventId);
-        return responseConverter.from(model);
+        String filterColor = scheduleJpaRepository.findFilterColor(model.getFilterId());
+        return responseConverter.from(model, filterColor);
     }
 
 
@@ -60,5 +69,14 @@ public class ScheduleService {
     public List<AllPrivateCalendarResponse> getPrivateSchedule() {
         List<ScheduleModel> model = domainService.filterPrivate();
         return responseConverter.toPrivateModel(model);
+    }
+
+    public List<ScheduleEntity> findWeekendSchedule() {
+        //List<WeekendSchedule> schedules = new ArrayList<>();
+        List<ScheduleEntity> test = scheduleJpaRepository.findWeekendPublicSchedule();
+        if (test.size() == 0) {
+            System.out.println("empty");
+        }
+        return test;
     }
 }

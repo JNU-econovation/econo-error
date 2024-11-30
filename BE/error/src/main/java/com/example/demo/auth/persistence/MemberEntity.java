@@ -19,7 +19,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
         name = MemberEntity.ENTITY_PREFIX,
         indexes = {
                 @Index(name = "idx_member_name", columnList = "member_name"),
-                //@Index(name = "idx_member_active_status", columnList = "member_active_status")
         })
 @EntityListeners(AuditingEntityListener.class)
 public class MemberEntity extends BaseEntity {
