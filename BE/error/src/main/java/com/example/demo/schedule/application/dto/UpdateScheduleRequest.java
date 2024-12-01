@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class UpdateScheduleRequest {
-    private Long eventId;
     private String eventName;
     private LocalDateTime eventStartDate;
     private LocalDateTime eventEndDate;
