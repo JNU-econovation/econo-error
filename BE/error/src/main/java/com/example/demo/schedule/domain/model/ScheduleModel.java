@@ -49,16 +49,6 @@ public class ScheduleModel implements AbstractModel {
     }
 
     public String getFilterColor() {
-        //getFilterModel().getFilterId();
         return scheduleRepository.findFilterColor(this.filterId);
     }
-
-    public FilterModel getFilterModel(Long filterId) {
-        return filterModel.getFilterModel(filterId);
-    }
-
-    public MemberEntity getMemberModel(Long memberId) {
-        return memberModel.getMemberModel(memberId);
-    }
-
 }
