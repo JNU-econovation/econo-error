@@ -22,9 +22,10 @@ public class FilterRequestConverter {
 
     public FilterModel from(Long filterId, UpdateFilterRequest source) {
         return FilterModel.builder()
-                .filterId(source.getFilterId())
+                .filterId(filterId)
                 .filterName(source.getFilterName())
                 .filterColor(source.getFilterColor())
+                .memberId(source.getMemberId())
                 .build();
     }
 

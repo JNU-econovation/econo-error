@@ -26,7 +26,6 @@ public class FilterResponseConverter {
                     .filterId(model.getFilterId())
                     .filterName(model.getFilterName())
                     .filterColor(model.getFilterColor())
-                    .member((model.getMember()))
                     .build();
             response.add(filter);
         }
