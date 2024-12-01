@@ -78,4 +78,13 @@ public class ScheduleJpaRepository implements ScheduleRepository {
                 .findFirst() // 첫 번째 결과 가져오기
                 .orElse(null);
     }
+
+    @Override
+    public String findFilterName(Long filterId) {
+        return em.createQuery("SELECT f.filterName FROM FilterEntity f WHERE f.filterId = :filterId", String.class)
+                .setParameter("filterId", filterId)
+                .getResultStream()
+                .findFirst() // 첫 번째 결과 가져오기
+                .orElse(null);
+    }
 }

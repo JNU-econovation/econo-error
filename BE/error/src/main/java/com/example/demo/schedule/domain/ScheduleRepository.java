@@ -22,4 +22,6 @@ public interface ScheduleRepository {
     void deleteById(Long eventId);
 
     String findFilterColor(Long filterId);
+
+    String findFilterName(Long filterId);
 }

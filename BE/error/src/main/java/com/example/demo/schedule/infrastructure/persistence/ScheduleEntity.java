@@ -43,13 +43,7 @@ public class ScheduleEntity extends BaseEntity {
     @Column(nullable = false)
     private String scheduleType;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "filter_id")
-//    private FilterEntity filter;
 
-    //    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "member_id")
-//    private MemberEntity member;
     @Column(nullable = false)
     private Long memberId;
 

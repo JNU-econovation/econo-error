@@ -58,9 +58,9 @@ public class ScheduleResponseConverter {
                 .eventPlace(model.getEventPlace())
                 .eventInfo(model.getEventInfo())
                 .scheduleType(model.getScheduleType())
-                .filterId(model.getFilter() != null ? model.getFilter().getFilterId() : null)
-                .filterName(model.getFilter() != null ? model.getFilter().getFilterName() : null)
-                .filterColor(model.getFilter() != null ? model.getFilter().getFilterColor() : null)
+                .filterId(model.getFilterId())
+                .filterName(model.getFilterName())
+                .filterColor(model.getFilterColor())
                 .build();
     }
 
@@ -81,9 +81,9 @@ public class ScheduleResponseConverter {
                 .eventPlace(model.getEventPlace())
                 .eventInfo(model.getEventInfo())
                 .scheduleType(model.getScheduleType())
-                .filterId(model.getFilter() != null ? model.getFilter().getFilterId() : null)
-                .filterName(model.getFilter() != null ? model.getFilter().getFilterName() : null)
-                .filterColor(model.getFilter() != null ? model.getFilter().getFilterColor() : null)
+                .filterId(model.getFilterId())
+                .filterName(model.getFilterName())
+                .filterColor(model.getFilterColor())
                 .build();
     }
 }

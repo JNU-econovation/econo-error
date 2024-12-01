@@ -28,12 +28,13 @@ public class ScheduleRequestConverter implements AbstractDtoConverter<CreateSche
 
     public ScheduleModel from(Long eventId, UpdateScheduleRequest source) {
         return ScheduleModel.builder()
-                .eventId(source.getEventId())
+                .eventId(eventId)
                 .eventName(source.getEventName())
                 .eventStartDate(source.getEventStartDate())
                 .eventEndDate(source.getEventEndDate())
                 .eventInfo(source.getEventInfo())
                 .eventPlace(source.getEventPlace())
+                //.filterId(source.getFilterId())
                 .build();
     }
 }

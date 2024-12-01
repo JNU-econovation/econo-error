@@ -29,26 +29,27 @@ public class ScheduleModel implements AbstractModel {
     private String eventInfo;
     private String eventPlace;
     private String scheduleType;
-    private FilterEntity filter;
-    private FilterModel filterModel;
-    private MemberModel memberModel;
     private Long filterId;
     private Long memberId;
-    private FilterRepository filterRepository;
     private ScheduleRepository scheduleRepository;
 
     public ScheduleModel update(ScheduleModel requestModel) {
-
         eventName = requestModel.getEventName();
         eventStartDate = requestModel.getEventStartDate();
         eventEndDate = requestModel.getEventEndDate();
         eventInfo = requestModel.getEventInfo();
         eventPlace = requestModel.getEventPlace();
-
+        filterId = this.getFilterId();
+        memberId = this.getMemberId();
         return this;
     }
 
     public String getFilterColor() {
         return scheduleRepository.findFilterColor(this.filterId);
     }
+
+    public String getFilterName() {
+        return scheduleRepository.findFilterName(this.filterId);
+    }
+
 }
