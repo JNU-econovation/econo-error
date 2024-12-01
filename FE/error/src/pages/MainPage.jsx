@@ -92,7 +92,7 @@ const MainPage = () => {
   useEffect(() => {
     const storedToken = localStorage.getItem("slackToken");
     axios
-      .get("/api/filter", {
+      .get("/api/filter/1", {
         headers: { Authorization: `Bearer ${storedToken}` },
       })
       .then((res) => {

@@ -54,7 +54,7 @@ const CreateModal = ({
 
   const fetchFilters = async () => {
     try {
-      const response = await axios.get("/api/filter", {
+      const response = await axios.get("/api/filter/1", {
         headers: { Authorization: `Bearer ${storedToken}` },
       });
       if (response.data && response.data.data) {
