@@ -25,7 +25,7 @@ const FilterCreateModal = ({
       filterColor: filterColor,
     };
     axios
-      .post("/api/filter", newFilter, {
+      .post("/api/filter?memberId=1", newFilter, {
         headers: { Authorization: `Bearer ${storedToken}` },
       })
       .then((res) => {
