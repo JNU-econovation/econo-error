@@ -171,9 +171,8 @@ const CreateModal = ({
       eventPlace: eventPlace,
       eventInfo: eventMemo,
       scheduleType: selectedFilter.category.toUpperCase(),
-      filter: {
-        filterId: selectedFilter.filterId,
-      },
+      filterId: selectedFilter.filterId,
+      memberId: 1,
     };
 
     axios
