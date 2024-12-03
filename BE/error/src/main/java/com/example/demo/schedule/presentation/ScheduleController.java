@@ -75,8 +75,7 @@ public class ScheduleController {
     }
 
     @GetMapping("slack/test")
-    //@Scheduled(cron = "0 0 9 * * MON")
-    @Scheduled(cron = "0 * * * * *")
+    @Scheduled(cron = "0 0 9 * * MON")
     public void sendSlackMessage() {
 
         String event = slackService.makeSlackMessage();
