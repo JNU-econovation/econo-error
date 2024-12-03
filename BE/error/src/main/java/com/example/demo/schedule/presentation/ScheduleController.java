@@ -6,8 +6,10 @@ import com.example.demo.common.presentation.response.ApiResponseGenerator;
 import com.example.demo.common.presentation.response.MessageCode;
 import com.example.demo.schedule.application.dto.*;
 import com.example.demo.schedule.application.service.ScheduleService;
+import com.example.demo.schedule.infrastructure.SlackService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.List;
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
+    private final SlackService slackService;
 
 
     @PostMapping
@@ -71,16 +74,11 @@ public class ScheduleController {
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GETALL);
     }
 
-//    @GetMapping("slack/test")
-//    public void slackTest() {
-//
-//        String event = slackService.makeSlackMessage();
-//        slackService.sendSlackMessage(event, "test");
-//    }
+    @GetMapping("slack/test")
+    @Scheduled(cron = "0 0 9 * * MON")
+    public void sendSlackMessage() {
 
-
-    // 일정 조회를 어떻게 리팩토링 할 수 있을까?
-    // 하나의 요청 uri를 가지고 내부
-    // 토큰이 존재한다면? 토근에서 값을 추출 후 memberId에 맞는 private 일정 + public 일정 응답
-    // 토큰이 존재하지 않다면? public 일정만 응답
+        String event = slackService.makeSlackMessage();
+        slackService.sendSlackMessage(event, "test");
+    }
 }

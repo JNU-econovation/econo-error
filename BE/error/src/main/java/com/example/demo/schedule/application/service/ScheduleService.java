@@ -9,9 +9,11 @@ import com.example.demo.schedule.domain.service.ScheduleDomainService;
 import com.example.demo.schedule.infrastructure.persistence.ScheduleEntity;
 import com.example.demo.schedule.infrastructure.persistence.ScheduleJpaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,7 +28,7 @@ public class ScheduleService {
     private final ScheduleResponseConverter responseConverter;
     private final ScheduleDomainService domainService;
     private final ScheduleJpaRepository scheduleJpaRepository;
-    private final FilterService filterService;
+    private static final int SCHEDULE_LOOKUP_DAYS = 5;
 
 
     @Transactional
@@ -71,12 +73,13 @@ public class ScheduleService {
         return responseConverter.toPrivateModel(model);
     }
 
+
     public List<ScheduleEntity> findWeekendSchedule() {
-        //List<WeekendSchedule> schedules = new ArrayList<>();
-        List<ScheduleEntity> test = scheduleJpaRepository.findWeekendPublicSchedule();
-        if (test.size() == 0) {
-            System.out.println("empty");
-        }
-        return test;
+
+        LocalDateTime startDate = LocalDateTime.now();
+        LocalDateTime endDate = startDate.plusDays(SCHEDULE_LOOKUP_DAYS);
+
+        List<ScheduleEntity> schedules = scheduleJpaRepository.findWeekPublic(startDate, endDate);
+        return schedules;
     }
 }

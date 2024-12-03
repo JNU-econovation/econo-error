@@ -32,6 +32,20 @@ public class ScheduleJpaRepository implements ScheduleRepository {
         }
     }
 
+
+
+    public List<ScheduleEntity> findWeekPublic(LocalDateTime startDate, LocalDateTime endDate) {
+        return em.createQuery("SELECT s FROM ScheduleEntity s " +
+                        "WHERE s.scheduleType = :scheduleType " +
+                        "AND s.eventStartDate BETWEEN :startDate AND :endDate", ScheduleEntity.class)
+                .setParameter("scheduleType", "PUBLIC") // scheduleType 파라미터 설정
+                .setParameter("startDate", startDate)  // startDate 파라미터 설정
+                .setParameter("endDate", endDate)      // endDate 파라미터 설정
+                .getResultList();
+    }
+
+
+
     public List<ScheduleEntity> findWeekendPublicSchedule() {
         List<ScheduleEntity> entity = em.createQuery("SELECT s FROM ScheduleEntity s \n" +
                 "WHERE s.scheduleType = 'PUBLIC' \n" +
