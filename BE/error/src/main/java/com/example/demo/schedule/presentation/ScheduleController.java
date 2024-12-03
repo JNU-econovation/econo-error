@@ -9,6 +9,7 @@ import com.example.demo.schedule.application.service.ScheduleService;
 import com.example.demo.schedule.infrastructure.SlackService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -74,7 +75,9 @@ public class ScheduleController {
     }
 
     @GetMapping("slack/test")
-    public void slackTest() {
+    //@Scheduled(cron = "0 0 9 * * MON")
+    @Scheduled(cron = "0 * * * * *")
+    public void sendSlackMessage() {
 
         String event = slackService.makeSlackMessage();
         slackService.sendSlackMessage(event, "test");

@@ -9,6 +9,7 @@ import com.example.demo.schedule.domain.service.ScheduleDomainService;
 import com.example.demo.schedule.infrastructure.persistence.ScheduleEntity;
 import com.example.demo.schedule.infrastructure.persistence.ScheduleJpaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,6 +72,7 @@ public class ScheduleService {
         List<ScheduleModel> model = domainService.filterPrivate();
         return responseConverter.toPrivateModel(model);
     }
+
 
     public List<ScheduleEntity> findWeekendSchedule() {
 
