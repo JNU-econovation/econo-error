@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -73,10 +74,17 @@ public class ScheduleService {
 
     public List<ScheduleEntity> findWeekendSchedule() {
         //List<WeekendSchedule> schedules = new ArrayList<>();
-        List<ScheduleEntity> test = scheduleJpaRepository.findWeekendPublicSchedule();
-        if (test.size() == 0) {
-            System.out.println("empty");
-        }
-        return test;
+
+//        List<ScheduleEntity> test = scheduleJpaRepository.findWeekendPublicSchedule();
+//        if (test.size() == 0) {
+//            System.out.println("empty");
+//        }
+//        return test;
+
+        LocalDateTime startDate = LocalDateTime.now();
+        LocalDateTime endDate = startDate.plusDays(5);
+
+        List<ScheduleEntity> schedules = scheduleJpaRepository.findWeekPublic(startDate, endDate);
+        return schedules;
     }
 }

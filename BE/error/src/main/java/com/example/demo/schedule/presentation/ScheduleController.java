@@ -6,6 +6,7 @@ import com.example.demo.common.presentation.response.ApiResponseGenerator;
 import com.example.demo.common.presentation.response.MessageCode;
 import com.example.demo.schedule.application.dto.*;
 import com.example.demo.schedule.application.service.ScheduleService;
+import com.example.demo.schedule.infrastructure.SlackService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ import java.util.List;
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
+    private final SlackService slackService;
 
 
     @PostMapping
@@ -71,12 +73,12 @@ public class ScheduleController {
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GETALL);
     }
 
-//    @GetMapping("slack/test")
-//    public void slackTest() {
-//
-//        String event = slackService.makeSlackMessage();
-//        slackService.sendSlackMessage(event, "test");
-//    }
+    @GetMapping("slack/test")
+    public void slackTest() {
+
+        String event = slackService.makeSlackMessage();
+        slackService.sendSlackMessage(event, "test");
+    }
 
 
     // 일정 조회를 어떻게 리팩토링 할 수 있을까?
