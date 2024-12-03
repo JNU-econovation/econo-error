@@ -27,7 +27,7 @@ public class ScheduleService {
     private final ScheduleResponseConverter responseConverter;
     private final ScheduleDomainService domainService;
     private final ScheduleJpaRepository scheduleJpaRepository;
-    private final FilterService filterService;
+    private static final int SCHEDULE_LOOKUP_DAYS = 5;
 
 
     @Transactional
@@ -73,16 +73,9 @@ public class ScheduleService {
     }
 
     public List<ScheduleEntity> findWeekendSchedule() {
-        //List<WeekendSchedule> schedules = new ArrayList<>();
-
-//        List<ScheduleEntity> test = scheduleJpaRepository.findWeekendPublicSchedule();
-//        if (test.size() == 0) {
-//            System.out.println("empty");
-//        }
-//        return test;
 
         LocalDateTime startDate = LocalDateTime.now();
-        LocalDateTime endDate = startDate.plusDays(5);
+        LocalDateTime endDate = startDate.plusDays(SCHEDULE_LOOKUP_DAYS);
 
         List<ScheduleEntity> schedules = scheduleJpaRepository.findWeekPublic(startDate, endDate);
         return schedules;

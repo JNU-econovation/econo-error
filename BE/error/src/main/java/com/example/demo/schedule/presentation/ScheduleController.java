@@ -79,10 +79,4 @@ public class ScheduleController {
         String event = slackService.makeSlackMessage();
         slackService.sendSlackMessage(event, "test");
     }
-
-
-    // 일정 조회를 어떻게 리팩토링 할 수 있을까?
-    // 하나의 요청 uri를 가지고 내부
-    // 토큰이 존재한다면? 토근에서 값을 추출 후 memberId에 맞는 private 일정 + public 일정 응답
-    // 토큰이 존재하지 않다면? public 일정만 응답
 }
