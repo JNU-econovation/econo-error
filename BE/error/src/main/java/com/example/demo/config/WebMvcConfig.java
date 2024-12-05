@@ -1,6 +1,5 @@
 package com.example.demo.config;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +10,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static sun.security.pkcs11.wrapper.Functions.addMapping;
 
 @Configuration
 @EnableWebMvc
