@@ -25,12 +25,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         .map(String::trim)
                         .collect(Collectors.toList());
     }
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         String[] patterns = allowOriginUrlPatterns.toArray(String[]::new);
 
         registry
-                //.addMapping("/api/**")
                 .addMapping("/**")
                 .allowedOriginPatterns(patterns)
                 .allowedHeaders("*")
@@ -39,5 +39,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .allowCredentials(true)
                 .maxAge(MAX_AGE_SECS);
     }
-
 }
