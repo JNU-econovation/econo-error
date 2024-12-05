@@ -12,6 +12,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static sun.security.pkcs11.wrapper.Functions.addMapping;
+
 @Configuration
 @EnableWebMvc
 @Slf4j
@@ -31,7 +33,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         String[] patterns = allowOriginUrlPatterns.toArray(String[]::new);
 
         registry
-                .addMapping("/api/**")
+                //.addMapping("/api/**")
+                .addMapping("/**")
                 .allowedOriginPatterns(patterns)
                 .allowedHeaders("*")
                 .allowedMethods(ALLOWED_METHOD_NAMES.split(","))
