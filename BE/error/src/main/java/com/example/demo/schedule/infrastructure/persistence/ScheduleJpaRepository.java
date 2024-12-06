@@ -3,6 +3,7 @@ package com.example.demo.schedule.infrastructure.persistence;
 import com.example.demo.filter.persistence.FilterEntity;
 import com.example.demo.schedule.domain.ScheduleRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -31,6 +32,38 @@ public class ScheduleJpaRepository implements ScheduleRepository {
             return em.merge(entity);
         }
     }
+
+    public List<ScheduleEntity> findOneSemesterPublicSchedule(LocalDateTime requestDate) {
+        int month = requestDate.getMonthValue();
+        int year = requestDate.getYear();
+
+        LocalDateTime startDate;
+        LocalDateTime endDate;
+
+        if (month >= 2 && month <= 7) {
+            // 2월 ~ 7월
+            startDate = LocalDateTime.of(year, 2, 1, 0, 0);
+            endDate = LocalDateTime.of(year, 7, 31, 23, 59, 59);
+        } else if (month >= 8 && month <= 12) {
+            // 8월 ~ 다음해 1월
+            startDate = LocalDateTime.of(year, 8, 1, 0, 0);
+            endDate = LocalDateTime.of(year + 1, 1, 31, 23, 59, 59);
+        } else { // month == 1
+            // 전년도 8월 ~ 해당 연도 1월
+            startDate = LocalDateTime.of(year - 1, 8, 1, 0, 0);
+            endDate = LocalDateTime.of(year, 1, 31, 23, 59, 59);
+        }
+
+        String jpql = "SELECT s FROM ScheduleEntity s " +
+                "WHERE s.eventStartDate BETWEEN :startDate AND :endDate";
+
+        TypedQuery<ScheduleEntity> query = em.createQuery(jpql, ScheduleEntity.class);
+        query.setParameter("startDate", startDate);
+        query.setParameter("endDate", endDate);
+
+        return query.getResultList();
+    }
+
 
 
 

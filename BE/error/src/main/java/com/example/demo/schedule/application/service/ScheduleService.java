@@ -73,6 +73,12 @@ public class ScheduleService {
         return responseConverter.toPrivateModel(model);
     }
 
+    public List<SemesterScheduleResponse> getSemesterSchedule() {
+        LocalDateTime requestNow = LocalDateTime.now();
+        List<ScheduleEntity> semesterScheduleResponses = scheduleJpaRepository.findOneSemesterPublicSchedule(requestNow);
+        return responseConverter.toSemesterScheduleResponse(semesterScheduleResponses);
+    }
+
 
     public List<ScheduleEntity> findWeekendSchedule() {
 

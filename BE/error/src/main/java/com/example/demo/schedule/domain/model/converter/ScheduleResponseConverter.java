@@ -3,6 +3,7 @@ package com.example.demo.schedule.domain.model.converter;
 import com.example.demo.filter.persistence.FilterRepository;
 import com.example.demo.schedule.application.dto.*;
 import com.example.demo.schedule.domain.model.ScheduleModel;
+import com.example.demo.schedule.infrastructure.persistence.ScheduleEntity;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -61,6 +62,20 @@ public class ScheduleResponseConverter {
                 .filterId(model.getFilterId())
                 .filterName(model.getFilterName())
                 .filterColor(model.getFilterColor())
+                .build();
+    }
+
+    public List<SemesterScheduleResponse> toSemesterScheduleResponse(List<ScheduleEntity> entities) {
+        return entities.stream()
+                .map(this::buildSemesterResponse)
+                .collect(Collectors.toList());
+    }
+
+    private SemesterScheduleResponse buildSemesterResponse(ScheduleEntity entity) {
+        return SemesterScheduleResponse.builder()
+                .eventName(entity.getEventName())
+                .eventStartDate(entity.getEventStartDate().toString())
+                .eventEndDate(entity.getEventEndDate().toString())
                 .build();
     }
 
