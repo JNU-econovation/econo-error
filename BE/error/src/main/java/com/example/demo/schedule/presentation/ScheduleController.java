@@ -74,6 +74,12 @@ public class ScheduleController {
         return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GETALL);
     }
 
+    @GetMapping("semester")
+    public ApiResponse<SuccessBody<List<SemesterScheduleResponse>>> getSemesterSchedule() {
+        List<SemesterScheduleResponse> response = scheduleService.getSemesterSchedule();
+        return ApiResponseGenerator.success(response, HttpStatus.OK, MessageCode.GET);
+    }
+
     @GetMapping("slack/test")
     @Scheduled(cron = "0 0 9 * * MON")
     public void sendSlackMessage() {
